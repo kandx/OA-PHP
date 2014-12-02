@@ -3,9 +3,8 @@ namespace OA\Controller;
 use Think\Controller;
 class IndexController extends Controller {
     public function index(){
-        //$this->display();
-        $usr = M('User');
-        dump($usr->select());
+        $this->display();
+        
     }
 
     public function login(){
