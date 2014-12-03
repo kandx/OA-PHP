@@ -9,27 +9,27 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="/examples/OA-PHP/OA-PHP/Public/static/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/examples/OA-PHP/OA-PHP/Public/static/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/font-awesome.min.css" />
 
 		<!-- page specific plugin styles -->
 		
 		
 
 		<!-- text fonts -->
-		<link rel="stylesheet" href="/examples/OA-PHP/OA-PHP/Public/static/css/ace-fonts.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/ace-fonts.css" />
 
 		<!-- ace styles -->
-		<link rel="stylesheet" href="/examples/OA-PHP/OA-PHP/Public/static/css/ace.min.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/ace.min.css" />
 
 		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="/examples/OA-PHP/OA-PHP/Public/static/css/ace-part2.min.css" />
+			<link rel="stylesheet" href="/OA/Public/static/css/ace-part2.min.css" />
 		<![endif]-->
-		<link rel="stylesheet" href="/examples/OA-PHP/OA-PHP/Public/static/css/ace-skins.min.css" />
-		<link rel="stylesheet" href="/examples/OA-PHP/OA-PHP/Public/static/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/ace-rtl.min.css" />
 
 		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="/examples/OA-PHP/OA-PHP/Public/static/css/ace-ie.min.css" />
+		  <link rel="stylesheet" href="/OA/Public/static/css/ace-ie.min.css" />
 		<![endif]-->
 
 		<!-- inline styles related to this page -->
@@ -37,13 +37,13 @@
 		
 
 		<!-- ace settings handler -->
-		<script src="/examples/OA-PHP/OA-PHP/Public/static/js/ace-extra.min.js"></script>
+		<script src="/OA/Public/static/js/ace-extra.min.js"></script>
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 		<!--[if lte IE 8]>
-		<script src="/examples/OA-PHP/OA-PHP/Public/static/js/html5shiv.js"></script>
-		<script src="/examples/OA-PHP/OA-PHP/Public/static/js/respond.min.js"></script>
+		<script src="/OA/Public/static/js/html5shiv.js"></script>
+		<script src="/OA/Public/static/js/respond.min.js"></script>
 		<![endif]-->
 	</head>
 
@@ -167,7 +167,7 @@
 									<ul class="dropdown-menu dropdown-navbar">
 										<li>
 											<a href="#">
-												<img src="/examples/OA-PHP/OA-PHP/Public/static/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+												<img src="/OA/Public/static/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Alex:</span>
@@ -184,7 +184,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/examples/OA-PHP/OA-PHP/Public/static/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+												<img src="/OA/Public/static/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Susan:</span>
@@ -201,7 +201,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/examples/OA-PHP/OA-PHP/Public/static/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+												<img src="/OA/Public/static/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Bob:</span>
@@ -218,7 +218,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/examples/OA-PHP/OA-PHP/Public/static/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+												<img src="/OA/Public/static/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Kate:</span>
@@ -235,7 +235,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/examples/OA-PHP/OA-PHP/Public/static/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+												<img src="/OA/Public/static/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Fred:</span>
@@ -264,7 +264,7 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="/examples/OA-PHP/OA-PHP/Public/static/avatars/user.jpg" alt="Jason's Photo" />
+								<img class="nav-user-photo" src="/OA/Public/static/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎您,</small>
 									<?php echo session('name');?>
@@ -562,38 +562,38 @@
 
 		<!--[if !IE]> -->
 		<script type="text/javascript">
-			window.jQuery || document.write("<script src='/examples/OA-PHP/OA-PHP/Public/static/js/jquery.min.js'>"+"<"+"/script>");
+			window.jQuery || document.write("<script src='/OA/Public/static/js/jquery.min.js'>"+"<"+"/script>");
 		</script>
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
 <script type="text/javascript">
- window.jQuery || document.write("<script src='/examples/OA-PHP/OA-PHP/Public/static/js/jquery1x.min.js'>"+"<"+"/script>");
+ window.jQuery || document.write("<script src='/OA/Public/static/js/jquery1x.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
 		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='/examples/OA-PHP/OA-PHP/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			if('ontouchstart' in document.documentElement) document.write("<script src='/OA/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
-		<script src="/examples/OA-PHP/OA-PHP/Public/static/js/bootstrap.min.js"></script>
+		<script src="/OA/Public/static/js/bootstrap.min.js"></script>
 
 		<!-- page specific plugin scripts -->
 		
 		
 
 		<!-- ace scripts -->
-		<script src="/examples/OA-PHP/OA-PHP/Public/static/js/ace-elements.min.js"></script>
-		<script src="/examples/OA-PHP/OA-PHP/Public/static/js/ace.min.js"></script>
+		<script src="/OA/Public/static/js/ace-elements.min.js"></script>
+		<script src="/OA/Public/static/js/ace.min.js"></script>
 
 		<!-- inline scripts related to this page -->
 		
 		
 		
-		<link rel="stylesheet" href="/examples/OA-PHP/OA-PHP/Public/static/css/ace.onpage-help.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/ace.onpage-help.css" />
 		<link rel="stylesheet" href="../docs/assets/js/themes/sunburst.css" />
 
 		<script type="text/javascript"> ace.vars['base'] = '..'; </script>
-		<script src="/examples/OA-PHP/OA-PHP/Public/static/js/ace/ace.onpage-help.js"></script>
+		<script src="/OA/Public/static/js/ace/ace.onpage-help.js"></script>
 		<script src="../docs/assets/js/rainbow.js"></script>
 		<script src="../docs/assets/js/language/generic.js"></script>
 		<script src="../docs/assets/js/language/html.js"></script>
