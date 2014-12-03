@@ -21,7 +21,9 @@ define('APP_DEBUG',True);
 define('APP_PATH','./Apps/');
 
 // 定义静态文件路径(CSS、JS)
-define('STATIC_PATH', './Public/static/');
+define('STATIC_PATH', './Public/static');
+define('JS', STATIC_PATH.'/js');
+define('CSS', STATIC_PATH.'/css');
 
 // 引入ThinkPHP入口文件
 require './Think/ThinkPHP.php';

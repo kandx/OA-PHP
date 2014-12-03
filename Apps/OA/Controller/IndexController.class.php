@@ -12,7 +12,7 @@ class IndexController extends Controller {
     		$this->redirect(U('Index/index'));
     	} 
     	else if(IS_POST){
-    		
+    		$this->display();
     	}
 
     }
