@@ -9,30 +9,31 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="/oa/Public/static/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/oa/Public/static/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/font-awesome.min.css" />
 
 		<!-- text fonts -->
-		<link rel="stylesheet" href="/oa/Public/static/css/ace-fonts.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-fonts.css" />
 
 		<!-- ace styles -->
-		<link rel="stylesheet" href="/oa/Public/static/css/ace.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.min.css" />
 
 		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="/oa/Public/static/css/ace-part2.min.css" />
+			<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-part2.min.css" />
 		<![endif]-->
-		<link rel="stylesheet" href="/oa/Public/static/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-rtl.min.css" />
 
 		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="/oa/Public/static/css/ace-ie.min.css" />
+		  <link rel="stylesheet" href="/examples/OA/Public/static/css/ace-ie.min.css" />
 		<![endif]-->
-		<link rel="stylesheet" href="/oa/Public/static/css/ace.onpage-help.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/datepicker.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.onpage-help.css" />
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 		<!--[if lt IE 9]>
-		<script src="/oa/Public/static/js/html5shiv.js"></script>
-		<script src="/oa/Public/static/js/respond.min.js"></script>
+		<script src="/examples/OA/Public/static/js/html5shiv.js"></script>
+		<script src="/examples/OA/Public/static/js/respond.min.js"></script>
 		<![endif]-->
 	</head>
 
@@ -68,7 +69,7 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="用户名" name="用户名"/>
+															<input type="text" class="form-control" placeholder="用户名" name="username"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
@@ -156,13 +157,6 @@
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="生日:1982-01-01" name="birthday"/>
-															<i class="ace-icon fa fa-user"></i>
-														</span>
-													</label>
-
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
 															<select class="form-control" name="gender">
 															<option value="">性别</option>
 															<option value="M">男</option>
@@ -171,6 +165,53 @@
 														</span>
 													</label>
 
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<select class="form-control" name="department_id">
+															<option value="">所在处室</option>
+															<?php if(is_array($departments)): foreach($departments as $key=>$depart): ?><option value="<?php echo ($depart["id"]); ?>"><?php echo ($depart["name"]); ?></option><?php endforeach; endif; ?>	
+														</select>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<select class="form-control" name="department_id">
+															<option value="">职务</option>
+															<?php if(is_array($duties)): foreach($duties as $key=>$duty): ?><option value="<?php echo ($duty["id"]); ?>"><?php echo ($duty["name"]); ?></option><?php endforeach; endif; ?>	
+														</select>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<select class="form-control" name="level_id">
+															<option value="">级别</option>
+															<?php if(is_array($levels)): foreach($levels as $key=>$level): ?><option value="<?php echo ($level["id"]); ?>"><?php echo ($level["name"]); ?></option><?php endforeach; endif; ?>	
+														</select>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" name="birthday" placeholder="出生日期"/>
+															<i class="ace-icon fa fa-birthday-cake"></i>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" name="begin_work_date" placeholder="参加工作时间"/>
+															<i class="ace-icon fa fa-birthday-cake"></i>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" name="enter_date" placeholder="进入本单位时间"/>
+															<i class="ace-icon fa fa-birthday-cake"></i>
+														</span>
+													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -216,22 +257,26 @@
 		</div><!-- /.main-container -->
 
 		<!-- basic scripts -->
+		
 
 		<!--[if !IE]> -->
 		<script type="text/javascript">
-			window.jQuery || document.write("<script src='/oa/Public/static/js/jquery.min.js'>"+"<"+"/script>");
+			window.jQuery || document.write("<script src='/examples/OA/Public/static/js/jquery.min.js'>"+"<"+"/script>");
 		</script>
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
 <script type="text/javascript">
- window.jQuery || document.write("<script src='/oa/Public/static/js/jquery1x.min.js'>"+"<"+"/script>");
+ window.jQuery || document.write("<script src='/examples/OA/Public/static/js/jquery1x.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
 		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='/oa/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			if('ontouchstart' in document.documentElement) document.write("<script src='/examples/OA/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
+
+		<script src="/examples/OA/Public/static/js/date-time/bootstrap-datepicker.min.js"></script>
+		<script src="/examples/OA/Public/static/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
@@ -241,6 +286,18 @@
 				var target = $(this).data('target');
 				$('.widget-box.visible').removeClass('visible');//hide others
 				$(target).addClass('visible');//show target
+			 });
+
+			 $('.date-picker').datepicker({
+			 	autoclose: true,
+			 	todayHighlight: true,
+			 	language:'zh-CN',
+			 	weekStart: 0,
+			 	todayBtn: "linked"
+			 })
+			 //show datepicker when clicking on the icon
+			 .next().on(ace.click_event, function(){
+			 	$(this).prev().focus();
 			 });
 			});
 		</script>

@@ -59,8 +59,9 @@ class UserModel extends Model
 				session('headImg', $user['image_url']);
 
 				$user['is_login'] = true;
+				$user['login_count'] += 1;
 				$user['last_login'] = date('Y-m-d H:i:s');
-				$user->save();
+				$this->save($user);
 
 				return true;
 			}
@@ -72,12 +73,11 @@ class UserModel extends Model
 	}
 
 	public function logout($id){
-		$user = $this->find($id);
+		$user = $this->where(array('id'=>$id))->find();
 		$user['is_login'] = false;
-		if($user->save())
-			return true;
-		else
-			return false;
+		$this->save($user);
+
+		session(null);		
 	}
 	
 }

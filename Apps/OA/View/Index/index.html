@@ -26,6 +26,7 @@
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="__CSS__/ace-ie.min.css" />
 		<![endif]-->
+		<link rel="stylesheet" href="__CSS__/datepicker.css" />
 		<link rel="stylesheet" href="__CSS__/ace.onpage-help.css" />
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -68,7 +69,7 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="用户名" name="用户名"/>
+															<input type="text" class="form-control" placeholder="用户名" name="username"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
@@ -156,13 +157,6 @@
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="生日:1982-01-01" name="birthday"/>
-															<i class="ace-icon fa fa-user"></i>
-														</span>
-													</label>
-
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
 															<select class="form-control" name="gender">
 															<option value="">性别</option>
 															<option value="M">男</option>
@@ -171,6 +165,59 @@
 														</span>
 													</label>
 
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<select class="form-control" name="department_id">
+															<option value="">所在处室</option>
+															<foreach name="departments" item="depart">
+															<option value="{$depart.id}">{$depart.name}</option>
+															</foreach>	
+														</select>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<select class="form-control" name="department_id">
+															<option value="">职务</option>
+															<foreach name="duties" item="duty">
+															<option value="{$duty.id}">{$duty.name}</option>
+															</foreach>	
+														</select>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<select class="form-control" name="level_id">
+															<option value="">级别</option>
+															<foreach name="levels" item="level">
+															<option value="{$level.id}">{$level.name}</option>
+															</foreach>	
+														</select>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" name="birthday" placeholder="出生日期"/>
+															<i class="ace-icon fa fa-birthday-cake"></i>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" name="begin_work_date" placeholder="参加工作时间"/>
+															<i class="ace-icon fa fa-birthday-cake"></i>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" name="enter_date" placeholder="进入本单位时间"/>
+															<i class="ace-icon fa fa-birthday-cake"></i>
+														</span>
+													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -216,6 +263,7 @@
 		</div><!-- /.main-container -->
 
 		<!-- basic scripts -->
+		
 
 		<!--[if !IE]> -->
 		<script type="text/javascript">
@@ -233,6 +281,9 @@
 			if('ontouchstart' in document.documentElement) document.write("<script src='__JS__/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
 
+		<script src="__JS__/date-time/bootstrap-datepicker.min.js"></script>
+		<script src="__JS__/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
+
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
 			jQuery(function($) {
@@ -241,6 +292,18 @@
 				var target = $(this).data('target');
 				$('.widget-box.visible').removeClass('visible');//hide others
 				$(target).addClass('visible');//show target
+			 });
+
+			 $('.date-picker').datepicker({
+			 	autoclose: true,
+			 	todayHighlight: true,
+			 	language:'zh-CN',
+			 	weekStart: 0,
+			 	todayBtn: "linked"
+			 })
+			 //show datepicker when clicking on the icon
+			 .next().on(ace.click_event, function(){
+			 	$(this).prev().focus();
 			 });
 			});
 		</script>

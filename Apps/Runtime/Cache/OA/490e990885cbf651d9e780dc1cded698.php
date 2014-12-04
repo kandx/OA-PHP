@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="zh">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -9,41 +9,41 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="__CSS__/bootstrap.min.css" />
-		<link rel="stylesheet" href="__CSS__/font-awesome.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/font-awesome.min.css" />
 
 		<!-- page specific plugin styles -->
-		<block name="page_styles">
-		</block>
+		
+		
 
 		<!-- text fonts -->
-		<link rel="stylesheet" href="__CSS__/ace-fonts.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-fonts.css" />
 
 		<!-- ace styles -->
-		<link rel="stylesheet" href="__CSS__/ace.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.min.css" />
 
 		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="__CSS__/ace-part2.min.css" />
+			<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-part2.min.css" />
 		<![endif]-->
-		<link rel="stylesheet" href="__CSS__/ace-skins.min.css" />
-		<link rel="stylesheet" href="__CSS__/ace-rtl.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-rtl.min.css" />
 
 		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="__CSS__/ace-ie.min.css" />
+		  <link rel="stylesheet" href="/examples/OA/Public/static/css/ace-ie.min.css" />
 		<![endif]-->
 
 		<!-- inline styles related to this page -->
-		<block name="inline_styles">
-		</block>
+		
+		
 
 		<!-- ace settings handler -->
-		<script src="__JS__/ace-extra.min.js"></script>
+		<script src="/examples/OA/Public/static/js/ace-extra.min.js"></script>
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 		<!--[if lte IE 8]>
-		<script src="__JS__/html5shiv.js"></script>
-		<script src="__JS__/respond.min.js"></script>
+		<script src="/examples/OA/Public/static/js/html5shiv.js"></script>
+		<script src="/examples/OA/Public/static/js/respond.min.js"></script>
 		<![endif]-->
 	</head>
 
@@ -167,7 +167,7 @@
 									<ul class="dropdown-menu dropdown-navbar">
 										<li>
 											<a href="#">
-												<img src="__STATIC__/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Alex:</span>
@@ -184,7 +184,7 @@
 
 										<li>
 											<a href="#">
-												<img src="__STATIC__/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Susan:</span>
@@ -201,7 +201,7 @@
 
 										<li>
 											<a href="#">
-												<img src="__STATIC__/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Bob:</span>
@@ -218,7 +218,7 @@
 
 										<li>
 											<a href="#">
-												<img src="__STATIC__/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Kate:</span>
@@ -235,7 +235,7 @@
 
 										<li>
 											<a href="#">
-												<img src="__STATIC__/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Fred:</span>
@@ -264,10 +264,10 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="__STATIC__/avatars/user.jpg" alt="Jason's Photo" />
+								<img class="nav-user-photo" src="/examples/OA/Public/static/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎您,</small>
-									{:session('fullname')}
+									<?php echo session('fullname');?>
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>
@@ -291,7 +291,7 @@
 								<li class="divider"></li>
 
 								<li>
-									<a href="{:U('Index/logout')}">
+									<a href="<?php echo U('Index/logout');?>">
 										<i class="ace-icon fa fa-power-off"></i>
 										退出
 									</a>
@@ -314,28 +314,246 @@
 			</script>
 
 			<!-- #section:basics/sidebar -->
-			<block name="sidebar">
-				<include file="Base/sidebar" />
-			</block>
+			
+				<div id="sidebar" class="sidebar                  responsive">
+	<script type="text/javascript">
+		try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+	</script>
+	<ul class="nav nav-list">
+		<li class="">
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-calendar"></i>
+				<span class="menu-text"> 日程管理 </span>
+
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+
+			<b class="arrow"></b>
+
+			<ul class="submenu">
+				<!-- <li class="">
+					<a href="#" class="dropdown-toggle">
+						<i class="menu-icon fa fa-caret-right"></i>
+				
+						Layouts
+						<b class="arrow fa fa-angle-down"></b>
+					</a>
+				
+					<b class="arrow"></b>
+				
+					<ul class="submenu">
+						<li class="">
+							<a href="top-menu.html">
+								<i class="menu-icon fa fa-caret-right"></i>
+								Top Menu
+							</a>
+				
+							<b class="arrow"></b>
+						</li>
+				
+						<li class="">
+							<a href="mobile-menu-1.html">
+								<i class="menu-icon fa fa-caret-right"></i>
+								Default Mobile Menu
+							</a>
+				
+							<b class="arrow"></b>
+						</li>
+				
+						<li class="">
+							<a href="mobile-menu-2.html">
+								<i class="menu-icon fa fa-caret-right"></i>
+								Mobile Menu 2
+							</a>
+				
+							<b class="arrow"></b>
+						</li>
+				
+						<li class="">
+							<a href="mobile-menu-3.html">
+								<i class="menu-icon fa fa-caret-right"></i>
+								Mobile Menu 3
+							</a>
+				
+							<b class="arrow"></b>
+						</li>
+					</ul>
+				</li> -->
+
+				<li class="">
+					<a href="typography.html">
+						<i class="menu-icon fa fa-caret-right"></i>
+						今日日程
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="">
+					<a href="elements.html">
+						<i class="menu-icon fa fa-caret-right"></i>
+						添加日程
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="">
+					<a href="buttons.html">
+						<i class="menu-icon fa fa-caret-right"></i>
+						日程查询
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+			</ul>
+		</li>
+	</ul><!-- /.nav-list -->
+
+	<!-- #section:basics/sidebar.layout.minimize -->
+	<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+		<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+	</div>
+
+	<!-- /section:basics/sidebar.layout.minimize -->
+	<script type="text/javascript">
+		try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+	</script>
+</div>
+<!-- /section:basics/sidebar -->
+			
 
 			<div class="main-content">
-				<block name="breadcrumbs">
-					<include file="Base/breadcrumbs" active="空白" />
-				</block>
+				
+					<!-- #section:basics/content.breadcrumbs -->
+<div class="breadcrumbs" id="breadcrumbs">
+	<script type="text/javascript">
+		try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+	</script>
+
+	<ul class="breadcrumb">
+		<li>
+			<i class="ace-icon fa fa-home home-icon"></i>
+			<a href="#">OA系统</a>
+		</li>
+
+		<li class="active">空白</li>
+	</ul><!-- /.breadcrumb -->
+</div>
+<!-- /section:basics/content.breadcrumbs -->
+				
 
 				<div class="page-content">
-					<block name="settingbox">
-						<include file="Base/settingbox" />
-					</block>
+					
+						<!-- #section:settings.box -->
+<div class="ace-settings-container" id="ace-settings-container">
+	<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+		<i class="ace-icon fa fa-cog bigger-150"></i>
+	</div>
 
-					<block name="sayings">
-					</block>
+	<div class="ace-settings-box clearfix" id="ace-settings-box">
+		<div class="pull-left width-50">
+			<!-- #section:settings.skins -->
+			<div class="ace-settings-item">
+				<div class="pull-left">
+					<select id="skin-colorpicker" class="hide">
+						<option data-skin="no-skin" value="#438EB9">#438EB9</option>
+						<option data-skin="skin-1" value="#222A2D">#222A2D</option>
+						<option data-skin="skin-2" value="#C6487E">#C6487E</option>
+						<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+					</select>
+				</div>
+				<span>&nbsp; 选择皮肤</span>
+			</div>
+
+			<!-- /section:settings.skins -->
+
+			<!-- #section:settings.navbar -->
+			<div class="ace-settings-item">
+				<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
+				<label class="lbl" for="ace-settings-navbar"> 固定导航栏</label>
+			</div>
+
+			<!-- /section:settings.navbar -->
+
+			<!-- #section:settings.sidebar -->
+			<div class="ace-settings-item">
+				<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+				<label class="lbl" for="ace-settings-sidebar"> 固定侧边栏</label>
+			</div>
+
+			<!-- /section:settings.sidebar -->
+
+			<!-- #section:settings.breadcrumbs -->
+			<div class="ace-settings-item">
+				<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+				<label class="lbl" for="ace-settings-breadcrumbs"> 固定面包屑</label>
+			</div>
+
+			<!-- /section:settings.breadcrumbs -->
+
+			<!-- #section:settings.rtl -->
+			<div class="ace-settings-item">
+				<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+				<label class="lbl" for="ace-settings-rtl"> 从右至左浏览</label>
+			</div>
+
+			<!-- /section:settings.rtl -->
+
+			<!-- #section:settings.container -->
+			<div class="ace-settings-item">
+				<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
+				<label class="lbl" for="ace-settings-add-container">
+					窄屏
+					<b>.模式</b>
+				</label>
+			</div>
+
+			<!-- /section:settings.container -->
+		</div><!-- /.pull-left -->
+
+		<div class="pull-left width-50">
+			<!-- #section:basics/sidebar.options -->
+			<div class="ace-settings-item">
+				<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" />
+				<label class="lbl" for="ace-settings-hover"> 子菜单悬停</label>
+			</div>
+
+			<div class="ace-settings-item">
+				<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" />
+				<label class="lbl" for="ace-settings-compact"> 精简侧边栏</label>
+			</div>
+
+			<div class="ace-settings-item">
+				<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" />
+				<label class="lbl" for="ace-settings-highlight"> 当前项目ALT</label>
+			</div>
+
+			<!-- /section:basics/sidebar.options -->
+		</div><!-- /.pull-left -->
+	</div><!-- /.ace-settings-box -->
+</div><!-- /.ace-settings-container -->
+
+<!-- /section:settings.box -->
+					
+
+					
+	<div class="page-header">
+	<h1>
+		CBD每日一言
+		<small>
+			<i class="ace-icon fa fa-angle-double-right"></i>
+			<?php echo ($saying); ?> 
+		</small>
+	</h1>
+</div>
+
 
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<block name="content">
-							</block>
+							
+							
 
 							<!-- PAGE CONTENT ENDS -->
 						</div><!-- /.col -->
@@ -343,9 +561,9 @@
 				</div><!-- /.page-content -->
 			</div><!-- /.main-content -->
 
-			<block name="footer">
 			
-			</block>
+			
+			
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
@@ -356,38 +574,38 @@
 
 		<!--[if !IE]> -->
 		<script type="text/javascript">
-			window.jQuery || document.write("<script src='__JS__/jquery.min.js'>"+"<"+"/script>");
+			window.jQuery || document.write("<script src='/examples/OA/Public/static/js/jquery.min.js'>"+"<"+"/script>");
 		</script>
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
 <script type="text/javascript">
- window.jQuery || document.write("<script src='__JS__/jquery1x.min.js'>"+"<"+"/script>");
+ window.jQuery || document.write("<script src='/examples/OA/Public/static/js/jquery1x.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
 		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='__JS__/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			if('ontouchstart' in document.documentElement) document.write("<script src='/examples/OA/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
-		<script src="__JS__/bootstrap.min.js"></script>
+		<script src="/examples/OA/Public/static/js/bootstrap.min.js"></script>
 
 		<!-- page specific plugin scripts -->
-		<block name="page_js">
-		</block>
+		
+		
 
 		<!-- ace scripts -->
-		<script src="__JS__/ace-elements.min.js"></script>
-		<script src="__JS__/ace.min.js"></script>
+		<script src="/examples/OA/Public/static/js/ace-elements.min.js"></script>
+		<script src="/examples/OA/Public/static/js/ace.min.js"></script>
 
 		<!-- inline scripts related to this page -->
-		<block name="inline_js">
-		</block>
 		
-		<link rel="stylesheet" href="__CSS__/ace.onpage-help.css" />
+		
+		
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.onpage-help.css" />
 		<link rel="stylesheet" href="../docs/assets/js/themes/sunburst.css" />
 
 		<script type="text/javascript"> ace.vars['base'] = '..'; </script>
-		<script src="__JS__/ace/ace.onpage-help.js"></script>
+		<script src="/examples/OA/Public/static/js/ace/ace.onpage-help.js"></script>
 		<script src="../docs/assets/js/rainbow.js"></script>
 		<script src="../docs/assets/js/language/generic.js"></script>
 		<script src="../docs/assets/js/language/html.js"></script>
