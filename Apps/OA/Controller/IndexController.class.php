@@ -43,6 +43,14 @@ class IndexController extends Controller {
         $saying = D('Saying');
         $this->assign('saying', $saying->getRandom());
 
+        $schedule = D('Schedule');
+        $this->assign('schedules', $schedule->getLeaderSchedule(date('Y-m-d H:i'), true, true));
+
         $this->display();
+    }
+
+    public function test(){
+        $s = D('User');
+        dump($s->getLeaders(true));
     }
 }

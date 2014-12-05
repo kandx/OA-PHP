@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2014 年 12 月 04 日 17:34
+-- 生成日期: 2014 年 12 月 05 日 17:20
 -- 服务器版本: 5.6.12-log
 -- PHP 版本: 5.4.16
 
@@ -223,15 +223,33 @@ INSERT INTO `oa_saying` (`id`, `content`, `writer`, `create_time`) VALUES
 CREATE TABLE IF NOT EXISTS `oa_schedule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL COMMENT '日程名称',
+  `description` varchar(200) DEFAULT NULL COMMENT '备注',
   `begin_time` datetime NOT NULL,
   `end_time` datetime DEFAULT NULL,
   `is_allday` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否全天事件',
+  `color` varchar(20) NOT NULL COMMENT '显示颜色',
   `user_id` int(11) NOT NULL,
+  `recorder` int(11) NOT NULL COMMENT '日程记录者',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日程表' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='日程表' AUTO_INCREMENT=11 ;
+
+--
+-- 转存表中的数据 `oa_schedule`
+--
+
+INSERT INTO `oa_schedule` (`id`, `title`, `description`, `begin_time`, `end_time`, `is_allday`, `color`, `user_id`, `recorder`, `create_time`, `update_time`) VALUES
+(1, '会见英国总领事', '投资处负责接待', '2014-12-01 09:00:00', NULL, 0, '#4ddfds', 1, 5, '2014-12-05 12:43:01', '2014-12-05 12:43:01'),
+(2, '参加区府常务会议', '讨论CBD管委会议题', '2014-12-05 15:30:00', NULL, 0, '#155522', 2, 1, '2014-12-05 12:44:09', '2014-12-05 12:44:09'),
+(3, '测试用途', NULL, '2014-12-05 14:23:00', NULL, 0, '#154825', 1, 5, '2014-12-05 12:45:03', '2014-12-05 12:45:03'),
+(5, '测试委领导日程', NULL, '2014-12-05 10:30:00', NULL, 0, '#4ddfds', 1, 5, '2014-12-05 12:46:10', '2014-12-05 12:46:10'),
+(6, '测试过期未过期时间', NULL, '2014-12-05 16:00:00', '2014-12-05 19:00:00', 0, '#4ddfds', 1, 5, '2014-12-05 14:51:14', '2014-12-05 14:51:14'),
+(7, '测试处长日程', NULL, '2014-12-05 17:00:00', '2014-12-05 20:00:00', 0, '#4ddfds', 3, 5, '2014-12-05 16:09:31', '2014-12-05 16:09:31'),
+(8, '测试其它处长', NULL, '2014-12-05 17:00:00', NULL, 0, '#4ddfds', 4, 5, '2014-12-05 16:24:48', '2014-12-05 16:24:48'),
+(9, '测试颜色', NULL, '2014-12-05 18:00:00', NULL, 0, '#4ddfds', 5, 5, '2014-12-05 17:02:18', '2014-12-05 17:02:18'),
+(10, '测试蓝色', NULL, '2014-12-05 20:00:00', NULL, 0, '#4ddfds', 1, 5, '2014-12-05 17:03:10', '2014-12-05 17:03:10');
 
 -- --------------------------------------------------------
 
@@ -282,7 +300,7 @@ INSERT INTO `oa_user` (`id`, `username`, `password`, `first_name`, `last_name`, 
 (10, 'yeym', '81dc9bdb52d04dc20036dbd8313ed055', '叶', '育梅', 'F', '1980-01-01', '1985-01-01', '2011-03-22', 'yeym@qq.com', '/public', '2014-12-04 00:00:00', 0, 0, 1, 0, 2, 5, 4, '2014-12-04 10:41:22', '2014-12-04 10:41:22'),
 (11, 'linss', '81dc9bdb52d04dc20036dbd8313ed055', '林', '穗生', 'M', '1980-01-01', '1985-01-01', '2011-03-22', 'linss@qq.com', 'public', '2014-12-04 00:00:00', 0, 0, 1, 0, 6, 5, 4, '2014-12-04 10:42:29', '2014-12-04 10:42:29'),
 (12, 'zhangh', '81dc9bdb52d04dc20036dbd8313ed055', '张', '皓', 'M', '1980-01-01', '1985-01-01', '2011-03-22', 'zhangh@qq.com', 'public', '2014-12-04 00:00:00', 0, 0, 1, 0, 3, 5, 4, '2014-12-04 10:43:19', '2014-12-04 10:43:19'),
-(13, 'zengk', 'c4ca4238a0b923820dcc509a6f75849b', '曾', '科', 'M', '1981-01-08', '2006-07-01', '2013-04-23', '38170508@qq.com', 'public', '2014-12-04 12:59:52', 7, 0, 1, 1, 5, 5, 4, '2014-12-04 10:44:27', '2014-12-04 10:52:21');
+(13, 'zengk', 'c4ca4238a0b923820dcc509a6f75849b', '曾', '科', 'M', '1981-01-08', '2006-07-01', '2013-04-23', '38170508@qq.com', 'public', '2014-12-05 11:22:15', 8, 1, 1, 1, 5, 5, 4, '2014-12-04 10:44:27', '2014-12-04 10:52:21');
 
 --
 -- 限制导出的表

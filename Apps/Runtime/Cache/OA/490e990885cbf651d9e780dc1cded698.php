@@ -9,27 +9,27 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="/OA/Public/static/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/OA/Public/static/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/font-awesome.min.css" />
 
 		<!-- page specific plugin styles -->
 		
 		
 
 		<!-- text fonts -->
-		<link rel="stylesheet" href="/OA/Public/static/css/ace-fonts.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-fonts.css" />
 
 		<!-- ace styles -->
-		<link rel="stylesheet" href="/OA/Public/static/css/ace.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.min.css" />
 
 		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="/OA/Public/static/css/ace-part2.min.css" />
+			<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-part2.min.css" />
 		<![endif]-->
-		<link rel="stylesheet" href="/OA/Public/static/css/ace-skins.min.css" />
-		<link rel="stylesheet" href="/OA/Public/static/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-rtl.min.css" />
 
 		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="/OA/Public/static/css/ace-ie.min.css" />
+		  <link rel="stylesheet" href="/examples/OA/Public/static/css/ace-ie.min.css" />
 		<![endif]-->
 
 		<!-- inline styles related to this page -->
@@ -37,13 +37,13 @@
 		
 
 		<!-- ace settings handler -->
-		<script src="/OA/Public/static/js/ace-extra.min.js"></script>
+		<script src="/examples/OA/Public/static/js/ace-extra.min.js"></script>
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 		<!--[if lte IE 8]>
-		<script src="/OA/Public/static/js/html5shiv.js"></script>
-		<script src="/OA/Public/static/js/respond.min.js"></script>
+		<script src="/examples/OA/Public/static/js/html5shiv.js"></script>
+		<script src="/examples/OA/Public/static/js/respond.min.js"></script>
 		<![endif]-->
 	</head>
 
@@ -167,7 +167,7 @@
 									<ul class="dropdown-menu dropdown-navbar">
 										<li>
 											<a href="#">
-												<img src="/OA/Public/static/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Alex:</span>
@@ -184,7 +184,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/OA/Public/static/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Susan:</span>
@@ -201,7 +201,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/OA/Public/static/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Bob:</span>
@@ -218,7 +218,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/OA/Public/static/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Kate:</span>
@@ -235,7 +235,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/OA/Public/static/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Fred:</span>
@@ -264,7 +264,7 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="/OA/Public/static/avatars/user.jpg" alt="Jason's Photo" />
+								<img class="nav-user-photo" src="/examples/OA/Public/static/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎您,</small>
 									<?php echo session('fullname');?>
@@ -381,7 +381,7 @@
 				</li> -->
 
 				<li class="">
-					<a href="typography.html">
+					<a href="<?php echo U('Schedule/today');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						今日日程
 					</a>
@@ -390,7 +390,7 @@
 				</li>
 
 				<li class="">
-					<a href="elements.html">
+					<a href="<?php echo U('Schedule/add');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						添加日程
 					</a>
@@ -399,7 +399,7 @@
 				</li>
 
 				<li class="">
-					<a href="buttons.html">
+					<a href="<?php echo U('Schedule/search');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						日程查询
 					</a>
@@ -554,23 +554,20 @@
 							<!-- PAGE CONTENT BEGINS -->
 							
 	<div class="row">
-		<div class="col-sm-6">
+		<?php if(!empty($schedules)): ?><div class="col-sm-6">
 	<div class="widget-box transparent" id="recent-box">
 		<div class="widget-header">
 			<h4 class="widget-title lighter smaller">
-				<i class="ace-icon fa fa-calendar orange"></i>委领导日程
+				<i class="ace-icon fa fa-calendar orange"></i>领导日程
 			</h4>
-
+			
 			<div class="widget-toolbar no-border">
 				<ul class="nav nav-tabs" id="recent-tab">
-					<li class="active">
-						<a data-toggle="tab" href="#qiuwq">丘卫青</a>
-					</li>
-
-					<li>
-						<a data-toggle="tab" href="#zhanghb">张海波</a>
-					</li>
-
+					<?php if(is_array($schedules)): foreach($schedules as $k=>$schedule): ?><li 
+					<?php if(($schedule["no"]) == "1"): ?>class="active"<?php endif; ?>
+					>
+						<a data-toggle="tab" href="#<?php echo ($k); ?>"><?php echo ($schedule['fullname']); ?></a>
+					</li><?php endforeach; endif; ?>
 				</ul>
 			</div>
 		</div>
@@ -578,84 +575,50 @@
 		<div class="widget-body">
 			<div class="widget-main padding-4">
 				<div class="tab-content padding-8">
-					<div id="zhanghb" class="tab-pane">
+
+					<?php if(is_array($schedules)): foreach($schedules as $k=>$schedule): ?><div id="<?php echo ($k); ?>" class="tab-pane
+						<?php if(($schedule["no"]) == "1"): ?>active<?php endif; ?>
+					">
 						<h4 class="smaller lighter green">
 							<i class="ace-icon fa fa-list"></i>
-							12月22日
+							<?php echo date('Y年n月j日');?>
+							<a href="<?php echo U('Schedule/today');?>" class="btn btn-info btn-xs pull-right">更多日程</a>
 						</h4>
 
 						<!-- #section:pages/dashboard.tasks -->
 						<ul id="tasks" class="item-list">
-							<li class="item-orange clearfix selected">
+							<!-- <?php if(!empty($schedule["data"])): ?>-->
+								<?php if(is_array($schedule["data"])): foreach($schedule["data"] as $key=>$rec): ?><li class="clearfix 
+										<?php if(($rec["state"]) == "p"): ?>item-default selected<?php endif; ?>
+										<?php if(($rec["state"]) == "n"): ?>item-orange<?php endif; ?>
+										<?php if(($rec["state"]) == "f"): ?>item-blue<?php endif; ?>
+									">
+									<label class="inline">
+										<span class="lbl"> 
+											<?php echo ($rec["begin_time"]); ?>
+											<?php if(!empty($rec["end_time"])): ?>- <?php echo ($rec["end_time"]); endif; ?> 
+										 	&nbsp;
+											<?php echo ($rec["title"]); ?>
+										</span>
+									</label>
+									</li><?php endforeach; endif; ?>
+							<!--<?php endif; ?> -->
+							<!-- <?php if(empty($schedule["data"])): ?><li class="item-orange clearfix">
 								<label class="inline">
-									<span class="lbl"> 9:00 - 11:00 &nbsp; 回答客户提问</span>
+									<span class="lbl"> 
+										今天没有日程
+									</span>
 								</label>
-							</li>
-
-							<li class="item-default clearfix">
-								<label class="inline">
-									<span class="lbl"> Adding new features</span>
-								</label>
-							</li>
-
-							<li class="item-blue clearfix">
-								<label class="inline">
-									<span class="lbl"> Upgrading scripts used in template</span>
-								</label>
-							</li>
-
-							<li class="item-grey clearfix">
-								<label class="inline">
-									<span class="lbl"> Adding new skins</span>
-								</label>
-							</li>
-
-							<li class="item-green clearfix">
-								<label class="inline">
-									<span class="lbl"> Updating server software up</span>
-								</label>
-							</li>
-
-							<li class="item-pink clearfix">
-								<label class="inline">
-									<span class="lbl"> Cleaning up</span>
-								</label>
-							</li>
+								</li><?php endif; ?> -->
 						</ul>
-
 						<!-- /section:pages/dashboard.tasks -->
-					</div>
+					</div><?php endforeach; endif; ?>
 
-					<div id="qiuwq" class="tab-pane active">
-						<h4 class="smaller lighter green">
-							<i class="ace-icon fa fa-list"></i>
-							12月22日
-						</h4>
-
-						<!-- #section:pages/dashboard.tasks -->
-						<ul id="tasks" class="item-list">
-							<li class="item-orange clearfix selected">
-								<label class="inline">
-									<span class="lbl"> 9:00 - 11:00 &nbsp; 回答客户提问</span>
-								</label>
-							</li>
-
-							
-
-							<li class="item-pink clearfix">
-								<label class="inline">
-									<span class="lbl"> Cleaning up</span>
-								</label>
-							</li>
-						</ul>
-
-						<!-- /section:pages/dashboard.tasks -->
-					</div>
 				</div>
 			</div><!-- /.widget-main -->
 		</div><!-- /.widget-body -->
 	</div><!-- /.widget-box -->
-</div><!-- /.col -->
+</div><!-- /.col --><?php endif; ?>
 		<div class="col-sm-6">
 	<div class="widget-box transparent" id="recent-box">
 		<div class="widget-header">
@@ -785,38 +748,38 @@
 
 		<!--[if !IE]> -->
 		<script type="text/javascript">
-			window.jQuery || document.write("<script src='/OA/Public/static/js/jquery.min.js'>"+"<"+"/script>");
+			window.jQuery || document.write("<script src='/examples/OA/Public/static/js/jquery.min.js'>"+"<"+"/script>");
 		</script>
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
 <script type="text/javascript">
- window.jQuery || document.write("<script src='/OA/Public/static/js/jquery1x.min.js'>"+"<"+"/script>");
+ window.jQuery || document.write("<script src='/examples/OA/Public/static/js/jquery1x.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
 		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='/OA/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			if('ontouchstart' in document.documentElement) document.write("<script src='/examples/OA/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
-		<script src="/OA/Public/static/js/bootstrap.min.js"></script>
+		<script src="/examples/OA/Public/static/js/bootstrap.min.js"></script>
 
 		<!-- page specific plugin scripts -->
 		
 		
 
 		<!-- ace scripts -->
-		<script src="/OA/Public/static/js/ace-elements.min.js"></script>
-		<script src="/OA/Public/static/js/ace.min.js"></script>
+		<script src="/examples/OA/Public/static/js/ace-elements.min.js"></script>
+		<script src="/examples/OA/Public/static/js/ace.min.js"></script>
 
 		<!-- inline scripts related to this page -->
 		
 		
 		
-		<link rel="stylesheet" href="/OA/Public/static/css/ace.onpage-help.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.onpage-help.css" />
 		<link rel="stylesheet" href="../docs/assets/js/themes/sunburst.css" />
 
 		<script type="text/javascript"> ace.vars['base'] = '..'; </script>
-		<script src="/OA/Public/static/js/ace/ace.onpage-help.js"></script>
+		<script src="/examples/OA/Public/static/js/ace/ace.onpage-help.js"></script>
 		<script src="../docs/assets/js/rainbow.js"></script>
 		<script src="../docs/assets/js/language/generic.js"></script>
 		<script src="../docs/assets/js/language/html.js"></script>

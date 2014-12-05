@@ -79,5 +79,24 @@ class UserModel extends Model
 
 		session(null);		
 	}
+
+	public function getLeaders($all=false){
+		$cond['b.name'] = '委领导';
+		$leaders = $this->table('oa_user a')
+						->join('oa_department b on a.department_id = b.id', 'LEFT')
+						->where($cond)
+						->field('a.id, a.username, a.last_name, a.first_name')
+						->select();
+		if($all){
+			$where['a.id'] = array('neq', 1);
+			$departLeaders = $this->table('oa_department a')
+								  ->join('oa_user b on a.leader_id = b.id', 'LEFT')
+								  ->where($where)
+								  ->field('b.id, b.username, b.last_name, b.first_name')
+								  ->select();
+			$leaders = array_merge($leaders, $departLeaders);								  
+		}
+		return $leaders;
+	}
 	
 }

@@ -2,19 +2,20 @@
 	<div class="widget-box transparent" id="recent-box">
 		<div class="widget-header">
 			<h4 class="widget-title lighter smaller">
-				<i class="ace-icon fa fa-calendar orange"></i>委领导日程
+				<i class="ace-icon fa fa-calendar orange"></i>领导日程
 			</h4>
-
+			
 			<div class="widget-toolbar no-border">
 				<ul class="nav nav-tabs" id="recent-tab">
-					<li class="active">
-						<a data-toggle="tab" href="#qiuwq">丘卫青</a>
+					<foreach name="schedules" item="schedule" key="k">
+					<li 
+					<eq name="schedule.no" value="1">
+						class="active"
+					</eq>
+					>
+						<a data-toggle="tab" href="#{$k}">{$schedule['fullname']}</a>
 					</li>
-
-					<li>
-						<a data-toggle="tab" href="#zhanghb">张海波</a>
-					</li>
-
+					</foreach>
 				</ul>
 			</div>
 		</div>
@@ -22,79 +23,61 @@
 		<div class="widget-body">
 			<div class="widget-main padding-4">
 				<div class="tab-content padding-8">
-					<div id="zhanghb" class="tab-pane">
+
+					<foreach name="schedules" item="schedule" key="k">
+					<div id="{$k}" class="tab-pane
+						<eq name="schedule.no" value="1">
+							active
+						</eq>
+					">
 						<h4 class="smaller lighter green">
 							<i class="ace-icon fa fa-list"></i>
-							12月22日
+							{:date('Y年n月j日')}
+							<a href="{:U('Schedule/today')}" class="btn btn-info btn-xs pull-right">更多日程</a>
 						</h4>
 
 						<!-- #section:pages/dashboard.tasks -->
 						<ul id="tasks" class="item-list">
-							<li class="item-orange clearfix selected">
+							<!-- <notempty name="schedule.data"> -->
+								<foreach name="schedule.data" item="rec">
+									<li class="clearfix 
+										<eq name="rec.state" value="p">
+											item-default selected
+										</eq>
+										<eq name="rec.state" value="n">
+											item-orange
+										</eq>
+										<eq name="rec.state" value="f">
+											item-blue
+										</eq>
+									">
+									<label class="inline">
+										<span class="lbl"> 
+											{$rec.begin_time}
+											<notempty name="rec.end_time">
+											 - {$rec.end_time}
+											</notempty> 
+										 	&nbsp;
+											{$rec.title}
+										</span>
+									</label>
+									</li>
+								</foreach>
+							<!-- </notempty> -->
+							<!-- <empty name="schedule.data">
+								<li class="item-orange clearfix">
 								<label class="inline">
-									<span class="lbl"> 9:00 - 11:00 &nbsp; 回答客户提问</span>
+									<span class="lbl"> 
+										今天没有日程
+									</span>
 								</label>
-							</li>
-
-							<li class="item-default clearfix">
-								<label class="inline">
-									<span class="lbl"> Adding new features</span>
-								</label>
-							</li>
-
-							<li class="item-blue clearfix">
-								<label class="inline">
-									<span class="lbl"> Upgrading scripts used in template</span>
-								</label>
-							</li>
-
-							<li class="item-grey clearfix">
-								<label class="inline">
-									<span class="lbl"> Adding new skins</span>
-								</label>
-							</li>
-
-							<li class="item-green clearfix">
-								<label class="inline">
-									<span class="lbl"> Updating server software up</span>
-								</label>
-							</li>
-
-							<li class="item-pink clearfix">
-								<label class="inline">
-									<span class="lbl"> Cleaning up</span>
-								</label>
-							</li>
+								</li>
+							</empty> -->
 						</ul>
-
 						<!-- /section:pages/dashboard.tasks -->
 					</div>
+					</foreach>
 
-					<div id="qiuwq" class="tab-pane active">
-						<h4 class="smaller lighter green">
-							<i class="ace-icon fa fa-list"></i>
-							12月22日
-						</h4>
-
-						<!-- #section:pages/dashboard.tasks -->
-						<ul id="tasks" class="item-list">
-							<li class="item-orange clearfix selected">
-								<label class="inline">
-									<span class="lbl"> 9:00 - 11:00 &nbsp; 回答客户提问</span>
-								</label>
-							</li>
-
-							
-
-							<li class="item-pink clearfix">
-								<label class="inline">
-									<span class="lbl"> Cleaning up</span>
-								</label>
-							</li>
-						</ul>
-
-						<!-- /section:pages/dashboard.tasks -->
-					</div>
 				</div>
 			</div><!-- /.widget-main -->
 		</div><!-- /.widget-body -->
