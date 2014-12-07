@@ -1,0 +1,38 @@
+<form class="form-horizontal" role="form"  method="post" action="{:U('Schedule/add')}">
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="article_no"> 日程内容: </label>
+		<div class="col-sm-9">
+			<input type="text" name="title" id="title" placeholder="日程内容" class="col-xs-10 col-sm-5" />
+		</div>
+	</div>
+
+	<div class="form-group">							
+		<label class="col-sm-3 control-label no-padding-right" for="rec_time"> 开始时间: </label>
+		<div class="col-sm-9">
+			<input type="text" id="begin_time" name="begin_time" class="datetime-picker col-xs-10 col-sm-5">
+		</div>
+	</div>
+	
+	<div class="form-group end-time">							
+		<label class="col-sm-3 control-label no-padding-right" for="deal_time"> 结束时间: </label>
+		<div class="col-sm-9">
+			<input type="text" id="end_time" name="end_time" class="datetime-picker col-xs-10 col-sm-5">
+		</div>
+	</div>
+
+	<div class="clearfix form-actions">
+		<div class="col-md-offset-3 col-md-9">
+			<button class="btn btn-info" type="submit">
+				<i class="icon-ok bigger-110"></i>
+				保存
+			</button>
+
+			&nbsp; &nbsp; &nbsp;
+			<button class="btn" type="reset">
+				<i class="icon-undo bigger-110"></i>
+				清除
+			</button>
+		</div>
+	</div>
+</form>

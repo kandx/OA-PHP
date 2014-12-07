@@ -53,9 +53,9 @@
 									">
 									<label class="inline">
 										<span class="lbl"> 
-											{$rec.begin_time}
+											{:date('H:i',strtotime($rec['begin_time']))}
 											<notempty name="rec.end_time">
-											 - {$rec.end_time}
+											 - {:date('H:i',strtotime($rec['end_time']))}
 											</notempty> 
 										 	&nbsp;
 											{$rec.title}
