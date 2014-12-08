@@ -92,7 +92,7 @@ class UserModel extends Model
 			$departLeaders = $this->table('oa_department a')
 								  ->join('oa_user b on a.leader_id = b.id', 'LEFT')
 								  ->where($where)
-								  ->field('b.id, b.username, b.last_name, b.first_name')
+								  ->field('b.id, b.username, b.last_name, b.first_name, b.calendar_color')
 								  ->select();
 			$leaders = array_merge($leaders, $departLeaders);								  
 		}

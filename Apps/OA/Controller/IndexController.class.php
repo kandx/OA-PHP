@@ -76,7 +76,7 @@ class IndexController extends Controller {
         //日程
         $schedule = D('Schedule');
         $scheduleTimeStr = date('Y-m-d H:i');
-        $schedules = $schedule->getLeaderSchedule($scheduleTimeStr);
+        $schedules = $schedule->getLeaderScheduleForMain($scheduleTimeStr);
         foreach ($schedules as &$sch) {
             $this->setSchduleState($sch['data'], $scheduleTimeStr);
         }
@@ -87,7 +87,7 @@ class IndexController extends Controller {
 
     public function test(){
         $schedule = D('Schedule');
-        $schedules = $schedule->getLeaderSchedule(date('Y-m-d H:i'), true);
+        $schedules = $schedule->getLeaderScheduleFor(date('Y-m-d H:i'), true);
         foreach ($schedules as &$sch) {
             $this->setSchduleState($sch['data'], date('Y-m-d H:i'));
         }

@@ -9,30 +9,30 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="/OA/Public/static/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/OA/Public/static/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/font-awesome.min.css" />
 
 		<!-- page specific plugin styles -->
 		
-	<link rel="stylesheet" href="/OA/Public/static/css/fullcalendar.css" />
-	<link rel="stylesheet" href="/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
+	<link rel="stylesheet" href="/examples/OA/Public/static/css/fullcalendar.css" />
+	<link rel="stylesheet" href="/examples/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
 	
 
 
 		<!-- text fonts -->
-		<link rel="stylesheet" href="/OA/Public/static/css/ace-fonts.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-fonts.css" />
 
 		<!-- ace styles -->
-		<link rel="stylesheet" href="/OA/Public/static/css/ace.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.min.css" />
 
 		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="/OA/Public/static/css/ace-part2.min.css" />
+			<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-part2.min.css" />
 		<![endif]-->
-		<link rel="stylesheet" href="/OA/Public/static/css/ace-skins.min.css" />
-		<link rel="stylesheet" href="/OA/Public/static/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-rtl.min.css" />
 
 		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="/OA/Public/static/css/ace-ie.min.css" />
+		  <link rel="stylesheet" href="/examples/OA/Public/static/css/ace-ie.min.css" />
 		<![endif]-->
 
 		<!-- inline styles related to this page -->
@@ -40,13 +40,13 @@
 		
 
 		<!-- ace settings handler -->
-		<script src="/OA/Public/static/js/ace-extra.min.js"></script>
+		<script src="/examples/OA/Public/static/js/ace-extra.min.js"></script>
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 		<!--[if lte IE 8]>
-		<script src="/OA/Public/static/js/html5shiv.js"></script>
-		<script src="/OA/Public/static/js/respond.min.js"></script>
+		<script src="/examples/OA/Public/static/js/html5shiv.js"></script>
+		<script src="/examples/OA/Public/static/js/respond.min.js"></script>
 		<![endif]-->
 	</head>
 
@@ -170,7 +170,7 @@
 									<ul class="dropdown-menu dropdown-navbar">
 										<li>
 											<a href="#">
-												<img src="/OA/Public/static/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Alex:</span>
@@ -187,7 +187,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/OA/Public/static/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Susan:</span>
@@ -204,7 +204,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/OA/Public/static/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Bob:</span>
@@ -221,7 +221,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/OA/Public/static/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Kate:</span>
@@ -238,7 +238,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/OA/Public/static/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+												<img src="/examples/OA/Public/static/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Fred:</span>
@@ -267,7 +267,7 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="/OA/Public/static/avatars/user.jpg" alt="Jason's Photo" />
+								<img class="nav-user-photo" src="/examples/OA/Public/static/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎您,</small>
 									<?php echo session('fullname');?>
@@ -569,7 +569,7 @@
 						<div class="modal-body">
 							<div class="row">				
 								<div class="col-xs-12 col-sm-12">
-									<form class="form-horizontal" role="form"  method="post" action="<?php echo U('Schedule/add');?>">
+									<form class="form-horizontal" role="form"  method="post" action="<?php echo U('Schedule/add');?>" id="eventform">
 
 										<div class="form-group">
 											<label class="col-sm-3 control-label no-padding-right" for="article_no"> 日程内容: </label>
@@ -578,25 +578,49 @@
 											</div>
 										</div>
 
-										<div class="form-group">							
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="description"> 说明: </label>
+											<div class="col-sm-6">
+												<textarea class="form-control" name="description" id="description"></textarea>
+											</div>
+										</div>
+
+										<div class="form-group">				
 											<label class="col-sm-3 control-label no-padding-right" for="begin_time"> 开始时间: </label>
 											<div class="col-sm-9">
 												<input type="text" id="begin_time" name="begin_time" class="datetime-picker col-xs-10 col-sm-8" data-date-format="yyyy-mm-dd hh:ii">
 											</div>
 										</div>
 										
-										<div class="form-group">							
+										<div class="form-group end_time">
 											<label class="col-sm-3 control-label no-padding-right" for="end_time"> 结束时间: </label>
 											<div class="col-sm-9">
-												<input type="text" id="end_time" name="end_time" class="datetime-picker col-xs-10 col-sm-8" value="">
+												<input type="text" id="end_time" name="end_time" class="datetime-picker col-xs-10 col-sm-8">
 											</div>
 										</div>
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="description"></label>
+											<div class="checkbox col-sm-9">
+												<label>
+													<input name="is_allday" id="is_allday" type="checkbox" class="ace" value="1"/>
+												<span class="lbl"> 全天日程</span>
+												</label>
+											</div>
+										</div>
+
+										<input type="hidden" name="user_id" value="<?php echo session('uid');?>"/>
 
 								</div>
 							</div>
 						</div>
 
 						<div class="modal-footer">
+							<button class="btn btn-sm btn-danger" data-dismiss="modal" action="<?php echo U('Schedule/del');?>">
+								<i class="ace-icon fa fa-trash-o"></i>
+								删除
+							</button>
+
 							<button class="btn btn-sm" data-dismiss="modal" >
 								<i class="ace-icon fa fa-times"></i>
 								取消
@@ -633,40 +657,37 @@
 
 		<!--[if !IE]> -->
 		<script type="text/javascript">
-			window.jQuery || document.write("<script src='/OA/Public/static/js/jquery.min.js'>"+"<"+"/script>");
+			window.jQuery || document.write("<script src='/examples/OA/Public/static/js/jquery.min.js'>"+"<"+"/script>");
 		</script>
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
 <script type="text/javascript">
- window.jQuery || document.write("<script src='/OA/Public/static/js/jquery1x.min.js'>"+"<"+"/script>");
+ window.jQuery || document.write("<script src='/examples/OA/Public/static/js/jquery1x.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
 		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='/OA/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			if('ontouchstart' in document.documentElement) document.write("<script src='/examples/OA/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
-		<script src="/OA/Public/static/js/bootstrap.min.js"></script>
+		<script src="/examples/OA/Public/static/js/bootstrap.min.js"></script>
 
 		<!-- page specific plugin scripts -->
 		
-	<script src="/OA/Public/static/js/date-time/moment.min.js"></script>
-	<script src="/OA/Public/static/js/jquery-ui.custom.min.js"></script>
-	<script src="/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
-	<script src="/OA/Public/static/js/date-time/bootstrap-datetimepicker.min.js"></script>
-	<script src="/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-	
-	<script src="/OA/Public/static/js/fullcalendar.min.js"></script>
-	<script src="/OA/Public/static/js/zh-cn.js"></script>
-	<script src="/OA/Public/static/js/bootbox.min.js"></script>
-
-
-
+	<script src="/examples/OA/Public/static/js/date-time/moment.min.js"></script>
+	<script src="/examples/OA/Public/static/js/jquery-ui.custom.min.js"></script>
+	<script src="/examples/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="/examples/OA/Public/static/js/date-time/bootstrap-datetimepicker.min.js"></script>
+	<script src="/examples/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="/examples/OA/Public/static/js/fullcalendar.min.js"></script>
+	<script src="/examples/OA/Public/static/js/zh-cn.js"></script>
+	<script src="/examples/OA/Public/static/js/jquery.form.min.js"></script>
+	<script src="/examples/OA/Public/static/js/bootbox.min.js"></script>
 
 
 		<!-- ace scripts -->
-		<script src="/OA/Public/static/js/ace-elements.min.js"></script>
-		<script src="/OA/Public/static/js/ace.min.js"></script>
+		<script src="/examples/OA/Public/static/js/ace-elements.min.js"></script>
+		<script src="/examples/OA/Public/static/js/ace.min.js"></script>
 
 		<!-- inline scripts related to this page -->
 		
@@ -688,42 +709,49 @@
 				selectable: true,
 				selectHelper: true,
 				select: function(start, end, jsEvent, view) {
-					// var sTime, eTime;
-					// if(start.hasTime())
-					// 	sTime = start.format('YYYY-M-D H:mm');
-					// else
-					// 	sTime = start.format('YYYY-M-D');
-					// if(end.hasTime())
-					// 	eTime = end.format('YYYY-M-D H:mm');
-					// else
-					// 	eTime = end.format('YYYY-M-D');
-
-					// $("#begin_time").attr('value', sTime);
-					// $('#end_time').attr('value', eTime);
-					// //$('#is_allday').attr('value', allDay);
-					// $('.modal').modal('show');
-					bootbox.setLocale("zh_CN");
-					bootbox.prompt("新日程内容:", function(title) {
-						var eventData;
-						if(title!==null){
-							eventData = {
-								title: title,
-								begin_time: start.format('YYYY-M-D H:mm'),
-								end_time: end.format('YYYY-M-D H:mm'),
-								user_id: <?php echo session('uid');?>,
-								color: '#DC143C',
-								is_allday: false
-							};
-							$.post("<?php echo U('Schedule/add');?>", eventData,function(msg){
-								if(msg==1){
-									$('#calendar').fullCalendar('refetchEvents');
-								}
-								else{
-									bootbox.alert(msg);
-								}
-							});
-						}	
-					});
+					var sTime, eTime;
+					if(start.hasTime())
+						sTime = start.format('YYYY-M-D H:mm');
+					else
+						sTime = start.format('YYYY-M-D');
+					
+					if(end.hasTime())
+						eTime = end.format('YYYY-M-D H:mm');
+					else
+						eTime = end.format('YYYY-M-D');
+					if(view.name=='month')
+						$('#is_allday').attr('checked', true);
+					else
+						$('#is_allday').attr((start.diff(end, 'days')!=0)?true:false);
+					
+					$("#begin_time").val(sTime);
+					$('#end_time').val(eTime);
+					$('.modal').modal('show');
+					//bootbox.setLocale("zh_CN");
+					// bootbox.prompt("新日程内容:", function(title) {
+					// 	var eventData;
+					// 	var allDay;
+					// 	if(title!==null){
+					// 		if(view.name=='month')
+					// 			allDay = 1;
+					// 		eventData = {
+					// 			title: title,
+					// 			begin_time: start.format('YYYY-M-D H:mm'),
+					// 			end_time: end.format('YYYY-M-D H:mm'),
+					// 			user_id: <?php echo session('uid');?>,
+					// 			color: '#DC143C',
+					// 			is_allday: allDay
+					// 		};
+					// 		$.post("<?php echo U('Schedule/add');?>", eventData,function(msg){
+					// 			if(msg==1){
+					// 				$('#calendar').fullCalendar('refetchEvents');
+					// 			}
+					// 			else{
+					// 				bootbox.alert(msg);
+					// 			}
+					// 		});
+					// 	}	
+					// });
 				},
 					
 					/*
@@ -747,15 +775,50 @@
 				todayBtn:true,
 				language:'zh-CN',
 			});
+
+			$('.btn-danger').hide();
+
+			$('#eventform').ajaxForm({
+				beforeSubmit: showRequest,
+				success: showResponse,
+				clearForm: true,
+				resetForm: true,
+				dataType: 'json'
+			});
+
+			function showRequest(formData, jqForm, options){
+				var form = jqForm[0];
+				var title = form.title.value;
+				if(title==''){
+					bootbox.alert('请填写日程内容！');
+					$('#title').focus();
+					return false;
+				}
+				else
+					return true;		
+			}
+
+			function showResponse(responseText, statusText, xhr, $form){
+				if(statusText=="success"){     
+				        if(responseText==1){ 
+				            $('.modal').modal('hide');//关闭弹出层 
+				            $('#calendar').fullCalendar('refetchEvents'); //重新获取所有事件数据 
+				        }else{ 
+				            bootbox.alert(responseText); 
+				        } 
+				    }else{ 
+				        bootbox.alert(statusText); 
+				    } 
+			}
 		});
 	</script>
 
 		
-		<link rel="stylesheet" href="/OA/Public/static/css/ace.onpage-help.css" />
+		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.onpage-help.css" />
 		
 
 		<script type="text/javascript"> ace.vars['base'] = '..'; </script>
-		<script src="/OA/Public/static/js/ace/ace.onpage-help.js"></script>
+		<script src="/examples/OA/Public/static/js/ace/ace.onpage-help.js"></script>
 		
 	</body>
 </html>
