@@ -63,13 +63,14 @@
 											<label class="col-sm-3 control-label no-padding-right" for="description"></label>
 											<div class="checkbox col-sm-9">
 												<label>
-													<input name="is_allday" id="is_allday" type="checkbox" class="ace" value="1"/>
+													<input name="is_allday" id="is_allday" type="checkbox" class="ace" value="1" />
 												<span class="lbl"> 全天日程</span>
 												</label>
 											</div>
 										</div>
 
 										<input type="hidden" name="user_id" value="{:session('uid')}"/>
+										<!-- <input type="hidden" id="is_allday" name="is_allday" value="0"> -->
 
 								</div>
 							</div>
@@ -139,10 +140,17 @@
 						eTime = end.format('YYYY-M-D H:mm');
 					else
 						eTime = end.format('YYYY-M-D');
+
+					//使用$('#is_allday').attr('checked', true)
+					//的话会失效，不知道原因
 					if(view.name=='month')
-						$('#is_allday').attr('checked', true);
-					else
-						$('#is_allday').attr((start.diff(end, 'days')!=0)?true:false);
+						$('#is_allday').get(0).checked = true;
+					else{
+						if(start.diff(end, 'days')!=0)
+							$('#is_allday').get(0).checked = true;
+						else
+							$('#is_allday').get(0).checked = false;
+					}
 					
 					$("#begin_time").val(sTime);
 					$('#end_time').val(eTime);
@@ -173,18 +181,6 @@
 					// 	}	
 					// });
 				},
-					
-					/*
-					var eventData;
-					if (title) {
-						eventData = {
-							title: title,
-							start: start,
-							end: end
-						};
-						$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-					}
-					$('#calendar').fullCalendar('unselect');*/
 				
 				editable: true,
 			});
