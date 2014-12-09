@@ -14,7 +14,10 @@
 
 		<!-- page specific plugin styles -->
 		
-		
+	<link rel="stylesheet" href="/examples/OA/Public/static/css/fullcalendar.css" />
+	<link rel="stylesheet" href="/examples/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
+	
+
 
 		<!-- text fonts -->
 		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-fonts.css" />
@@ -381,7 +384,7 @@
 				</li> -->
 
 				<li class="">
-					<a href="<?php echo U('Schedule/leaderCalendar');?>">
+					<a href="<?php echo U('Schedule/leadercalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						领导日程
 					</a>
@@ -390,7 +393,7 @@
 				</li>
 
 				<li class="">
-					<a href="<?php echo U('Schedule/personalCalendar');?>">
+					<a href="<?php echo U('Schedule/personalcalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						个人日程
 					</a>
@@ -434,7 +437,7 @@
 	<ul class="breadcrumb">
 		<li>
 			<i class="ace-icon fa fa-home home-icon"></i>
-			<a href="<?php echo U('Index/main');?>">OA系统</a>
+			<a href="#">OA系统</a>
 		</li>
 
 		<li class="active">空白</li>
@@ -538,194 +541,41 @@
 					
 
 					
-	<div class="page-header">
-	<h1>
-		CBD每日一言
-		<small>
-			<i class="ace-icon fa fa-angle-double-right"></i>
-			<?php echo ($saying); ?> 
-		</small>
-	</h1>
-</div>
-
+					
 
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
 							
 	<div class="row">
-		<?php if(!empty($schedules)): ?><div class="col-sm-6">
-	<div class="widget-box transparent" id="recent-box">
-		<div class="widget-header">
-			<h4 class="widget-title lighter smaller">
-				<i class="ace-icon fa fa-calendar orange"></i>领导日程
-			</h4>
+		<div class="col-sm-10">
+			<div class="space"></div>
+
+			<!-- #section:plugins/data-time.calendar -->
+			<div id="calendar"></div>
 			
-			<div class="widget-toolbar no-border">
-				<ul class="nav nav-tabs" id="recent-tab">
-					<?php if(is_array($schedules)): foreach($schedules as $k=>$schedule): ?><li 
-					<?php if(($schedule["no"]) == "1"): ?>class="首页"<?php endif; ?>
-					>
-						<a data-toggle="tab" href="#<?php echo ($k); ?>"><?php echo ($schedule['fullname']); ?></a>
-					</li><?php endforeach; endif; ?>
-				</ul>
-			</div>
+			<!-- /section:plugins/data-time.calendar -->
 		</div>
-
-		<div class="widget-body">
-			<div class="widget-main padding-4">
-				<div class="tab-content padding-8">
-
-					<?php if(is_array($schedules)): foreach($schedules as $k=>$schedule): ?><div id="<?php echo ($k); ?>" class="tab-pane
-						<?php if(($schedule["no"]) == "1"): ?>active<?php endif; ?>
-					">
-						<h4 class="smaller lighter green">
-							<i class="ace-icon fa fa-list"></i>
-							<?php echo date('Y年n月j日');?>
-							<a href="<?php echo U('Schedule/leaderCalendar');?>" class="btn btn-info btn-xs pull-right">更多日程</a>
-						</h4>
-
-						<!-- #section:pages/dashboard.tasks -->
-						<ul id="tasks" class="item-list">
-							<!-- <?php if(!empty($schedule["data"])): ?>-->
-								<?php if(is_array($schedule["data"])): foreach($schedule["data"] as $key=>$rec): ?><li class="clearfix 
-										<?php if(($rec["state"]) == "p"): ?>item-default selected<?php endif; ?>
-										<?php if(($rec["state"]) == "n"): ?>item-orange<?php endif; ?>
-										<?php if(($rec["state"]) == "f"): ?>item-blue<?php endif; ?>
-									">
-									<label class="inline">
-										<span class="lbl"> 
-											<?php echo date('H:i',strtotime($rec['start']));?>
-											<?php if(!empty($rec["end"])): ?>- <?php echo date('H:i',strtotime($rec['end'])); endif; ?> 
-										 	&nbsp;
-											<?php echo ($rec["title"]); ?>
-										</span>
-									</label>
-									</li><?php endforeach; endif; ?>
-							<!--<?php endif; ?> -->
-							<!-- <?php if(empty($schedule["data"])): ?><li class="item-orange clearfix">
-								<label class="inline">
-									<span class="lbl"> 
-										今天没有日程
-									</span>
-								</label>
-								</li><?php endif; ?> -->
-						</ul>
-						<!-- /section:pages/dashboard.tasks -->
+		<div class="col-sm-2">
+			<div class="space"></div>
+			
+			<div class="widget-box transparent">
+	<div class="widget-header">
+		<h4>图例说明</h4>
+	</div>
+	<div class="widget-body">
+		<div class="widget-main no-padding">
+			<div id="external-events" >
+				<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><div class="external-event" style="background-color:<?php echo ($leader["calendar_color"]); ?>;" >
+						<i class="ace-icon fa fa-arrows"></i>
+						<?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?>
 					</div><?php endforeach; endif; ?>
-
-				</div>
-			</div><!-- /.widget-main -->
-		</div><!-- /.widget-body -->
-	</div><!-- /.widget-box -->
-</div><!-- /.col --><?php endif; ?>
-		<div class="col-sm-6">
-	<div class="widget-box transparent" id="recent-box">
-		<div class="widget-header">
-			<h4 class="widget-title lighter smaller">
-				<i class="ace-icon fa fa-calendar blue"></i>今日安排
-			</h4>
-
-			<div class="widget-toolbar no-border">
-				<ul class="nav nav-tabs" id="recent-tab">
-					<li class="active">
-						<a data-toggle="tab" href="#meetSchedule">接待</a>
-					</li>
-
-					<li>
-						<a data-toggle="tab" href="#hall">展厅</a>
-					</li>
-
-					<li>
-						<a data-toggle="tab" href="#meetingRoom">会议室</a>
-					</li>
-
-				</ul>
 			</div>
 		</div>
+	</div>
+</div>
+		</div>
 
-		<div class="widget-body">
-			<div class="widget-main padding-4">
-				<div class="tab-content padding-8">
-					<div id="meetSchedule" class="tab-pane active">
-						<h4 class="smaller lighter green">
-							<i class="ace-icon fa fa-list"></i>
-							12月22日
-							<button class="ace btn-success pull-right">预定</button>
-						</h4>
-
-						<!-- #section:pages/dashboard.tasks -->
-						<ul id="tasks" class="item-list">
-							<li class="item-orange clearfix selected">
-								<label class="inline">
-									<span class="lbl"> 9:00 - 11:00 &nbsp; 回答客户提问</span>
-								</label>
-							</li>
-
-							<li class="item-default clearfix">
-								<label class="inline">
-									<span class="lbl"> Adding new features</span>
-								</label>
-							</li>
-
-							<li class="item-blue clearfix">
-								<label class="inline">
-									<span class="lbl"> Upgrading scripts used in template</span>
-								</label>
-							</li>
-
-							<li class="item-grey clearfix">
-								<label class="inline">
-									<span class="lbl"> Adding new skins</span>
-								</label>
-							</li>
-
-							<li class="item-green clearfix">
-								<label class="inline">
-									<span class="lbl"> Updating server software up</span>
-								</label>
-							</li>
-
-							<li class="item-pink clearfix">
-								<label class="inline">
-									<span class="lbl"> Cleaning up</span>
-								</label>
-							</li>
-						</ul>
-
-						<!-- /section:pages/dashboard.tasks -->
-					</div>
-
-					<div id="hall" class="tab-pane">
-						<h4 class="smaller lighter green">
-							<i class="ace-icon fa fa-list"></i>
-							12月22日
-						</h4>
-
-						<!-- #section:pages/dashboard.tasks -->
-						<ul id="tasks" class="item-list">
-							<li class="item-orange clearfix selected">
-								<label class="inline">
-									<span class="lbl"> 9:00 - 11:00 &nbsp; 回答客户提问</span>
-								</label>
-							</li>
-
-							
-
-							<li class="item-pink clearfix">
-								<label class="inline">
-									<span class="lbl"> Cleaning up</span>
-								</label>
-							</li>
-						</ul>
-
-						<!-- /section:pages/dashboard.tasks -->
-					</div>
-				</div>
-			</div><!-- /.widget-main -->
-		</div><!-- /.widget-body -->
-	</div><!-- /.widget-box -->
-</div><!-- /.col -->
 	</div>
 
 
@@ -765,7 +615,12 @@
 
 		<!-- page specific plugin scripts -->
 		
-		
+	<script src="/examples/OA/Public/static/js/date-time/moment.min.js"></script>
+	<script src="/examples/OA/Public/static/js/jquery-ui.custom.min.js"></script>
+	<script src="/examples/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="/examples/OA/Public/static/js/fullcalendar.min.js"></script>
+	<script src="/examples/OA/Public/static/js/zh-cn.js"></script>
+
 
 		<!-- ace scripts -->
 		<script src="/examples/OA/Public/static/js/ace-elements.min.js"></script>
@@ -773,7 +628,27 @@
 
 		<!-- inline scripts related to this page -->
 		
-		
+	<script type="text/javascript">
+		jQuery(function($){
+			var calendar = $('#calendar').fullCalendar({
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				},
+                timeFormat: 'H:mm',
+                buttonText: {
+                    prev: '<',
+                    next: '>',
+                }, 
+				weekNumbers: true,
+				events: "<?php echo U('Schedule/getLeaderEvents');?>",
+				
+			});
+			
+		});
+	</script>
+
 		
 		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.onpage-help.css" />
 		

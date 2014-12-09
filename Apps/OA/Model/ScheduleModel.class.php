@@ -67,32 +67,6 @@ class ScheduleModel extends Model
 					->select(); 
 	}
 
-	// public function getSchedulesBetween($id, $begin, $end){
-	// 	$begin_time = date('Y-m-d', strtotime($begin)).' '.TIME_START;
-	// 	$end_time = date('Y-m-d', strtotime($end)).' '.TIME_END;
-	// 	$where['a.begin_time'] = array('between', array($begin_time, $end_time));
-	// 	$where['a.user_id'] = $id;
-	// 	return $this->table('oa_schedule a')
-	// 				->join('oa_user b on a.user_id = b.id', 'LEFT')
-	// 				->where($where)
-	// 				->field('a.id, a.title, a.begin_time as start, a.end_time as end, 
-	// 					a.is_allday as allDay, b.calendar_color as color')
-	// 				->order('a.begin_time asc')
-	// 				->select();
-	// }
-
-	// public function getSchedulesAfter($id, $timeStr){
-	// 	$scheduleTime = date('Y-m-d',strtotime($timeStr)).' '.TIME_START;
-	// 	$where['a.begin_time'] = array('gt', $scheduleTime);
-	// 	$where['a.user_id'] = $id;
-	// 	return $this->table('oa_schedule a')
-	// 				->join('oa_user b on a.user_id = b.id', 'LEFT')
-	// 				->where($where)
-	// 				->field('a.id, a.title, a.begin_time as start, a.end_time as end, 
-	// 					a.is_allday as allDay, b.calendar_color as color')
-	// 				->order('a.begin_time asc')
-	// 				->select();
-	// }
 	public function getSchedulesForPeople($ids, $type, $beginTimeStr=null, $endTimeStr=null){
 		if(!$ids)
 			return null;

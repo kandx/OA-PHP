@@ -10,7 +10,7 @@
 					<foreach name="schedules" item="schedule" key="k">
 					<li 
 					<eq name="schedule.no" value="1">
-						class="active"
+						class="首页"
 					</eq>
 					>
 						<a data-toggle="tab" href="#{$k}">{$schedule['fullname']}</a>
@@ -33,7 +33,7 @@
 						<h4 class="smaller lighter green">
 							<i class="ace-icon fa fa-list"></i>
 							{:date('Y年n月j日')}
-							<a href="{:U('Schedule/today')}" class="btn btn-info btn-xs pull-right">更多日程</a>
+							<a href="{:U('Schedule/leaderCalendar')}" class="btn btn-info btn-xs pull-right">更多日程</a>
 						</h4>
 
 						<!-- #section:pages/dashboard.tasks -->
@@ -53,9 +53,9 @@
 									">
 									<label class="inline">
 										<span class="lbl"> 
-											{:date('H:i',strtotime($rec['begin_time']))}
-											<notempty name="rec.end_time">
-											 - {:date('H:i',strtotime($rec['end_time']))}
+											{:date('H:i',strtotime($rec['start']))}
+											<notempty name="rec.end">
+											 - {:date('H:i',strtotime($rec['end']))}
 											</notempty> 
 										 	&nbsp;
 											{$rec.title}

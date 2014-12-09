@@ -9,9 +9,9 @@ class IndexController extends Controller {
         $isLastSchedulePass = true; //标志位，用于标示前一次日程状态
         $scheduleTime = strtotime($scheduleTimeStr);
         foreach ($schedules as &$k) {//有开始时间和结束时间
-            $beginTime = strtotime($k['begin_time']);
-            if($k['end_time']){
-                $endTime = strtotime($k['end_time']);
+            $beginTime = strtotime($k['start']);
+            if($k['end']){
+                $endTime = strtotime($k['end']);
                 if($scheduleTime>$endTime)
                     $k['state'] = 'p';
                 else if($scheduleTime<$endTime&&$scheduleTime>$beginTime)
@@ -76,13 +76,16 @@ class IndexController extends Controller {
         //日程
         $schedule = D('Schedule');
         $scheduleTimeStr = date('Y-m-d H:i');
-        $schedules = $schedule->getLeaderScheduleForMain($scheduleTimeStr);
+        $schedules = $schedule->getLeaderScheduleForMain($scheduleTimeStr, true);
         foreach ($schedules as &$sch) {
             $this->setSchduleState($sch['data'], $scheduleTimeStr);
         }
         $this->assign('schedules', $schedules);
 
         $this->display();
+        // foreach ($schedules as $s) {
+        //     p($s['data']);
+        // }
     }
 
     public function test(){

@@ -1,0 +1,17 @@
+<div class="widget-box transparent">
+	<div class="widget-header">
+		<h4>图例说明</h4>
+	</div>
+	<div class="widget-body">
+		<div class="widget-main no-padding">
+			<div id="external-events" >
+				<foreach name="leaders" item="leader">
+					<div class="external-event" style="background-color:{$leader.calendar_color};" >
+						<i class="ace-icon fa fa-arrows"></i>
+						{$leader.first_name}{$leader.last_name}
+					</div>
+				</foreach>
+			</div>
+		</div>
+	</div>
+</div>

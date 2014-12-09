@@ -14,7 +14,10 @@
 
 		<!-- page specific plugin styles -->
 		
-		
+	<link rel="stylesheet" href="/examples/OA/Public/static/css/fullcalendar.css" />
+	<link rel="stylesheet" href="/examples/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
+	
+
 
 		<!-- text fonts -->
 		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-fonts.css" />
@@ -538,194 +541,104 @@
 					
 
 					
-	<div class="page-header">
-	<h1>
-		CBD每日一言
-		<small>
-			<i class="ace-icon fa fa-angle-double-right"></i>
-			<?php echo ($saying); ?> 
-		</small>
-	</h1>
-</div>
-
+					
 
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
 							
 	<div class="row">
-		<?php if(!empty($schedules)): ?><div class="col-sm-6">
-	<div class="widget-box transparent" id="recent-box">
-		<div class="widget-header">
-			<h4 class="widget-title lighter smaller">
-				<i class="ace-icon fa fa-calendar orange"></i>领导日程
-			</h4>
+		<div class="col-sm-11">
+			<div class="space"></div>
+
+			<!-- #section:plugins/data-time.calendar -->
+			<div id="calendar"></div>
 			
-			<div class="widget-toolbar no-border">
-				<ul class="nav nav-tabs" id="recent-tab">
-					<?php if(is_array($schedules)): foreach($schedules as $k=>$schedule): ?><li 
-					<?php if(($schedule["no"]) == "1"): ?>class="首页"<?php endif; ?>
-					>
-						<a data-toggle="tab" href="#<?php echo ($k); ?>"><?php echo ($schedule['fullname']); ?></a>
-					</li><?php endforeach; endif; ?>
-				</ul>
-			</div>
+			<!-- /section:plugins/data-time.calendar -->
 		</div>
+		
+		<div id="event-form" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
 
-		<div class="widget-body">
-			<div class="widget-main padding-4">
-				<div class="tab-content padding-8">
-
-					<?php if(is_array($schedules)): foreach($schedules as $k=>$schedule): ?><div id="<?php echo ($k); ?>" class="tab-pane
-						<?php if(($schedule["no"]) == "1"): ?>active<?php endif; ?>
-					">
-						<h4 class="smaller lighter green">
-							<i class="ace-icon fa fa-list"></i>
-							<?php echo date('Y年n月j日');?>
-							<a href="<?php echo U('Schedule/leaderCalendar');?>" class="btn btn-info btn-xs pull-right">更多日程</a>
-						</h4>
-
-						<!-- #section:pages/dashboard.tasks -->
-						<ul id="tasks" class="item-list">
-							<!-- <?php if(!empty($schedule["data"])): ?>-->
-								<?php if(is_array($schedule["data"])): foreach($schedule["data"] as $key=>$rec): ?><li class="clearfix 
-										<?php if(($rec["state"]) == "p"): ?>item-default selected<?php endif; ?>
-										<?php if(($rec["state"]) == "n"): ?>item-orange<?php endif; ?>
-										<?php if(($rec["state"]) == "f"): ?>item-blue<?php endif; ?>
-									">
-									<label class="inline">
-										<span class="lbl"> 
-											<?php echo date('H:i',strtotime($rec['start']));?>
-											<?php if(!empty($rec["end"])): ?>- <?php echo date('H:i',strtotime($rec['end'])); endif; ?> 
-										 	&nbsp;
-											<?php echo ($rec["title"]); ?>
-										</span>
-									</label>
-									</li><?php endforeach; endif; ?>
-							<!--<?php endif; ?> -->
-							<!-- <?php if(empty($schedule["data"])): ?><li class="item-orange clearfix">
-								<label class="inline">
-									<span class="lbl"> 
-										今天没有日程
-									</span>
-								</label>
-								</li><?php endif; ?> -->
-						</ul>
-						<!-- /section:pages/dashboard.tasks -->
-					</div><?php endforeach; endif; ?>
-
-				</div>
-			</div><!-- /.widget-main -->
-		</div><!-- /.widget-body -->
-	</div><!-- /.widget-box -->
-</div><!-- /.col --><?php endif; ?>
-		<div class="col-sm-6">
-	<div class="widget-box transparent" id="recent-box">
-		<div class="widget-header">
-			<h4 class="widget-title lighter smaller">
-				<i class="ace-icon fa fa-calendar blue"></i>今日安排
-			</h4>
-
-			<div class="widget-toolbar no-border">
-				<ul class="nav nav-tabs" id="recent-tab">
-					<li class="active">
-						<a data-toggle="tab" href="#meetSchedule">接待</a>
-					</li>
-
-					<li>
-						<a data-toggle="tab" href="#hall">展厅</a>
-					</li>
-
-					<li>
-						<a data-toggle="tab" href="#meetingRoom">会议室</a>
-					</li>
-
-				</ul>
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger">请填写日程信息</h4>
 			</div>
-		</div>
 
-		<div class="widget-body">
-			<div class="widget-main padding-4">
-				<div class="tab-content padding-8">
-					<div id="meetSchedule" class="tab-pane active">
-						<h4 class="smaller lighter green">
-							<i class="ace-icon fa fa-list"></i>
-							12月22日
-							<button class="ace btn-success pull-right">预定</button>
-						</h4>
+			<div class="modal-body">
+				<div class="row">				
+					<div class="col-xs-12 col-sm-12">
+						<form class="form-horizontal" role="form"  method="post" action="" id="eventform">
 
-						<!-- #section:pages/dashboard.tasks -->
-						<ul id="tasks" class="item-list">
-							<li class="item-orange clearfix selected">
-								<label class="inline">
-									<span class="lbl"> 9:00 - 11:00 &nbsp; 回答客户提问</span>
-								</label>
-							</li>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="article_no"> 日程内容: </label>
+								<div class="col-sm-9">
+									<input type="text" name="title" id="title" placeholder="日程内容" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
 
-							<li class="item-default clearfix">
-								<label class="inline">
-									<span class="lbl"> Adding new features</span>
-								</label>
-							</li>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="description"> 说明: </label>
+								<div class="col-sm-6">
+									<textarea class="form-control" name="description" id="description"></textarea>
+								</div>
+							</div>
 
-							<li class="item-blue clearfix">
-								<label class="inline">
-									<span class="lbl"> Upgrading scripts used in template</span>
-								</label>
-							</li>
-
-							<li class="item-grey clearfix">
-								<label class="inline">
-									<span class="lbl"> Adding new skins</span>
-								</label>
-							</li>
-
-							<li class="item-green clearfix">
-								<label class="inline">
-									<span class="lbl"> Updating server software up</span>
-								</label>
-							</li>
-
-							<li class="item-pink clearfix">
-								<label class="inline">
-									<span class="lbl"> Cleaning up</span>
-								</label>
-							</li>
-						</ul>
-
-						<!-- /section:pages/dashboard.tasks -->
-					</div>
-
-					<div id="hall" class="tab-pane">
-						<h4 class="smaller lighter green">
-							<i class="ace-icon fa fa-list"></i>
-							12月22日
-						</h4>
-
-						<!-- #section:pages/dashboard.tasks -->
-						<ul id="tasks" class="item-list">
-							<li class="item-orange clearfix selected">
-								<label class="inline">
-									<span class="lbl"> 9:00 - 11:00 &nbsp; 回答客户提问</span>
-								</label>
-							</li>
-
+							<div class="form-group">				
+								<label class="col-sm-3 control-label no-padding-right" for="begin_time"> 开始时间: </label>
+								<div class="col-sm-9">
+									<input type="text" id="begin_time" name="begin_time" class="datetime-picker col-xs-10 col-sm-8" data-date-format="yyyy-mm-dd hh:ii">
+								</div>
+							</div>
 							
+							<div class="form-group end_time">
+								<label class="col-sm-3 control-label no-padding-right" for="end_time"> 结束时间: </label>
+								<div class="col-sm-9">
+									<input type="text" id="end_time" name="end_time" class="datetime-picker col-xs-10 col-sm-8">
+								</div>
+							</div>
 
-							<li class="item-pink clearfix">
-								<label class="inline">
-									<span class="lbl"> Cleaning up</span>
-								</label>
-							</li>
-						</ul>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="description"></label>
+								<div class="checkbox col-sm-9">
+									<label>
+										<input name="is_allday" id="is_allday" type="checkbox" class="ace" value="1" />
+									<span class="lbl"> 全天日程</span>
+									</label>
+								</div>
+							</div>
 
-						<!-- /section:pages/dashboard.tasks -->
+							<input type="hidden" name="user_id" value="<?php echo session('uid');?>"/>
+							<input type="hidden" name="id" id="id">
+							<!-- <input type="hidden" id="is_allday" name="is_allday" value="0"> -->
+
 					</div>
 				</div>
-			</div><!-- /.widget-main -->
-		</div><!-- /.widget-body -->
-	</div><!-- /.widget-box -->
-</div><!-- /.col -->
+			</div>
+
+			<div class="modal-footer">
+				<a class="btn btn-sm btn-danger">
+					<i class="ace-icon fa fa-trash-o"></i>
+					删除
+				</a>
+
+				<button class="btn btn-sm btn-primary" type="submit">
+					<i class="ace-icon fa fa-check"></i>
+					保存
+				</button>
+
+				<button class="btn btn-sm" data-dismiss="modal" >
+					<i class="ace-icon fa fa-times"></i>
+					取消
+				</button>
+
+				
+			</div>
+		</div>
+	</div>
+</div>	
+
 	</div>
 
 
@@ -765,7 +678,16 @@
 
 		<!-- page specific plugin scripts -->
 		
-		
+	<script src="/examples/OA/Public/static/js/date-time/moment.min.js"></script>
+	<script src="/examples/OA/Public/static/js/jquery-ui.custom.min.js"></script>
+	<script src="/examples/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="/examples/OA/Public/static/js/date-time/bootstrap-datetimepicker.min.js"></script>
+	<script src="/examples/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="/examples/OA/Public/static/js/fullcalendar.min.js"></script>
+	<script src="/examples/OA/Public/static/js/zh-cn.js"></script>
+	<script src="/examples/OA/Public/static/js/jquery.form.min.js"></script>
+	<script src="/examples/OA/Public/static/js/bootbox.min.js"></script>
+
 
 		<!-- ace scripts -->
 		<script src="/examples/OA/Public/static/js/ace-elements.min.js"></script>
@@ -773,7 +695,146 @@
 
 		<!-- inline scripts related to this page -->
 		
-		
+	<script type="text/javascript">
+		jQuery(function($){
+			var calendar = $('#calendar').fullCalendar({
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				},
+                timeFormat: 'H:mm',
+                buttonText: {
+                    prev: '<',
+                    next: '>',
+                }, 
+				weekNumbers: true,
+				events: "<?php echo U('Schedule/getEvents', array('id'=>session('uid')));?>",
+				selectable: true,
+				selectHelper: true,
+				select: function(start, end, jsEvent, view) {
+					if(view.name=='month')
+						$('#is_allday').get(0).checked = true;
+					else{
+						if(start.diff(end, 'days')!=0)
+							$('#is_allday').get(0).checked = true;
+						else
+							$('#is_allday').get(0).checked = false;
+					}
+					$('#id').val('');
+					$('#title').val('');
+					$('#description').val('');
+					$("#begin_time").val(formatTime(start));
+					$('#end_time').val(formatTime(end));
+					$('.btn-danger').hide();
+					$('#eventform').get(0).action = "<?php echo U('Schedule/add');?>";
+					$('.modal').modal('show');	
+				},
+				eventClick: function(calEvent, jsEvent, view){
+					$.get("<?php echo U('Schedule/getDescription');?>", {id:calEvent.id}, function(data, textStatus){
+						$('#description').val(data);
+					}, 'json');
+					$('#id').val(calEvent.id);
+					$('#title').val(calEvent.title);
+					$("#begin_time").val(formatTime(calEvent.start));
+					$('#end_time').val(formatTime(calEvent.end));
+					$('#is_allday').get(0).checked = calEvent.allDay;
+					$('.btn-danger').show();
+					$('#eventform').attr('action', "<?php echo U('Schedule/edit');?>");
+					$('.modal').modal('show');
+				},
+				editable: true,
+				eventDrop: function(event, delta, revertFunc, jsEvent, ui, view){
+					dropAndResize(event, revertFunc);
+				},
+				eventResize: function(event, delta, revertFunc, jsEvent, ui, view){
+					dropAndResize(event, revertFunc);
+				},
+			});
+			
+			$('.datetime-picker').datetimepicker({
+				format:'yyyy-mm-dd hh:ii',
+				autoclose:true,
+				todayBtn:true,
+				language:'zh-CN',
+			});
+
+			$('.btn-danger').hide();
+			//删除日程的处理
+			$('.btn-danger').on('click', function(e){
+				bootbox.confirm('你确定要删除吗？', function(){
+					var eventID = $('#id').val();
+					$.get("<?php echo U('Schedule/del');?>", {id:eventID}, function(msg){
+						if(1==msg){
+							$('#calendar').fullCalendar('removeEvents', eventID);
+							$('.modal').modal('hide');
+						}
+						else{
+							bootbox.alert(msg);
+						}
+					});
+				});
+			});
+
+			$('#eventform').ajaxForm({
+				beforeSubmit: showRequest,
+				success: showResponse,
+				clearForm: true,
+				//resetForm: true,
+				dataType: 'json'
+			});
+			function showRequest(formData, jqForm, options){
+				var form = jqForm[0];
+				var title = form.title.value;
+				if(title==''){
+					bootbox.alert('请填写日程内容！');
+					$('#title').focus();
+					return false;
+				}
+				else
+					return true;		
+			}
+
+			function showResponse(responseText, statusText, xhr, $form){
+				if(statusText=="success"){     
+				        if(responseText==1){ 
+				            $('.modal').modal('hide');//关闭弹出层 
+				            $('#calendar').fullCalendar('refetchEvents'); //重新获取所有事件数据 
+				        }
+				        else{ 
+				            bootbox.alert(responseText); 
+				        } 
+				}
+				else{ 
+				    bootbox.alert(statusText); 
+				} 
+			}
+			function formatTime(time){
+				if(!time)
+					return '';
+				if(time.hasTime())
+					return time.format('YYYY-M-D H:mm');
+				else
+					return time.format('YYYY-M-D');
+			}
+
+			function dropAndResize(event, revertFunc){
+				var eventData = {
+					id: event.id,
+					start: formatTime(event.start),
+					end: formatTime(event.end),
+					allDay: event.allDay
+				};
+				$.post("<?php echo U('Schedule/drop');?>", eventData, function(msg){
+					if(msg!=1){
+						bootbox.alert(msg);
+						revertFunc();
+					}
+				});
+			}
+		});
+	</script>
+
 		
 		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.onpage-help.css" />
 		
