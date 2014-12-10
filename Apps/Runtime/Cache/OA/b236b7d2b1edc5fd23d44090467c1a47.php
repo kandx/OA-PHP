@@ -318,12 +318,12 @@
 
 			<!-- #section:basics/sidebar -->
 			
-				<div id="sidebar" class="sidebar                  responsive">
+				<div id="sidebar" class="sidebar responsive">
 	<script type="text/javascript">
 		try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 	</script>
 	<ul class="nav nav-list">
-		<li class="">
+		<li class="active open" id="calendar_root">
 			<a href="#" class="dropdown-toggle">
 				<i class="menu-icon fa fa-calendar"></i>
 				<span class="menu-text"> 日程管理 </span>
@@ -334,56 +334,8 @@
 			<b class="arrow"></b>
 
 			<ul class="submenu">
-				<!-- <li class="">
-					<a href="#" class="dropdown-toggle">
-						<i class="menu-icon fa fa-caret-right"></i>
-				
-						Layouts
-						<b class="arrow fa fa-angle-down"></b>
-					</a>
-				
-					<b class="arrow"></b>
-				
-					<ul class="submenu">
-						<li class="">
-							<a href="top-menu.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Top Menu
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-				
-						<li class="">
-							<a href="mobile-menu-1.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Default Mobile Menu
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-				
-						<li class="">
-							<a href="mobile-menu-2.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Mobile Menu 2
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-				
-						<li class="">
-							<a href="mobile-menu-3.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Mobile Menu 3
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-					</ul>
-				</li> -->
 
-				<li class="">
+				<li class="" id="leader_calendar">
 					<a href="<?php echo U('Schedule/leaderCalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						领导日程
@@ -392,7 +344,7 @@
 					<b class="arrow"></b>
 				</li>
 
-				<li class="">
+				<li class="" id="personal_calendar">
 					<a href="<?php echo U('Schedule/personalCalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						个人日程
@@ -401,14 +353,6 @@
 					<b class="arrow"></b>
 				</li>
 
-				<li class="">
-					<a href="<?php echo U('Schedule/search');?>">
-						<i class="menu-icon fa fa-caret-right"></i>
-						日程查询
-					</a>
-
-					<b class="arrow"></b>
-				</li>
 			</ul>
 		</li>
 	</ul><!-- /.nav-list -->
@@ -692,6 +636,7 @@
 		<!-- ace scripts -->
 		<script src="/examples/OA/Public/static/js/ace-elements.min.js"></script>
 		<script src="/examples/OA/Public/static/js/ace.min.js"></script>
+		<script src="/examples/OA/Public/static/js/myJs/sidebar.js"></script>
 
 		<!-- inline scripts related to this page -->
 		
@@ -709,6 +654,9 @@
                     next: '>',
                 }, 
 				weekNumbers: true,
+				minTime: "06:00:00",
+				maxTime: "21:00:00",
+				slotDuration: "00:15:00",
 				events: "<?php echo U('Schedule/getEvents', array('id'=>session('uid')));?>",
 				selectable: true,
 				selectHelper: true,
@@ -783,6 +731,9 @@
 				//resetForm: true,
 				dataType: 'json'
 			});
+
+			setSidebarActive('calendar_root', 'personal_calendar');
+
 			function showRequest(formData, jqForm, options){
 				var form = jqForm[0];
 				var title = form.title.value;
@@ -832,6 +783,18 @@
 					}
 				});
 			}
+
+			// function setSidebarActive(root, child){
+			// 	$('li.open').removeClass('active open');
+			// 	$('li.active').removeClass('active');
+			// 	var childId = 'li'+"#"+child;
+			// 	var rootId = "li#"+root;
+			// 	$(childId).addClass('active');
+			// 	$(rootId).addClass('active open');
+			// }
+			
+			// $('li#personal_calendar').addClass('active');
+			// $('li#calendar_root').addClass('active open');
 		});
 	</script>
 

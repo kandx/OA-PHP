@@ -14,12 +14,15 @@ class ScheduleController extends Controller {
         $this->display();
     }
 
+    //用于日程的初始化
+    //有$id，表示获取该用户ID的所有日程
+    //没有$id，表示获取所有领导的日程
     public function getEvents(){
         if(IS_AJAX){
-            $id = I('id');
+            $user_id = I('id');
             $sch = D('Schedule');
-            if(!empty($id)){
-                $schedules = $sch->getSchedules($id);
+            if(!empty($user_id)){
+                $schedules = $sch->getSchedules($user_id);
             }
             else{
                 
@@ -117,16 +120,24 @@ class ScheduleController extends Controller {
         }
     }
 
+    public function getEventInfo(){
+        if (IS_AJAX) {
+            $event_id = I('event_id');
+            $sch = D('Schedule');
+            $event = $sch->getScheduleInfo($event_id);
+            if($event)
+                $this->ajaxReturn($event);
+        }
+    }
+
 
     public function test(){
-        $sch = D('Schedule');
-        $user = M('User');
-        $ids = $user->field('id')->select();
-        foreach ($ids as $id) {
-            $people[] = $id;
-        }
-        $schedules = $sch->getSchedulesForPeople($people, 'all');
-        p($people);
-        p($schedules);
+        $time = '2014-8-7';
+        p(date('H:i', strtotime($time)));
+        // if($time)
+        //     p('zero time is not false');
+        // else
+        //     p('zero time is false');
+
     }
 }

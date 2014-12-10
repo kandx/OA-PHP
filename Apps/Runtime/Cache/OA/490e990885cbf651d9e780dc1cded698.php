@@ -315,12 +315,12 @@
 
 			<!-- #section:basics/sidebar -->
 			
-				<div id="sidebar" class="sidebar                  responsive">
+				<div id="sidebar" class="sidebar responsive">
 	<script type="text/javascript">
 		try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 	</script>
 	<ul class="nav nav-list">
-		<li class="">
+		<li class="active open" id="calendar_root">
 			<a href="#" class="dropdown-toggle">
 				<i class="menu-icon fa fa-calendar"></i>
 				<span class="menu-text"> 日程管理 </span>
@@ -331,56 +331,8 @@
 			<b class="arrow"></b>
 
 			<ul class="submenu">
-				<!-- <li class="">
-					<a href="#" class="dropdown-toggle">
-						<i class="menu-icon fa fa-caret-right"></i>
-				
-						Layouts
-						<b class="arrow fa fa-angle-down"></b>
-					</a>
-				
-					<b class="arrow"></b>
-				
-					<ul class="submenu">
-						<li class="">
-							<a href="top-menu.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Top Menu
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-				
-						<li class="">
-							<a href="mobile-menu-1.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Default Mobile Menu
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-				
-						<li class="">
-							<a href="mobile-menu-2.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Mobile Menu 2
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-				
-						<li class="">
-							<a href="mobile-menu-3.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Mobile Menu 3
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-					</ul>
-				</li> -->
 
-				<li class="">
+				<li class="" id="leader_calendar">
 					<a href="<?php echo U('Schedule/leaderCalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						领导日程
@@ -389,7 +341,7 @@
 					<b class="arrow"></b>
 				</li>
 
-				<li class="">
+				<li class="" id="personal_calendar">
 					<a href="<?php echo U('Schedule/personalCalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						个人日程
@@ -398,14 +350,6 @@
 					<b class="arrow"></b>
 				</li>
 
-				<li class="">
-					<a href="<?php echo U('Schedule/search');?>">
-						<i class="menu-icon fa fa-caret-right"></i>
-						日程查询
-					</a>
-
-					<b class="arrow"></b>
-				</li>
 			</ul>
 		</li>
 	</ul><!-- /.nav-list -->
@@ -594,10 +538,13 @@
 										<?php if(($rec["state"]) == "f"): ?>item-blue<?php endif; ?>
 									">
 									<label class="inline">
-										<span class="lbl"> 
-											<?php echo date('H:i',strtotime($rec['start']));?>
-											<?php if(!empty($rec["end"])): ?>- <?php echo date('H:i',strtotime($rec['end'])); endif; ?> 
-										 	&nbsp;
+										<span class="lbl">
+											<span class="text-warning">
+											<?php if(($rec["allDay"]) == "1"): ?>全天<?php endif; ?>
+											<?php if(($rec["allDay"]) != "1"): echo date('H:i',strtotime($rec['start']));?>
+												<?php if(!empty($rec["end"])): ?>- <?php echo date('H:i',strtotime($rec['end'])); endif; ?> 
+											 	&nbsp;<?php endif; ?>
+											</span>
 											<?php echo ($rec["title"]); ?>
 										</span>
 									</label>
@@ -770,10 +717,16 @@
 		<!-- ace scripts -->
 		<script src="/examples/OA/Public/static/js/ace-elements.min.js"></script>
 		<script src="/examples/OA/Public/static/js/ace.min.js"></script>
+		<script src="/examples/OA/Public/static/js/myJs/sidebar.js"></script>
 
 		<!-- inline scripts related to this page -->
 		
-		
+	<script type="text/javascript">
+		jQuery(function($){
+			clearSidebarActive();
+		});
+	</script>
+
 		
 		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.onpage-help.css" />
 		

@@ -52,12 +52,19 @@
 										</eq>
 									">
 									<label class="inline">
-										<span class="lbl"> 
-											{:date('H:i',strtotime($rec['start']))}
-											<notempty name="rec.end">
-											 - {:date('H:i',strtotime($rec['end']))}
-											</notempty> 
-										 	&nbsp;
+										<span class="lbl">
+											<span class="text-warning">
+											<eq name="rec.allDay" value="1">
+												全天
+											</eq>
+											<neq name="rec.allDay" value="1"> 
+												{:date('H:i',strtotime($rec['start']))}
+												<notempty name="rec.end">
+												 - {:date('H:i',strtotime($rec['end']))}
+												</notempty> 
+											 	&nbsp;
+											</neq>
+											</span>
 											{$rec.title}
 										</span>
 									</label>

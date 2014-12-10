@@ -7,21 +7,10 @@ use Think\Model;
 */
 class ScheduleModel extends Model
 {	
-
-	// public function getScheduleFor($id, $timeStr){
-	// 	$scheduleTime = strtotime($timeStr);
-	// 	$start_time = date('Y-m-d',$scheduleTime).' '.TIME_START;
-	// 	$end_time = date('Y-m-d',$scheduleTime).' '.TIME_END;
-	// 	$where['user_id'] = $id;
-	// 	$where['begin_time'] = array('between', array($start_time, $end_time));
-	// 	return $this->where($where)
-	// 				->field('id, title, begin_time, end_time, is_allday, user_id, recorder, color')
-	// 				->order('begin_time asc')
-	// 				->select();
-	// }
-
-	public function getSchedules($id, $type='all', $beginTimeStr=null, $endTimeStr=null){
-		$where['a.user_id'] = $id;
+	//获取指定用户ID的日程
+	//@type
+	public function getSchedules($userId, $type='all', $beginTimeStr=null, $endTimeStr=null){
+		$where['a.user_id'] = $userId;
 		if('oneday'==$type){//获取指定日期当天的日程
 			if(!$beginTimeStr)
 				return null;
@@ -67,11 +56,11 @@ class ScheduleModel extends Model
 					->select(); 
 	}
 
-	public function getSchedulesForPeople($ids, $type, $beginTimeStr=null, $endTimeStr=null){
-		if(!$ids)
+	public function getSchedulesForPeople($userIds, $type, $beginTimeStr=null, $endTimeStr=null){
+		if(!$userIds)
 			return null;
 		$data = array();
-		foreach ($ids as $id) {
+		foreach ($userIds as $id) {
 			$schedule = $this->getSchedules($id, $type, $beginTimeStr, $endTimeStr);
 			if($schedule)
 				$data = array_merge($data, $schedule);
@@ -94,6 +83,26 @@ class ScheduleModel extends Model
 			
 		}
 		return $data;
+	}
+
+	public function getScheduleInfo($scheduleId){
+		if($scheduleId){
+			$where['a.id'] = $scheduleId;
+			$schedule = $this->table('oa_schedule a')
+							 ->join('oa_user b on a.user_id=b.id', 'LEFT')
+							 ->where($where)
+							 ->field('a.description, b.image_url')
+							 ->find();
+			if($schedule){
+				$data['description'] = $schedule['description'];
+				$data['image'] = $schedule['image_url'];
+				return $data;
+			}
+			else
+				return null;
+		}
+		else
+			return null;
 	}
 	
 }

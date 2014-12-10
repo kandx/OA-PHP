@@ -49,6 +49,9 @@
                     next: '>',
                 }, 
 				weekNumbers: true,
+				minTime: "06:00:00",
+				maxTime: "21:00:00",
+				slotDuration: "00:15:00",
 				events: "{:U('Schedule/getEvents', array('id'=>session('uid')))}",
 				selectable: true,
 				selectHelper: true,
@@ -123,6 +126,9 @@
 				//resetForm: true,
 				dataType: 'json'
 			});
+
+			setSidebarActive('calendar_root', 'personal_calendar');
+
 			function showRequest(formData, jqForm, options){
 				var form = jqForm[0];
 				var title = form.title.value;
@@ -172,6 +178,18 @@
 					}
 				});
 			}
+
+			// function setSidebarActive(root, child){
+			// 	$('li.open').removeClass('active open');
+			// 	$('li.active').removeClass('active');
+			// 	var childId = 'li'+"#"+child;
+			// 	var rootId = "li#"+root;
+			// 	$(childId).addClass('active');
+			// 	$(rootId).addClass('active open');
+			// }
+			
+			// $('li#personal_calendar').addClass('active');
+			// $('li#calendar_root').addClass('active open');
 		});
 	</script>
 </block>

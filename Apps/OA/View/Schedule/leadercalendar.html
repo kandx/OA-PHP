@@ -3,6 +3,7 @@
 <block name="page_styles">
 	<link rel="stylesheet" href="__CSS__/fullcalendar.css" />
 	<link rel="stylesheet" href="__CSS__/bootstrap-datetimepicker.min.css" />
+	<link rel="stylesheet" href="__CSS__/jquery.gritter.css" />
 	
 </block>
 
@@ -31,6 +32,7 @@
 	<script src="__JS__/jquery.ui.touch-punch.min.js"></script>
 	<script src="__JS__/fullcalendar.min.js"></script>
 	<script src="__JS__/zh-cn.js"></script>
+	<script src="__JS__/jquery.gritter.min.js"></script>
 </block>
 
 <block name="inline_js">
@@ -47,11 +49,39 @@
                     prev: '<',
                     next: '>',
                 }, 
+				minTime: "06:00:00",
+				maxTime: "21:00:00",
+				slotDuration: "00:15:00",
 				weekNumbers: true,
 				events: "{:U('Schedule/getEvents')}",
+				eventClick: function(calEvent, jsEvent, view){
+					$.get("{:U('Schedule/getEventInfo')}", {event_id:calEvent.id}, function(data, textStatus){
+						var content = "<p>"+"开始时间："+formatTime(calEvent.start)+"<br>"+"结束时间："+formatTime(calEvent.end)+"<br>"+"说&nbsp;&nbsp;"+"明："+data['description']+"</p>";
+						$.gritter.add({
+							title: calEvent.title,
+							text: content,
+							image: "__STATIC__/avatars/avatar1.png",//data['image'],
+							sticky: false,
+							time: '',
+							class_name: ''
+						});
+					}, 'json');
+				}
 				
 			});
 			
 		});
+		
+		setSidebarActive('calendar_root', 'leader_calendar');
+
+		function formatTime(time){
+			if(!time)
+				return '';
+			if(time.hasTime())
+				return time.format('YYYY-M-D H:mm');
+			else
+				return time.format('YYYY-M-D');
+		}
+		
 	</script>
 </block>

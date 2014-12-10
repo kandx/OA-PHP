@@ -16,6 +16,7 @@
 		
 	<link rel="stylesheet" href="/examples/OA/Public/static/css/fullcalendar.css" />
 	<link rel="stylesheet" href="/examples/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
+	<link rel="stylesheet" href="/examples/OA/Public/static/css/jquery.gritter.css" />
 	
 
 
@@ -318,12 +319,12 @@
 
 			<!-- #section:basics/sidebar -->
 			
-				<div id="sidebar" class="sidebar                  responsive">
+				<div id="sidebar" class="sidebar responsive">
 	<script type="text/javascript">
 		try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 	</script>
 	<ul class="nav nav-list">
-		<li class="">
+		<li class="active open" id="calendar_root">
 			<a href="#" class="dropdown-toggle">
 				<i class="menu-icon fa fa-calendar"></i>
 				<span class="menu-text"> 日程管理 </span>
@@ -334,56 +335,8 @@
 			<b class="arrow"></b>
 
 			<ul class="submenu">
-				<!-- <li class="">
-					<a href="#" class="dropdown-toggle">
-						<i class="menu-icon fa fa-caret-right"></i>
-				
-						Layouts
-						<b class="arrow fa fa-angle-down"></b>
-					</a>
-				
-					<b class="arrow"></b>
-				
-					<ul class="submenu">
-						<li class="">
-							<a href="top-menu.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Top Menu
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-				
-						<li class="">
-							<a href="mobile-menu-1.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Default Mobile Menu
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-				
-						<li class="">
-							<a href="mobile-menu-2.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Mobile Menu 2
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-				
-						<li class="">
-							<a href="mobile-menu-3.html">
-								<i class="menu-icon fa fa-caret-right"></i>
-								Mobile Menu 3
-							</a>
-				
-							<b class="arrow"></b>
-						</li>
-					</ul>
-				</li> -->
 
-				<li class="">
+				<li class="" id="leader_calendar">
 					<a href="<?php echo U('Schedule/leaderCalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						领导日程
@@ -392,7 +345,7 @@
 					<b class="arrow"></b>
 				</li>
 
-				<li class="">
+				<li class="" id="personal_calendar">
 					<a href="<?php echo U('Schedule/personalCalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						个人日程
@@ -401,14 +354,6 @@
 					<b class="arrow"></b>
 				</li>
 
-				<li class="">
-					<a href="<?php echo U('Schedule/search');?>">
-						<i class="menu-icon fa fa-caret-right"></i>
-						日程查询
-					</a>
-
-					<b class="arrow"></b>
-				</li>
 			</ul>
 		</li>
 	</ul><!-- /.nav-list -->
@@ -620,11 +565,13 @@
 	<script src="/examples/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
 	<script src="/examples/OA/Public/static/js/fullcalendar.min.js"></script>
 	<script src="/examples/OA/Public/static/js/zh-cn.js"></script>
+	<script src="/examples/OA/Public/static/js/jquery.gritter.min.js"></script>
 
 
 		<!-- ace scripts -->
 		<script src="/examples/OA/Public/static/js/ace-elements.min.js"></script>
 		<script src="/examples/OA/Public/static/js/ace.min.js"></script>
+		<script src="/examples/OA/Public/static/js/myJs/sidebar.js"></script>
 
 		<!-- inline scripts related to this page -->
 		
@@ -641,12 +588,40 @@
                     prev: '<',
                     next: '>',
                 }, 
+				minTime: "06:00:00",
+				maxTime: "21:00:00",
+				slotDuration: "00:15:00",
 				weekNumbers: true,
 				events: "<?php echo U('Schedule/getEvents');?>",
+				eventClick: function(calEvent, jsEvent, view){
+					$.get("<?php echo U('Schedule/getEventInfo');?>", {event_id:calEvent.id}, function(data, textStatus){
+						var content = "<p>"+"开始时间："+formatTime(calEvent.start)+"<br>"+"结束时间："+formatTime(calEvent.end)+"<br>"+"说&nbsp;&nbsp;"+"明："+data['description']+"</p>";
+						$.gritter.add({
+							title: calEvent.title,
+							text: content,
+							image: "/examples/OA/Public/static/avatars/avatar1.png",//data['image'],
+							sticky: false,
+							time: '',
+							class_name: ''
+						});
+					}, 'json');
+				}
 				
 			});
 			
 		});
+		
+		setSidebarActive('calendar_root', 'leader_calendar');
+
+		function formatTime(time){
+			if(!time)
+				return '';
+			if(time.hasTime())
+				return time.format('YYYY-M-D H:mm');
+			else
+				return time.format('YYYY-M-D');
+		}
+		
 	</script>
 
 		
