@@ -270,7 +270,7 @@
 								<img class="nav-user-photo" src="/examples/OA/Public/static/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎您,</small>
-									<?php echo session('fullname');?>
+									<?php echo getCurrentUserFullName();?>
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>
@@ -500,6 +500,27 @@
 			
 			<!-- /section:plugins/data-time.calendar -->
 		</div>
+		<div class="col-sm-1">
+			<div class="space"></div>
+			<div class="space"></div>
+			<div class="space"></div>
+			<div class="space"></div>
+
+			<div class="row">
+				<p>
+					
+					<button class="btn btn-app btn-purple btn-xs">
+						<i class="ace-icon fa fa-cloud-download bigger-160"></i>
+						导出
+					</button>
+					<button class="btn btn-app btn-info btn-xs">
+						<i class="ace-icon fa fa-envelope bigger-160"></i>
+						发至邮箱
+					</button>
+				</p>
+			</div>
+			
+		</div>
 		
 		<div id="event-form" class="modal" tabindex="-1">
 	<div class="modal-dialog">
@@ -657,7 +678,7 @@
 				minTime: "06:00:00",
 				maxTime: "21:00:00",
 				slotDuration: "00:15:00",
-				events: "<?php echo U('Schedule/getEvents', array('id'=>session('uid')));?>",
+				events: "<?php echo U('Schedule/getEvents', array('id'=>getCurrentUserId()));?>",
 				selectable: true,
 				selectHelper: true,
 				select: function(start, end, jsEvent, view) {
@@ -784,17 +805,7 @@
 				});
 			}
 
-			// function setSidebarActive(root, child){
-			// 	$('li.open').removeClass('active open');
-			// 	$('li.active').removeClass('active');
-			// 	var childId = 'li'+"#"+child;
-			// 	var rootId = "li#"+root;
-			// 	$(childId).addClass('active');
-			// 	$(rootId).addClass('active open');
-			// }
 			
-			// $('li#personal_calendar').addClass('active');
-			// $('li#calendar_root').addClass('active open');
 		});
 	</script>
 

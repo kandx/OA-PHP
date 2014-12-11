@@ -267,7 +267,7 @@
 								<img class="nav-user-photo" src="/examples/OA/Public/static/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎您,</small>
-									<?php echo session('fullname');?>
+									<?php echo getCurrentUserFullName();?>
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>

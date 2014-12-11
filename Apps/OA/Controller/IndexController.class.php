@@ -1,7 +1,7 @@
 <?php
 namespace OA\Controller;
-use Think\Controller;
-class IndexController extends Controller {
+use OA\Controller\BaseController;
+class IndexController extends BaseController {
 
     //设置每个日程的状态：p-过期，n-当前日程，f-将来日程
     //$formatTime为true时，格式化时间表示
@@ -47,20 +47,29 @@ class IndexController extends Controller {
     		$this->redirect('Index/index');
     	} 
     	else if(IS_POST){
-    		$user = D('User');
-            if($user->login(I('username'), I('password')))
+    		$users = D('User');
+            $user = $users->login(I('username'), I('password'));
+            if($user){
+                initialSession($user);
                 $this->redirect('Index/main');
+            }    
             else
                 $this->error('用户名或密码不正确！');
     	}
     }
 
     public function logout(){
-        if(session('?uid')){
+        if(isLogin()){
             $user = D('User');
-            $user->logout(session('uid'));
+            if($user->logout(getCurrentUserId())){
+                destorySession();
+                $this->redirect('Index/index');
+            }
+                
         }
-        $this->redirect('Index/index');
+        else
+            $this->redirect('Index/index');
+        
     }
 
     public function register(){
@@ -68,7 +77,7 @@ class IndexController extends Controller {
     }
 
     public function main(){
-
+        $this->hasLogined();
         //CBD每日一言
         $saying = D('Saying');
         $this->assign('saying', $saying->getRandom());

@@ -42,5 +42,31 @@
 		}
 	}
 
+	//以下是对session操作的封装
+	//初始化和销毁
+	function initialSession($user){
+		session('uid', $user['id']);
+		session('fullname', $user['first_name'].$user['last_name']);
+		session('headImg', $user['headImg']);
+	}
+	function destorySession(){
+		session(null);
+	}
+
+	//获取信息
+	function getCurrentUserFullName(){
+		return session('fullname');
+	}
+	function getCurrentUserId(){
+		return session('uid');
+	}
+	function getHeadImageUrl(){
+		return session('headImg');
+	}
+	//判断是否已登录
+	function isLogin(){
+		return session("?uid");
+	}
+
 
  ?>

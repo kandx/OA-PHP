@@ -54,30 +54,29 @@ class UserModel extends Model
 			$where['password'] = md5($password);
 			$user = $this->where($where)->find();
 			if($user){
-				session('uid',$user['id']);
-				session('fullname', $user['first_name'].$user['last_name']);
-				session('headImg', $user['image_url']);
-
+				//initialSession($user['id'], $user['first_name'].$user['last_name'], $user['image_url']);
 				$user['is_login'] = true;
 				$user['login_count'] += 1;
 				$user['last_login'] = date('Y-m-d H:i:s');
 				$this->save($user);
-
-				return true;
+				return $user;
 			}
 			else
-				return false;
+				return null;
 		}
 		else
-			return false;
+			return null;
 	}
 
 	public function logout($id){
 		$user = $this->where(array('id'=>$id))->find();
-		$user['is_login'] = false;
-		$this->save($user);
-
-		session(null);		
+		if($user){
+			$user['is_login'] = false;
+			$this->save($user);
+			return true;
+		}
+		else
+			return false;
 	}
 
 	public function getLeaders($all=false){
