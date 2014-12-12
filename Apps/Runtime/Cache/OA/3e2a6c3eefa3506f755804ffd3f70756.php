@@ -27,7 +27,6 @@
 		  <link rel="stylesheet" href="/examples/OA/Public/static/css/ace-ie.min.css" />
 		<![endif]-->
 		<link rel="stylesheet" href="/examples/OA/Public/static/css/datepicker.css" />
-		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.onpage-help.css" />
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
@@ -122,7 +121,7 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="用户名" name="username"/>
+															<input type="text" class="form-control" placeholder="用户名" name="username" />
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
@@ -158,7 +157,7 @@
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<select class="form-control" name="gender">
-															<option value="">性别</option>
+															<option value="0">性别</option>
 															<option value="M">男</option>
 															<option value="F">女</option>	
 														</select>
@@ -168,7 +167,7 @@
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<select class="form-control" name="department_id">
-															<option value="">所在处室</option>
+															<option value="0">所在处室</option>
 															<?php if(is_array($departments)): foreach($departments as $key=>$depart): ?><option value="<?php echo ($depart["id"]); ?>"><?php echo ($depart["name"]); ?></option><?php endforeach; endif; ?>	
 														</select>
 														</span>
@@ -177,7 +176,7 @@
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<select class="form-control" name="department_id">
-															<option value="">职务</option>
+															<option value="0">职务</option>
 															<?php if(is_array($duties)): foreach($duties as $key=>$duty): ?><option value="<?php echo ($duty["id"]); ?>"><?php echo ($duty["name"]); ?></option><?php endforeach; endif; ?>	
 														</select>
 														</span>
@@ -185,8 +184,8 @@
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<select class="form-control" name="level_id">
-															<option value="">级别</option>
+															<select class="form-control" name="level_id" data-placeholder="级别">
+															<option value="0">级别</option>
 															<?php if(is_array($levels)): foreach($levels as $key=>$level): ?><option value="<?php echo ($level["id"]); ?>"><?php echo ($level["name"]); ?></option><?php endforeach; endif; ?>	
 														</select>
 														</span>
@@ -202,7 +201,7 @@
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" name="begin_work_date" placeholder="参加工作时间"/>
-															<i class="ace-icon fa fa-birthday-cake"></i>
+																	
 														</span>
 													</label>
 
@@ -274,7 +273,8 @@
 		<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='/examples/OA/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
-
+		<script src="/examples/OA/Public/static/js/jquery.validate.min.js"></script>
+		<script src="/examples/OA/Public/static/js/messages_zh.min.js"></script>
 		<script src="/examples/OA/Public/static/js/date-time/bootstrap-datepicker.min.js"></script>
 		<script src="/examples/OA/Public/static/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
 
@@ -294,11 +294,10 @@
 			 	language:'zh-CN',
 			 	weekStart: 0,
 			 	todayBtn: "linked"
-			 })
-			 //show datepicker when clicking on the icon
-			 .next().on(ace.click_event, function(){
-			 	$(this).prev().focus();
 			 });
+			 //show datepicker when clicking on the icon
+			 
+
 			});
 		</script>
 	</body>

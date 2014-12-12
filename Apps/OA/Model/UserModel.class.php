@@ -53,7 +53,7 @@ class UserModel extends Model
 			$where['username'] = $username;
 			$where['password'] = md5($password);
 			$user = $this->where($where)->find();
-			if($user){
+			if($user&&$user['is_active']){
 				//initialSession($user['id'], $user['first_name'].$user['last_name'], $user['image_url']);
 				$user['is_login'] = true;
 				$user['login_count'] += 1;

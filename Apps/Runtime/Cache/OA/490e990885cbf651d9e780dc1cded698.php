@@ -350,6 +350,15 @@
 					<b class="arrow"></b>
 				</li>
 
+				<li class="" id="add_leader_calendar">
+					<a href="<?php echo U('Schedule/addLeaderCalendar');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						添加领导日程
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
 			</ul>
 		</li>
 	</ul><!-- /.nav-list -->
