@@ -120,5 +120,15 @@ class UserModel extends Model
 		}
 		return $Ids;
 	}
+
+	//根据处室人员的ID获得处长的ID
+	public function getDeaprtLeader($staffId){
+		$department_id = $this->where('id=$staffId')->getField('department_id');
+		return $this->table('oa_user a')
+					->join('oa_department b on a.department_id = b.id', 'LEFT')
+					->where('a.id = $department_id')
+					->field('a.id, a.first_name, a.last_name')
+					->find();
+	}
 	
 }

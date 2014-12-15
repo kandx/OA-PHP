@@ -25,6 +25,10 @@
 			<div class="row">
 				<p>
 					
+					<button class="btn btn-app btn-success btn-xs" id="addCalendar">
+						<i class="ace-icon fa fa-pencil bigger-160"></i>
+						添加
+					</button>
 					<button class="btn btn-app btn-purple btn-xs">
 						<i class="ace-icon fa fa-cloud-download bigger-160"></i>
 						导出
@@ -150,12 +154,29 @@
 
 			setSidebarActive('calendar_root', 'personal_calendar');
 
+			$('#addCalendar').on('click', function(){
+				$('#id').val('');
+				$('#title').val('');
+				$('#description').val('');
+				$("#begin_time").val('');
+				$('#end_time').val('');
+				$('.btn-danger').hide();
+				$('#eventform').get(0).action = "{:U('Schedule/add')}";
+				$('.modal').modal('show');	
+			})
+
 			function showRequest(formData, jqForm, options){
 				var form = jqForm[0];
 				var title = form.title.value;
+				var start = form.begin_time.value;
 				if(title==''){
 					bootbox.alert('请填写日程内容！');
 					$('#title').focus();
+					return false;
+				}
+				else if(start==''){
+					bootbox.alert('请填写开始时间！');
+					$('#begin_time').focus();
 					return false;
 				}
 				else

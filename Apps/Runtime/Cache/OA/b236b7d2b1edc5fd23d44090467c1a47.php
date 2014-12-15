@@ -334,15 +334,14 @@
 			<b class="arrow"></b>
 
 			<ul class="submenu">
-
-				<li class="" id="leader_calendar">
+				<?php if(authCheck('CAN_VIEW_LEADER_CALENDAR', getCurrentUserId())): ?><li class="" id="leader_calendar">
 					<a href="<?php echo U('Schedule/leaderCalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						领导日程
 					</a>
 
 					<b class="arrow"></b>
-				</li>
+				</li><?php endif; ?>
 
 				<li class="" id="personal_calendar">
 					<a href="<?php echo U('Schedule/personalCalendar');?>">
@@ -352,11 +351,63 @@
 
 					<b class="arrow"></b>
 				</li>
-
-				<li class="" id="add_leader_calendar">
+				
+				<?php if(authCheck('CAN_ADD_DEPART_LEADER_CALENDAR', getCurrentUserId())): ?><li class="" id="add_leader_calendar">
 					<a href="<?php echo U('Schedule/addLeaderCalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						添加领导日程
+					</a>
+
+					<b class="arrow"></b>
+				</li><?php endif; ?>
+
+			</ul>
+		</li>
+		
+		<!-- 接待管理 -->
+		<li class="" id="reception_root">
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-users"></i>
+				<span class="menu-text"> 接待管理 </span>
+
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+
+			<b class="arrow"></b>
+
+			<ul class="submenu">
+
+				<li class="" id="reception_add">
+					<a href="<?php echo U('Reception/addReception');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						添加接待
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="" id="reception_meetingroom">
+					<a href="<?php echo U('Reception/bookMeetingRoom');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						会议室预定
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="" id="reception_hall">
+					<a href="<?php echo U('Reception/bookHall');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						展厅预定
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="" id="reception_statics">
+					<a href="<?php echo U('Reception/receptionStatics');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						数据统计
 					</a>
 
 					<b class="arrow"></b>
@@ -364,6 +415,103 @@
 
 			</ul>
 		</li>
+		
+		<!-- 共享空间 -->
+		<li class="" id="share_root">
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-cloud"></i>
+				<span class="menu-text"> 共享空间 </span>
+
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+
+			<b class="arrow"></b>
+
+			<ul class="submenu">
+
+				<li class="" id="share_add">
+					<a href="<?php echo U('Share/uploadDocs');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						上传资料
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="" id="share_cloud">
+					<a href="<?php echo U('Share/cloud');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						资料手册
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="" id="share_company">
+					<a href="<?php echo U('Share/company');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						企业名录
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="" id="share_statics">
+					<a href="<?php echo U('Share/shareStatics');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						数据统计
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+			</ul>
+		</li>
+		
+		<!-- 请休假管理 -->
+		<li class="" id="vacation_root">
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-coffee"></i>
+				<span class="menu-text"> 请休假管理 </span>
+
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+
+			<b class="arrow"></b>
+
+			<ul class="submenu">
+
+				<li class="" id="vacation_add">
+					<a href="<?php echo U('Vacation/addVacation');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						请休假申请
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="" id="vacation_cloud">
+					<a href="<?php echo U('Vacation/search');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						请休假查询
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+
+				<li class="" id="vacation_statics">
+					<a href="<?php echo U('Vacation/statics');?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						数据统计
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+			</ul>
+		</li>
+
 	</ul><!-- /.nav-list -->
 
 	<!-- #section:basics/sidebar.layout.minimize -->
@@ -518,6 +666,10 @@
 			<div class="row">
 				<p>
 					
+					<button class="btn btn-app btn-success btn-xs" id="addCalendar">
+						<i class="ace-icon fa fa-pencil bigger-160"></i>
+						添加
+					</button>
 					<button class="btn btn-app btn-purple btn-xs">
 						<i class="ace-icon fa fa-cloud-download bigger-160"></i>
 						导出
@@ -764,12 +916,29 @@
 
 			setSidebarActive('calendar_root', 'personal_calendar');
 
+			$('#addCalendar').on('click', function(){
+				$('#id').val('');
+				$('#title').val('');
+				$('#description').val('');
+				$("#begin_time").val('');
+				$('#end_time').val('');
+				$('.btn-danger').hide();
+				$('#eventform').get(0).action = "<?php echo U('Schedule/add');?>";
+				$('.modal').modal('show');	
+			})
+
 			function showRequest(formData, jqForm, options){
 				var form = jqForm[0];
 				var title = form.title.value;
+				var start = form.begin_time.value;
 				if(title==''){
 					bootbox.alert('请填写日程内容！');
 					$('#title').focus();
+					return false;
+				}
+				else if(start==''){
+					bootbox.alert('请填写开始时间！');
+					$('#begin_time').focus();
 					return false;
 				}
 				else

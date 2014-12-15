@@ -15,8 +15,9 @@ return array(
     'DB_PREFIX' => 'oa_', // 数据库表前缀
 
     //权限管理设置
-    'AUTH_ON'           => true,                      // 认证开关
-    'AUTH_TYPE'         => 1,                         // 认证方式，1为实时认证；2为登录认证。
+
+    'AUTH_ON'           => true,            // 认证开关
+    'AUTH_TYPE'         => 1,               // 认证方式，1为实时认证；2为登录认证。
     'AUTH_GROUP'        => 'group',        // 用户组数据表名
     'AUTH_GROUP_ACCESS' => 'group_access', // 用户-用户组关系表
     'AUTH_RULE'         => 'rule',         // 权限规则表

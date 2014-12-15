@@ -31,9 +31,7 @@
       * @return author            黄药师		46914685@qq.com
      */
 	function authCheck($rule,$uid,$type=1, $mode='url', $relation='or'){
-		//超级管理员跳过验证
-		//获取当前uid所在的角色组id
-		//这里偷懒了,因为我设置的是一个用户对应一个角色组,所以直接取值.如果是对应多个角色组的话,需另外处理
+		
 		if(in_array($uid, C('ADMINISTRATOR'))){
 			return true;
 		}else{
