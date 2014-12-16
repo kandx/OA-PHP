@@ -353,7 +353,7 @@
 					<b class="arrow"></b>
 				</li>
 				
-				<?php if(authCheck('CAN_ADD_DEPART_LEADER_CALENDAR', getCurrentUserId())): ?><li class="" id="add_leader_calendar">
+				<?php if(authCheck('CAN_ADD_DEPART_LEADER_CALENDAR, CAN_ADD_ALL_LEADER_CALENDAR', getCurrentUserId())): ?><li class="" id="add_leader_calendar">
 					<a href="<?php echo U('Schedule/addLeaderCalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						添加领导日程
@@ -667,11 +667,23 @@
 	</div>
 	<div class="widget-body">
 		<div class="widget-main no-padding">
-			<div id="external-events" >
+			<!-- <div id="external-events" >
 				<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><div class="external-event" style="background-color:<?php echo ($leader["calendar_color"]); ?>;" >
 						<i class="ace-icon fa fa-arrows"></i>
 						<?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?>
 					</div><?php endforeach; endif; ?>
+			</div> -->
+			<div class="control-group">
+
+				<!-- #section:custom/checkbox -->
+				<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><div class="checkbox">
+					<label>
+						<input id="leaderIds" name="leaderIds[]" type="checkbox" class="ace" value="<?php echo ($leader["id"]); ?>"/>
+						<span class="lbl"> <?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?></span>
+						<span class="lbl" style="background-color:<?php echo ($leader["calendar_color"]); ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+					</label>
+				</div><?php endforeach; endif; ?>
+
 			</div>
 		</div>
 	</div>
@@ -766,6 +778,16 @@
 				
 			});
 			
+		});
+
+		$('#leaderIds').on('click', function(){
+			var ids = [];
+			$("input[type='checkbox']:checked").each(function(){
+				ids.push($(this).val());
+			});
+			$.post("<?php echo U('Schedule/getEvents');?>", ids, function(data){
+				$('#calendar').fullCalendar('updateEvent', data);
+			}, 'json');
 		});
 		
 		setSidebarActive('calendar_root', 'leader_calendar');

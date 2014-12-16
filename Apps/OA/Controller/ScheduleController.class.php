@@ -23,12 +23,15 @@ class ScheduleController extends BaseController {
         $this->hasPermission(IS_AJAX);
         
         $user_id = I('id');
+        $leaderIds = I('ids');
         $sch = D('Schedule');
         if(!empty($user_id)){
             $schedules = $sch->getSchedules($user_id);
         }
+        else if(!empty($leaderIds)){
+            $schedules = $sch->getSchedulesForPeople($leaderIds, 'all');
+        }
         else{
-            
             $user = D('User');
             $ids = $user->getLeaderIds(true);
             $schedules = $sch->getSchedulesForPeople($ids, 'all');
@@ -49,7 +52,7 @@ class ScheduleController extends BaseController {
 
     public function add(){
         $this->hasPermission(IS_AJAX);
-        $sch = M('Schedule');
+        $sch = D('Schedule');
 
         if($sch->create()){
             $sch->add();
@@ -76,7 +79,7 @@ class ScheduleController extends BaseController {
     }
     public function edit(){
         $this->hasPermission(IS_AJAX);
-        $sch = M('Schedule');
+        $sch = D('Schedule');
         if($sch->create()){
             if($sch->save())
                 $this->ajaxReturn(1);
@@ -96,17 +99,20 @@ class ScheduleController extends BaseController {
         
     }
 
+    //拖拽操作，注意，为了自动填充，必须用D函数
     public function drop(){
         $this->hasPermission(IS_AJAX);
         $id = I('id');
-        $sch = M('Schedule');
+        $sch = D('Schedule');
         $event = $sch->find($id);
         if($event){
             $event['begin_time'] = I('start');
             $event['end_time'] = I('end');
             $event['is_allday'] = (I('allDay')=="true")?1:0;
-            if($sch->save($event))
+            if($sch->create($event, 2)){
+                $sch->save();
                 $this->ajaxReturn(1);
+            }    
             else
                 $this->ajaxReturn($sch->getError());
         }

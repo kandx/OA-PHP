@@ -349,7 +349,7 @@
 					<b class="arrow"></b>
 				</li>
 				
-				<?php if(authCheck('CAN_ADD_DEPART_LEADER_CALENDAR', getCurrentUserId())): ?><li class="" id="add_leader_calendar">
+				<?php if(authCheck('CAN_ADD_DEPART_LEADER_CALENDAR, CAN_ADD_ALL_LEADER_CALENDAR', getCurrentUserId())): ?><li class="" id="add_leader_calendar">
 					<a href="<?php echo U('Schedule/addLeaderCalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						添加领导日程

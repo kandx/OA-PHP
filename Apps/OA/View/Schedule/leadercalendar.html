@@ -71,6 +71,16 @@
 			});
 			
 		});
+
+		$('#leaderIds').on('click', function(){
+			var ids = [];
+			$("input[type='checkbox']:checked").each(function(){
+				ids.push($(this).val());
+			});
+			$.post("{:U('Schedule/getEvents')}", ids, function(data){
+				$('#calendar').fullCalendar('updateEvent', data);
+			}, 'json');
+		});
 		
 		setSidebarActive('calendar_root', 'leader_calendar');
 

@@ -7,6 +7,15 @@ use Think\Model;
 */
 class ScheduleModel extends Model
 {	
+
+	protected $_auto = array(
+		array('update_time', 'getTime', 3, 'callback'), //更新时写入当前时间戳
+		array('recorder_id', 'getCurrentUserId', 1, 'function'),
+		);
+
+	public function getTime(){
+		return date('Y-m-d H:i:s');
+	}
 	//获取指定用户ID的日程
 	//@type
 	public function getSchedules($userId, $type='all', $beginTimeStr=null, $endTimeStr=null){
