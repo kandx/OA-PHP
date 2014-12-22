@@ -780,13 +780,23 @@
 			
 		});
 
-		$('#leaderIds').on('click', function(){
+		$("input[type='checkbox']").each(function(){
+			$(this).attr('checked', true);
+		});
+
+		$("input[type='checkbox']").on('click', function(){
 			var ids = [];
 			$("input[type='checkbox']:checked").each(function(){
 				ids.push($(this).val());
 			});
-			$.post("<?php echo U('Schedule/getEvents');?>", ids, function(data){
-				$('#calendar').fullCalendar('updateEvent', data);
+			$.post("<?php echo U('Schedule/getEvents');?>", {ids}, function(data){
+				
+				$.each(data, function(val){
+					$('#calendar').fullCalendar('renderEvent', val);
+				});
+				
+				// $('#calendar').fullCalendar('rerenderEvents');
+				
 			}, 'json');
 		});
 		

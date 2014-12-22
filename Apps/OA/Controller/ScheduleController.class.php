@@ -24,11 +24,13 @@ class ScheduleController extends BaseController {
         
         $user_id = I('id');
         $leaderIds = I('ids');
+        //p($leaderIds);
         $sch = D('Schedule');
         if(!empty($user_id)){
             $schedules = $sch->getSchedules($user_id);
         }
         else if(!empty($leaderIds)){
+            //p($leaderIds);
             $schedules = $sch->getSchedulesForPeople($leaderIds, 'all');
         }
         else{
@@ -47,6 +49,7 @@ class ScheduleController extends BaseController {
                 'color'=>$sch['color']
                 );
         }
+        //p($schedules);
         $this->ajaxReturn($data);   
     }
 
