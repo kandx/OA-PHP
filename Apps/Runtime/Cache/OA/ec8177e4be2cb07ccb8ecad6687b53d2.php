@@ -678,7 +678,7 @@
 				<!-- #section:custom/checkbox -->
 				<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><div class="checkbox">
 					<label>
-						<input id="leaderIds" name="leaderIds[]" type="checkbox" class="ace" value="<?php echo ($leader["id"]); ?>"/>
+						<input id="leaderIds" name="leaderIds[]" type="checkbox" class="ace leader" value="<?php echo ($leader["id"]); ?>"/>
 						<span class="lbl"> <?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?></span>
 						<span class="lbl" style="background-color:<?php echo ($leader["calendar_color"]); ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
 					</label>
@@ -746,6 +746,7 @@
 		
 	<script type="text/javascript">
 		jQuery(function($){
+			//设置日历，注意：没有设置events, eventSources属性
 			var calendar = $('#calendar').fullCalendar({
 				header: {
 					left: 'prev,next today',
@@ -761,7 +762,8 @@
 				maxTime: "21:00:00",
 				slotDuration: "00:15:00",
 				weekNumbers: true,
-				events: "<?php echo U('Schedule/getEvents');?>",
+
+				//日历点击事件
 				eventClick: function(calEvent, jsEvent, view){
 					$.get("<?php echo U('Schedule/getEventInfo');?>", {event_id:calEvent.id}, function(data, textStatus){
 						var content = "<p>"+"开始时间："+formatTime(calEvent.start)+"<br>"+"结束时间："+formatTime(calEvent.end)+"<br>"+"说&nbsp;&nbsp;"+"明："+data['description']+"</p>";
@@ -778,26 +780,24 @@
 				
 			});
 			
-		});
-
-		$("input[type='checkbox']").each(function(){
-			$(this).attr('checked', true);
-		});
-
-		$("input[type='checkbox']").on('click', function(){
-			var ids = [];
-			$("input[type='checkbox']:checked").each(function(){
-				ids.push($(this).val());
+			// 添加复选框事件
+			// 基本逻辑：获取领导ID，如果是勾选，则添加日程源，否则删除日程源
+			$("input.leader").on('click', function(){
+				var source = getEventSource($(this).val());
+				if(this.checked){
+					$('#calendar').fullCalendar("addEventSource", source);
+				}
+				else
+					$('#calendar').fullCalendar('removeEventSource', source);
 			});
-			$.post("<?php echo U('Schedule/getEvents');?>", {ids}, function(data){
-				
-				$.each(data, function(val){
-					$('#calendar').fullCalendar('renderEvent', val);
-				});
-				
-				// $('#calendar').fullCalendar('rerenderEvents');
-				
-			}, 'json');
+
+			// 初始化页面，将所有领导的日程都load进来
+			$("input.leader").each(function(){
+				$(this).attr('checked', true);
+				var source = getEventSource($(this).val());
+				$('#calendar').fullCalendar("addEventSource", source); 
+			});
+
 		});
 		
 		setSidebarActive('calendar_root', 'leader_calendar');
@@ -809,6 +809,13 @@
 				return time.format('YYYY-M-D H:mm');
 			else
 				return time.format('YYYY-M-D');
+		}
+
+		// 根据领导ID获取日程源url
+		function getEventSource(leaderId){
+			//直接使用thinkphp的U函数出错，只能采用如下方法处理
+			var urlStr = "<?php echo U('Schedule/getEvents');?>".split(".");
+			return urlStr[0]+"/id/"+leaderId+".html";
 		}
 		
 	</script>

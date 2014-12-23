@@ -98,6 +98,8 @@ class UserModel extends Model
 		return $leaders;
 	}
 
+	// 获取领导的ID
+	// all为true时，获取所有领导的ID，否则，仅获取委领导的ID
 	public function getLeaderIds($all=false){
 		$cond['b.name'] = '委领导';
 		$leaderIds = $this->table('oa_user a')
@@ -121,7 +123,7 @@ class UserModel extends Model
 		return $Ids;
 	}
 
-	//根据处室人员的ID获得处长的ID
+	//根据处室人员的ID获得处长信息
 	public function getDeaprtLeader($staffId){
 		$department_id = $this->where('id=$staffId')->getField('department_id');
 		return $this->table('oa_user a')

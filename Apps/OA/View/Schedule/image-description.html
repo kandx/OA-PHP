@@ -18,7 +18,7 @@
 				<foreach name="leaders" item="leader">
 				<div class="checkbox">
 					<label>
-						<input id="leaderIds" name="leaderIds[]" type="checkbox" class="ace" value="{$leader.id}"/>
+						<input id="leaderIds" name="leaderIds[]" type="checkbox" class="ace leader" value="{$leader.id}"/>
 						<span class="lbl"> {$leader.first_name}{$leader.last_name}</span>
 						<span class="lbl" style="background-color:{$leader.calendar_color};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
 					</label>

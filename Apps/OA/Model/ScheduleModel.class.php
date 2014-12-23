@@ -16,8 +16,10 @@ class ScheduleModel extends Model
 	public function getTime(){
 		return date('Y-m-d H:i:s');
 	}
-	//获取指定用户ID的日程
-	//@type
+	
+	// 获取指定用户ID的日程
+	// @type说明：
+	// all: 获取$userId所有的日程信息
 	public function getSchedules($userId, $type='all', $beginTimeStr=null, $endTimeStr=null){
 		$where['a.user_id'] = $userId;
 		if('oneday'==$type){//获取指定日期当天的日程

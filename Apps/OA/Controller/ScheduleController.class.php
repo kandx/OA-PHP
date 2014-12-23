@@ -124,6 +124,7 @@ class ScheduleController extends BaseController {
        
     }
 
+    // 获取日程信息，用于“领导日程”界面点击日程事件
     public function getEventInfo(){
         $this->hasPermission(IS_AJAX);
         $event_id = I('event_id');
