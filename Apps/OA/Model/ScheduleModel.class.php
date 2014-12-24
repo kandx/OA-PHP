@@ -10,7 +10,7 @@ class ScheduleModel extends Model
 
 	protected $_auto = array(
 		array('update_time', 'getTime', 3, 'callback'), //更新时写入当前时间戳
-		array('recorder_id', 'getCurrentUserId', 1, 'function'),
+		array('recorder_id', 'getCurrentUserId', 3, 'function'),
 		);
 
 	public function getTime(){

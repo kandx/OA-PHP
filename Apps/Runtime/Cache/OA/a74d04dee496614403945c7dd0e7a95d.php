@@ -9,30 +9,30 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="/examples/OA/Public/static/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/examples/OA/Public/static/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/font-awesome.min.css" />
 
 		<!-- page specific plugin styles -->
 		
-	<link rel="stylesheet" href="/examples/OA/Public/static/css/fullcalendar.css" />
-	<link rel="stylesheet" href="/examples/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
+	<link rel="stylesheet" href="/OA/Public/static/css/fullcalendar.css" />
+	<link rel="stylesheet" href="/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
 	
 
 
 		<!-- text fonts -->
-		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-fonts.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/ace-fonts.css" />
 
 		<!-- ace styles -->
-		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.min.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/ace.min.css" />
 
 		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-part2.min.css" />
+			<link rel="stylesheet" href="/OA/Public/static/css/ace-part2.min.css" />
 		<![endif]-->
-		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-skins.min.css" />
-		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/ace-rtl.min.css" />
 
 		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="/examples/OA/Public/static/css/ace-ie.min.css" />
+		  <link rel="stylesheet" href="/OA/Public/static/css/ace-ie.min.css" />
 		<![endif]-->
 
 		<!-- inline styles related to this page -->
@@ -40,13 +40,13 @@
 		
 
 		<!-- ace settings handler -->
-		<script src="/examples/OA/Public/static/js/ace-extra.min.js"></script>
+		<script src="/OA/Public/static/js/ace-extra.min.js"></script>
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 		<!--[if lte IE 8]>
-		<script src="/examples/OA/Public/static/js/html5shiv.js"></script>
-		<script src="/examples/OA/Public/static/js/respond.min.js"></script>
+		<script src="/OA/Public/static/js/html5shiv.js"></script>
+		<script src="/OA/Public/static/js/respond.min.js"></script>
 		<![endif]-->
 	</head>
 
@@ -170,7 +170,7 @@
 									<ul class="dropdown-menu dropdown-navbar">
 										<li>
 											<a href="#">
-												<img src="/examples/OA/Public/static/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+												<img src="/OA/Public/static/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Alex:</span>
@@ -187,7 +187,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/examples/OA/Public/static/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+												<img src="/OA/Public/static/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Susan:</span>
@@ -204,7 +204,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/examples/OA/Public/static/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+												<img src="/OA/Public/static/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Bob:</span>
@@ -221,7 +221,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/examples/OA/Public/static/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+												<img src="/OA/Public/static/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Kate:</span>
@@ -238,7 +238,7 @@
 
 										<li>
 											<a href="#">
-												<img src="/examples/OA/Public/static/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+												<img src="/OA/Public/static/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Fred:</span>
@@ -267,7 +267,7 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="/examples/OA/Public/static/avatars/user.jpg" alt="Jason's Photo" />
+								<img class="nav-user-photo" src="/OA/Public/static/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎您,</small>
 									<?php echo getCurrentUserFullName();?>
@@ -667,19 +667,22 @@
 			<div class="row">
 				<div class="widget-box">
 					<div class="widget-header">
-						<h4 class="widget-title">选择领导</h4>
+						<h4 class="widget-title">
+							<?php if(!empty($leaders)): ?>选择领导<?php endif; ?>
+							<?php if(!empty($departLeader)): ?>处室领导<?php endif; ?>
+						</h4>
 					</div>
 
 					<div class="widget-body">
 						<div class="widget-main">
-							<div>
-								<!-- <label for="form-field-select-1">Default</label> -->
+							<div>								
+								<?php if(!empty($leaders)): ?><select class="form-control" id="select_leader">
+										<!-- <option value="0"></option> -->
+										<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><option value="<?php echo ($leader["id"]); ?>"><?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?></option><?php endforeach; endif; ?>
+									</select><?php endif; ?>
 
-								<select class="form-control" id="select_leader">
-									<?php if(!empty($leaders)): ?><option value="0"></option>
-										<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><option value="<?php echo ($leader["id"]); ?>"><?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?></option><?php endforeach; endif; endif; ?>
-									<?php if(!empty($departLeader)): ?><option value="<?php echo ($departLeader["id"]); ?>"><?php echo ($departLeader["first_name"]); echo ($departLeader["last_name"]); ?></option><?php endif; ?>	
-								</select>
+								<?php if(!empty($departLeader)): ?><span><?php echo ($departLeader["first_name"]); echo ($departLeader["last_name"]); ?></span><?php endif; ?>	
+								
 							</div>
 						</div>
 					</div>
@@ -739,7 +742,7 @@
 								</div>
 							</div>
 
-							<input type="hidden" name="user_id" value="<?php echo getCurrentUserId();?>"/>
+							<input type="hidden" name="user_id" id="user_id" value="<?php echo getCurrentUserId();?>"/>
 							<input type="hidden" name="id" id="id">
 							<!-- <input type="hidden" id="is_allday" name="is_allday" value="0"> -->
 
@@ -791,38 +794,38 @@
 
 		<!--[if !IE]> -->
 		<script type="text/javascript">
-			window.jQuery || document.write("<script src='/examples/OA/Public/static/js/jquery.min.js'>"+"<"+"/script>");
+			window.jQuery || document.write("<script src='/OA/Public/static/js/jquery.min.js'>"+"<"+"/script>");
 		</script>
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
 <script type="text/javascript">
- window.jQuery || document.write("<script src='/examples/OA/Public/static/js/jquery1x.min.js'>"+"<"+"/script>");
+ window.jQuery || document.write("<script src='/OA/Public/static/js/jquery1x.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
 		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='/examples/OA/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			if('ontouchstart' in document.documentElement) document.write("<script src='/OA/Public/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
-		<script src="/examples/OA/Public/static/js/bootstrap.min.js"></script>
+		<script src="/OA/Public/static/js/bootstrap.min.js"></script>
 
 		<!-- page specific plugin scripts -->
 		
-	<script src="/examples/OA/Public/static/js/date-time/moment.min.js"></script>
-	<script src="/examples/OA/Public/static/js/jquery-ui.custom.min.js"></script>
-	<script src="/examples/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
-	<script src="/examples/OA/Public/static/js/date-time/bootstrap-datetimepicker.min.js"></script>
-	<script src="/examples/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-	<script src="/examples/OA/Public/static/js/fullcalendar.min.js"></script>
-	<script src="/examples/OA/Public/static/js/zh-cn.js"></script>
-	<script src="/examples/OA/Public/static/js/jquery.form.min.js"></script>
-	<script src="/examples/OA/Public/static/js/bootbox.min.js"></script>
+	<script src="/OA/Public/static/js/date-time/moment.min.js"></script>
+	<script src="/OA/Public/static/js/jquery-ui.custom.min.js"></script>
+	<script src="/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="/OA/Public/static/js/date-time/bootstrap-datetimepicker.min.js"></script>
+	<script src="/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="/OA/Public/static/js/fullcalendar.min.js"></script>
+	<script src="/OA/Public/static/js/zh-cn.js"></script>
+	<script src="/OA/Public/static/js/jquery.form.min.js"></script>
+	<script src="/OA/Public/static/js/bootbox.min.js"></script>
 
 
 		<!-- ace scripts -->
-		<script src="/examples/OA/Public/static/js/ace-elements.min.js"></script>
-		<script src="/examples/OA/Public/static/js/ace.min.js"></script>
-		<script src="/examples/OA/Public/static/js/myJs/sidebar.js"></script>
+		<script src="/OA/Public/static/js/ace-elements.min.js"></script>
+		<script src="/OA/Public/static/js/ace.min.js"></script>
+		<script src="/OA/Public/static/js/myJs/sidebar.js"></script>
 
 		<!-- inline scripts related to this page -->
 		
@@ -843,7 +846,7 @@
 				minTime: "06:00:00",
 				maxTime: "21:00:00",
 				slotDuration: "00:15:00",
-				events: "<?php echo U('Schedule/getEvents', array('id'=>getCurrentUserId()));?>",
+				// events: "<?php echo U('Schedule/getEvents', array('id'=>getCurrentUserId()));?>",
 				selectable: true,
 				selectHelper: true,
 				select: function(start, end, jsEvent, view) {
@@ -932,13 +935,30 @@
 				$('.modal').modal('show');	
 			});
 
-			var lastLeaderId = 0;
+			//处理添加处室领导日程
+			var departLeaderId = "<?php echo ($departLeader["id"]); ?>";
+			if(departLeaderId)
+				$('#user_id').val('<?php echo ($departLeader["id"]); ?>');
+			var departSource = getEventSource(departLeaderId);
+			$('#calendar').fullCalendar('addEventSource', departSource);
+
+			//添加全委领导日程的处理
+			//保存上一次的选择值
+			var lastLeaderId = $('#select_leader').val(); 
+			//初始化日历显示
+			$('#calendar').fullCalendar('addEventSource', getEventSource(lastLeaderId));
+			//添加变更事件
 			$('#select_leader').on('change', function(){
+				var nowLeaderId = $('#select_leader').val();
 				var oldSource = getEventSource(lastLeaderId);
-				lastLeaderId = $('#select_leader').val();
-				var newSource = getEventSource($('#select_leader').val());
+				var newSource = getEventSource(nowLeaderId);
+				
 				$('#calendar').fullCalendar('removeEventSource', oldSource);
+					
 				$('#calendar').fullCalendar('addEventSource', newSource);
+				$('#user_id').val(nowLeaderId);
+				
+				lastLeaderId = nowLeaderId;				
 			});
 
 			function showRequest(formData, jqForm, options){
@@ -1009,11 +1029,11 @@
 	</script>
 
 		
-		<link rel="stylesheet" href="/examples/OA/Public/static/css/ace.onpage-help.css" />
+		<link rel="stylesheet" href="/OA/Public/static/css/ace.onpage-help.css" />
 		
 
 		<script type="text/javascript"> ace.vars['base'] = '..'; </script>
-		<script src="/examples/OA/Public/static/js/ace/ace.onpage-help.js"></script>
+		<script src="/OA/Public/static/js/ace/ace.onpage-help.js"></script>
 		
 	</body>
 </html>
