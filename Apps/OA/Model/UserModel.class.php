@@ -124,12 +124,17 @@ class UserModel extends Model
 	}
 
 	//根据处室人员的ID获得处长信息
-	public function getDeaprtLeader($staffId){
-		$department_id = $this->where('id=$staffId')->getField('department_id');
-		return $this->table('oa_user a')
-					->join('oa_department b on a.department_id = b.id', 'LEFT')
-					->where('a.id = $department_id')
-					->field('a.id, a.first_name, a.last_name')
+	public function getDepartLeader($staffId){
+		//$department_id = $this->where('id=$staffId')->getField('department_id');
+		$where['a.id'] = $staffId;
+		$leaderId = $this->table('oa_user a')
+			   		   	 ->join('oa_department b on a.department_id = b.id', 'LEFT')
+					     ->where($where)
+					     ->getField('b.leader_id');
+		//$cond['id'] = $leaderId;
+		return $this->table('oa_user')
+					->where(array('id'=>$leaderId))
+					->field('id, first_name, last_name')
 					->find();
 	}
 	

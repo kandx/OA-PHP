@@ -136,24 +136,26 @@ class ScheduleController extends BaseController {
     }
 
     public function addLeaderCalendar(){
+        $this->hasLogined();
         $users = D('User');
         if(authCheck('CAN_ADD_ALL_LEADER_CALENDAR', getCurrentUserId())){
             $leaders = $users->getLeaders(true);
             $this->assign('leaders', $leaders);
         }
         if(authCheck('CAN_ADD_DEPART_LEADER_CALENDAR', getCurrentUserId())){
-            $deparLeader = $users->getDepartLeader(getCurrentUserId());
+            $departLeader = $users->getDepartLeader(getCurrentUserId());
             $this->assign('departLeader', $departLeader);
         }
+
         $this->display();
         
     }
 
 
     public function test(){
+        $users = D('User');
         
-        p(authCheck('CanViewLeaderCalendar', getCurrentUserId()));
-        p(getCurrentUserId());
+        p($users->getDepartLeader(getCurrentUserId()));
         // if($time)
         //     p('zero time is not false');
         // else

@@ -352,7 +352,7 @@
 					<b class="arrow"></b>
 				</li>
 				
-				<?php if(authCheck('CAN_ADD_DEPART_LEADER_CALENDAR, CAN_ADD_ALL_LEADER_CALENDAR', getCurrentUserId())): ?><li class="" id="add_leader_calendar">
+				<?php if(authCheck('CAN_ADD_DEPART_LEADER_CALENDAR,CAN_ADD_ALL_LEADER_CALENDAR', getCurrentUserId())): ?><li class="" id="add_leader_calendar">
 					<a href="<?php echo U('Schedule/addLeaderCalendar');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
 						添加领导日程
@@ -649,7 +649,7 @@
 							<!-- PAGE CONTENT BEGINS -->
 							
 	<div class="row">
-		<div class="col-sm-11">
+		<div class="col-sm-10">
 			<div class="space"></div>
 
 			<!-- #section:plugins/data-time.calendar -->
@@ -657,28 +657,32 @@
 			
 			<!-- /section:plugins/data-time.calendar -->
 		</div>
-		<div class="col-sm-1">
+		<div class="col-sm-2">
+			<div class="space"></div>
 			<div class="space"></div>
 			<div class="space"></div>
 			<div class="space"></div>
 			<div class="space"></div>
 
 			<div class="row">
-				<p>
-					
-					<button class="btn btn-app btn-success btn-xs" id="addCalendar">
-						<i class="ace-icon fa fa-pencil bigger-160"></i>
-						添加
-					</button>
-					<button class="btn btn-app btn-purple btn-xs">
-						<i class="ace-icon fa fa-cloud-download bigger-160"></i>
-						导出
-					</button>
-					<button class="btn btn-app btn-info btn-xs">
-						<i class="ace-icon fa fa-envelope bigger-160"></i>
-						发至邮箱
-					</button>
-				</p>
+				<div class="widget-box">
+					<div class="widget-header">
+						<h4 class="widget-title">选择领导</h4>
+					</div>
+
+					<div class="widget-body">
+						<div class="widget-main">
+							<div>
+								<!-- <label for="form-field-select-1">Default</label> -->
+
+								<select class="form-control" id="select_leader">
+									<?php if(!empty($leaders)): ?><option value="0"></option>
+										<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><option value="<?php echo ($leader["id"]); ?>"><?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?></option><?php endforeach; endif; endif; ?>
+									<?php if(!empty($departLeader)): ?><option value="<?php echo ($departLeader["id"]); ?>"><?php echo ($departLeader["first_name"]); echo ($departLeader["last_name"]); ?></option><?php endif; ?>	
+								</select>
+							</div>
+						</div>
+					</div>
 			</div>
 			
 		</div>
@@ -914,7 +918,7 @@
 				dataType: 'json'
 			});
 
-			setSidebarActive('calendar_root', 'personal_calendar');
+			setSidebarActive('calendar_root', 'add_leader_calendar');
 
 			$('#addCalendar').on('click', function(){
 				$('#id').val('');
@@ -926,7 +930,16 @@
 				$('#eventform').get(0).action = "<?php echo U('Schedule/add');?>";
 				$('#is_allday').get(0).checked = false;
 				$('.modal').modal('show');	
-			})
+			});
+
+			var lastLeaderId = 0;
+			$('#select_leader').on('change', function(){
+				var oldSource = getEventSource(lastLeaderId);
+				lastLeaderId = $('#select_leader').val();
+				var newSource = getEventSource($('#select_leader').val());
+				$('#calendar').fullCalendar('removeEventSource', oldSource);
+				$('#calendar').fullCalendar('addEventSource', newSource);
+			});
 
 			function showRequest(formData, jqForm, options){
 				var form = jqForm[0];
@@ -984,6 +997,13 @@
 				});
 			}
 
+			function getEventSource(leaderId){
+				//直接使用thinkphp的U函数出错，只能采用如下方法处理
+				if(!leaderId)
+					return '';
+				var urlStr = "<?php echo U('Schedule/getEvents');?>".split(".");
+				return urlStr[0]+"/id/"+leaderId+".html";
+			}
 			
 		});
 	</script>
