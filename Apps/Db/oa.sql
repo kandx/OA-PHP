@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2014 年 12 月 24 日 17:38
+-- 生成日期: 2014 年 12 月 25 日 17:27
 -- 服务器版本: 5.6.12-log
 -- PHP 版本: 5.4.16
 
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `oa_duty` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='职务表格' AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='职务表格' AUTO_INCREMENT=7 ;
 
 --
 -- 转存表中的数据 `oa_duty`
@@ -71,7 +71,8 @@ INSERT INTO `oa_duty` (`id`, `name`) VALUES
 (2, '常务副主任'),
 (3, '副主任'),
 (4, '处长'),
-(5, '副处长');
+(5, '副处长'),
+(6, '无');
 
 -- --------------------------------------------------------
 
@@ -160,6 +161,95 @@ INSERT INTO `oa_level` (`id`, `name`) VALUES
 (11, '文员'),
 (12, '挂职干部'),
 (13, '实习生');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `oa_meeting`
+--
+
+CREATE TABLE IF NOT EXISTS `oa_meeting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` char(1) NOT NULL COMMENT '会议类型：F—外出开会；L—内部会议',
+  `content` int(11) NOT NULL COMMENT '会议内容',
+  `begin_time` datetime NOT NULL COMMENT '会议时间',
+  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+  `place` int(11) NOT NULL COMMENT '会议地点',
+  `host` varchar(10) DEFAULT NULL COMMENT '主持人',
+  `participants` varchar(20) NOT NULL COMMENT '参加人员',
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会议情况表' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `oa_reception`
+--
+
+CREATE TABLE IF NOT EXISTS `oa_reception` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `vistor` varchar(30) NOT NULL COMMENT '到访团队',
+  `visit_content` varchar(100) NOT NULL COMMENT '来访内容',
+  `visit_leader` varchar(30) DEFAULT NULL COMMENT '带队领导',
+  `contact` varchar(10) DEFAULT NULL COMMENT '联系人',
+  `phone` varchar(13) DEFAULT NULL COMMENT '联系方式',
+  `vistor_count` int(11) NOT NULL COMMENT '来访人数',
+  `visit_places` varchar(50) NOT NULL COMMENT '参观地点',
+  `reception_leader` varchar(20) NOT NULL COMMENT '陪同领导',
+  `major_department` varchar(10) NOT NULL COMMENT '牵头处室',
+  `assist_department` varchar(10) DEFAULT NULL COMMENT '配合处室',
+  `receptionist` varchar(20) DEFAULT NULL COMMENT '接待人员',
+  `comments` varchar(50) DEFAULT NULL COMMENT '备注',
+  `begin_time` datetime NOT NULL COMMENT '接待时间',
+  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+  `is_meal` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否用餐',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='接待表' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `oa_room`
+--
+
+CREATE TABLE IF NOT EXISTS `oa_room` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) NOT NULL COMMENT '名称',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='管委会房间表' AUTO_INCREMENT=4 ;
+
+--
+-- 转存表中的数据 `oa_room`
+--
+
+INSERT INTO `oa_room` (`id`, `name`) VALUES
+(1, '展厅'),
+(2, '会议室1（大）'),
+(3, '会议室2（小）');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `oa_room_booking`
+--
+
+CREATE TABLE IF NOT EXISTS `oa_room_booking` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `room_id` int(11) NOT NULL COMMENT '房间ID',
+  `event_type` char(1) NOT NULL COMMENT '事件类型：M—会议；R—接待',
+  `event_id` int(11) NOT NULL COMMENT '会议Id或者接待Id',
+  `begin_time` datetime NOT NULL COMMENT '开始时间',
+  `end_time` datetime NOT NULL COMMENT '结束时间',
+  `book_person` int(11) NOT NULL COMMENT '预订人',
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `room_id` (`room_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='房间预订表' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -324,7 +414,7 @@ CREATE TABLE IF NOT EXISTS `oa_user` (
   KEY `department_id` (`department_id`),
   KEY `duty_id` (`duty_id`),
   KEY `level_id` (`level_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户表' AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户表' AUTO_INCREMENT=17 ;
 
 --
 -- 转存表中的数据 `oa_user`
@@ -341,11 +431,42 @@ INSERT INTO `oa_user` (`id`, `username`, `password`, `first_name`, `last_name`, 
 (10, 'yeym', '81dc9bdb52d04dc20036dbd8313ed055', '叶', '育梅', 'F', '1980-01-01', '1985-01-01', '2011-03-22', 'yeym@qq.com', '/public', '2014-12-04 00:00:00', 0, '', 0, 1, 0, 2, 5, 4, '2014-12-04 10:41:22', '2014-12-04 10:41:22'),
 (11, 'linss', '81dc9bdb52d04dc20036dbd8313ed055', '林', '穗生', 'M', '1980-01-01', '1985-01-01', '2011-03-22', 'linss@qq.com', 'public', '2014-12-04 00:00:00', 0, '', 0, 1, 0, 6, 5, 4, '2014-12-04 10:42:29', '2014-12-04 10:42:29'),
 (12, 'zhangh', '81dc9bdb52d04dc20036dbd8313ed055', '张', '皓', 'M', '1980-01-01', '1985-01-01', '2011-03-22', 'zhangh@qq.com', 'public', '2014-12-04 00:00:00', 0, '', 0, 1, 0, 3, 5, 4, '2014-12-04 10:43:19', '2014-12-04 10:43:19'),
-(13, 'zengk', 'c4ca4238a0b923820dcc509a6f75849b', '曾', '科', 'M', '1981-01-08', '2006-07-01', '2013-04-23', '38170508@qq.com', 'public', '2014-12-24 16:22:53', 38, '', 1, 1, 1, 5, 5, 4, '2014-12-04 10:44:27', '2014-12-04 10:52:21');
+(13, 'zengk', 'c4ca4238a0b923820dcc509a6f75849b', '曾', '科', 'M', '1981-01-08', '2006-07-01', '2013-04-23', '38170508@qq.com', 'public', '2014-12-25 17:00:06', 40, '', 1, 1, 1, 5, 5, 4, '2014-12-04 10:44:27', '2014-12-04 10:52:21'),
+(16, 'chenh', '81dc9bdb52d04dc20036dbd8313ed055', '陈', '卉', 'F', '1980-01-01', '2003-07-01', '2012-08-01', '624664816@qq.com', '/upload/', '2014-12-25 00:00:00', 0, '#6F00D2', 0, 1, 0, 4, 5, 4, '2014-12-25 17:09:32', '2014-12-25 17:09:32');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `oa_viewplace`
+--
+
+CREATE TABLE IF NOT EXISTS `oa_viewplace` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) NOT NULL COMMENT '名称',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='参观地点' AUTO_INCREMENT=9 ;
+
+--
+-- 转存表中的数据 `oa_viewplace`
+--
+
+INSERT INTO `oa_viewplace` (`id`, `name`) VALUES
+(3, '展厅'),
+(4, '花城广场'),
+(5, '西塔62楼'),
+(6, '西塔70楼'),
+(7, '金融城热电厂沙盘'),
+(8, '金融城起步区现场');
 
 --
 -- 限制导出的表
 --
+
+--
+-- 限制表 `oa_room_booking`
+--
+ALTER TABLE `oa_room_booking`
+  ADD CONSTRAINT `oa_room_booking_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `oa_room` (`id`);
 
 --
 -- 限制表 `oa_schedule`
