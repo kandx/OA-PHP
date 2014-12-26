@@ -1,0 +1,170 @@
+<div id="event-form" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger">请填写接待信息</h4>
+			</div>
+
+			<div class="modal-body">
+				<div class="row">				
+					<div class="col-xs-12 col-sm-12">
+						<form class="form-horizontal" role="form"  method="post" action="" id="receptionform">
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="article_no"> 来访团队: </label>
+								<div class="col-sm-9">
+									<input type="text" name="vistor" id="vistor" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="article_no"> 考察内容: </label>
+								<div class="col-sm-9">
+									<input type="text" name="visit_content" id="visit_content" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="article_no"> 带队领导: </label>
+								<div class="col-sm-9">
+									<input type="text" name="visit_leader" id="visit_leader" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="article_no"> 联系人: </label>
+								<div class="col-sm-9">
+									<input type="text" name="contact" id="contact" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="phone"> 联系电话: </label>
+								<div class="col-sm-9">
+									<input type="text" name="phone" id="phone" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="visitor_count"> 到访人数: </label>
+								<div class="col-sm-9">
+									<input type="text" name="visitor_count" id="visitor_count" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="visit_places">考察地点: </label>
+								<div class="col-sm-9">
+									<foreach name="places" item="place">
+										<label>
+											<input name="view_place[]" type="checkbox" class="ace group" value="{$place.id}"/>
+											<span class="lbl"> {$place.name}</span>
+										</label>
+									</foreach>
+									<!-- <input type="text" name="visit_places" id="visit_places" class="col-xs-10 col-sm-8" /> -->
+								</div>
+							</div>
+
+							<div class="form-group">				
+								<label class="col-sm-3 control-label no-padding-right" for="begin_time"> 到访时间: </label>
+								<div class="col-sm-9">
+									<input type="text" id="begin_time" name="begin_time" class="datetime-picker col-xs-10 col-sm-8" data-date-format="yyyy-mm-dd hh:ii">
+								</div>
+							</div>
+							
+							<div class="form-group end_time">
+								<label class="col-sm-3 control-label no-padding-right" for="end_time"> 结束时间: </label>
+								<div class="col-sm-9">
+									<input type="text" id="end_time" name="end_time" class="datetime-picker col-xs-10 col-sm-8">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="major_department">牵头接待处室: </label>
+								<div class="col-sm-9">
+									<!-- <input type="text" name="major_department" id="major_department" class="col-xs-10 col-sm-8" /> -->
+									<foreach name="departments" item="department">
+										<label>
+											<input name="major_department" type="radio" class="ace group" value="{$department.short_name}"/>
+											<span class="lbl"> {$department.short_name}</span>
+										</label>
+									</foreach>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="assist_department">配合接待处室: </label>
+								<div class="col-sm-9">
+									<foreach name="departments" item="department">
+										<label>
+											<input name="assist_department[]" type="checkbox" class="ace group" value="{$department.short_name}"/>
+											<span class="lbl"> {$department.short_name}</span>
+										</label>
+									</foreach>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="receptionist">接待领导: </label>
+								<div class="col-sm-9">
+									<input type="text" name="reception_leader" id="reception_leader" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="receptionist">接待人员: </label>
+								<div class="col-sm-9">
+									<input type="text" name="receptionist" id="receptionist" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="description"> 说明: </label>
+								<div class="col-sm-6">
+									<textarea class="form-control" name="description" id="description"></textarea>
+								</div>
+							</div>
+
+							
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="description"></label>
+								<div class="checkbox col-sm-9">
+									<label>
+										<input name="is_meal" id="is_meal" type="checkbox" class="ace" value="1" />
+									<span class="lbl"> 是否用餐</span>
+									</label>
+								</div>
+							</div>
+
+							<input type="hidden" name="record_id" id="record_id" value="{:getCurrentUserId()}"/>
+							<input type="hidden" name="id" id="id">
+							<!-- <input type="hidden" id="is_allday" name="is_allday" value="0"> -->
+
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<a class="btn btn-sm btn-danger">
+					<i class="ace-icon fa fa-trash-o"></i>
+					删除
+				</a>
+
+				<button class="btn btn-sm btn-primary" type="submit">
+					<i class="ace-icon fa fa-check"></i>
+					保存
+				</button>
+
+				<button class="btn btn-sm" data-dismiss="modal" >
+					<i class="ace-icon fa fa-times"></i>
+					取消
+				</button>
+
+				
+			</div>
+		</div>
+	</div>
+</div>	

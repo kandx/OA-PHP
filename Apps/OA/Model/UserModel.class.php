@@ -23,10 +23,7 @@ class UserModel extends Model
 	public function getFullName($id){
 		$user = $this->where(array('id'=>$id))->field('first_name, last_name')->find();
 		if($user){
-			if(length($user['last_name']==1))
-				return $user['first_name'].' '.$user['last_name'];
-			else
-				return $user['first_name'].$user['last_name'];
+			return $user['first_name'].$user['last_name'];
 		}
 		else
 			return '';
@@ -81,6 +78,7 @@ class UserModel extends Model
 
 	public function getLeaders($all=false){
 		$cond['b.name'] = '委领导';
+		$cond['a.is_active'] = 1;
 		$leaders = $this->table('oa_user a')
 						->join('oa_department b on a.department_id = b.id', 'LEFT')
 						->where($cond)
@@ -88,6 +86,7 @@ class UserModel extends Model
 						->select();
 		if($all){
 			$where['a.id'] = array('neq', 1);
+			$where['b.is_active'] = 1;
 			$departLeaders = $this->table('oa_department a')
 								  ->join('oa_user b on a.leader_id = b.id', 'LEFT')
 								  ->where($where)
@@ -102,6 +101,7 @@ class UserModel extends Model
 	// all为true时，获取所有领导的ID，否则，仅获取委领导的ID
 	public function getLeaderIds($all=false){
 		$cond['b.name'] = '委领导';
+		$cond['a.is_active'] = 1;
 		$leaderIds = $this->table('oa_user a')
 						->join('oa_department b on a.department_id = b.id', 'LEFT')
 						->where($cond)
@@ -109,6 +109,7 @@ class UserModel extends Model
 						->select();
 		if($all){
 			$where['a.id'] = array('neq', 1);
+			$where['b.is_active'] = 1;
 			$departLeaderIds = $this->table('oa_department a')
 								  ->join('oa_user b on a.leader_id = b.id', 'LEFT')
 								  ->where($where)

@@ -649,7 +649,7 @@
 							<!-- PAGE CONTENT BEGINS -->
 							
 	<div class="row">
-		<div class="col-sm-10">
+		<div class="col-sm-11">
 			<div class="space"></div>
 
 			<!-- #section:plugins/data-time.calendar -->
@@ -657,35 +657,28 @@
 			
 			<!-- /section:plugins/data-time.calendar -->
 		</div>
-		<div class="col-sm-2">
-			<div class="space"></div>
+		<div class="col-sm-1">
 			<div class="space"></div>
 			<div class="space"></div>
 			<div class="space"></div>
 			<div class="space"></div>
 
 			<div class="row">
-				<div class="widget-box">
-					<div class="widget-header">
-						<h4 class="widget-title">
-							<?php if(!empty($leaders)): ?>选择领导<?php endif; ?>
-							<?php if(!empty($departLeader)): ?>处室领导<?php endif; ?>
-						</h4>
-					</div>
-
-					<div class="widget-body">
-						<div class="widget-main">
-							<div>								
-								<?php if(!empty($leaders)): ?><select class="form-control" id="select_leader">
-										<!-- <option value="0"></option> -->
-										<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><option value="<?php echo ($leader["id"]); ?>"><?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?></option><?php endforeach; endif; ?>
-									</select><?php endif; ?>
-
-								<?php if(!empty($departLeader)): ?><span><?php echo ($departLeader["first_name"]); echo ($departLeader["last_name"]); ?></span><?php endif; ?>	
-								
-							</div>
-						</div>
-					</div>
+				<p>
+					
+					<button class="btn btn-app btn-success btn-xs" id="addCalendar">
+						<i class="ace-icon fa fa-pencil bigger-160"></i>
+						添加
+					</button>
+					<button class="btn btn-app btn-purple btn-xs">
+						<i class="ace-icon fa fa-cloud-download bigger-160"></i>
+						导出
+					</button>
+					<button class="btn btn-app btn-info btn-xs">
+						<i class="ace-icon fa fa-envelope bigger-160"></i>
+						发至邮箱
+					</button>
+				</p>
 			</div>
 			
 		</div>
@@ -696,32 +689,73 @@
 
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="blue bigger">请填写日程信息</h4>
+				<h4 class="blue bigger">请填写接待信息</h4>
 			</div>
 
 			<div class="modal-body">
 				<div class="row">				
 					<div class="col-xs-12 col-sm-12">
-						<form class="form-horizontal" role="form"  method="post" action="" id="eventform">
+						<form class="form-horizontal" role="form"  method="post" action="" id="receptionform">
 
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="article_no"> 日程内容: </label>
+								<label class="col-sm-3 control-label no-padding-right" for="article_no"> 来访团队: </label>
 								<div class="col-sm-9">
-									<input type="text" name="title" id="title" placeholder="日程内容" class="col-xs-10 col-sm-8" />
+									<input type="text" name="vistor" id="vistor" class="col-xs-10 col-sm-8" />
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="description"> 说明: </label>
-								<div class="col-sm-6">
-									<textarea class="form-control" name="description" id="description"></textarea>
+								<label class="col-sm-3 control-label no-padding-right" for="article_no"> 考察内容: </label>
+								<div class="col-sm-9">
+									<input type="text" name="visit_content" id="visit_content" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="article_no"> 带队领导: </label>
+								<div class="col-sm-9">
+									<input type="text" name="visit_leader" id="visit_leader" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="article_no"> 联系人: </label>
+								<div class="col-sm-9">
+									<input type="text" name="contact" id="contact" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="phone"> 联系电话: </label>
+								<div class="col-sm-9">
+									<input type="text" name="phone" id="phone" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="visitor_count"> 到访人数: </label>
+								<div class="col-sm-9">
+									<input type="text" name="visitor_count" id="visitor_count" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="visit_places">考察地点: </label>
+								<div class="col-sm-9">
+									<?php if(is_array($places)): foreach($places as $key=>$place): ?><label>
+											<input name="view_place[]" type="checkbox" class="ace group" value="<?php echo ($place["id"]); ?>"/>
+											<span class="lbl"> <?php echo ($place["name"]); ?></span>
+										</label><?php endforeach; endif; ?>
+									<!-- <input type="text" name="visit_places" id="visit_places" class="col-xs-10 col-sm-8" /> -->
 								</div>
 							</div>
 
 							<div class="form-group">				
-								<label class="col-sm-3 control-label no-padding-right" for="begin_time"> 开始时间: </label>
+								<label class="col-sm-3 control-label no-padding-right" for="begin_time"> 到访时间: </label>
 								<div class="col-sm-9">
 									<input type="text" id="begin_time" name="begin_time" class="datetime-picker col-xs-10 col-sm-8" data-date-format="yyyy-mm-dd hh:ii">
+									<a href="">预定会议室</a>
+									<a href="">预定展厅</a>
 								</div>
 							</div>
 							
@@ -733,16 +767,60 @@
 							</div>
 
 							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="major_department">牵头接待处室: </label>
+								<div class="col-sm-9">
+									<!-- <input type="text" name="major_department" id="major_department" class="col-xs-10 col-sm-8" /> -->
+									<?php if(is_array($departments)): foreach($departments as $key=>$department): ?><label>
+											<input name="major_department" type="radio" class="ace group" value="<?php echo ($department["short_name"]); ?>"/>
+											<span class="lbl"> <?php echo ($department["short_name"]); ?></span>
+										</label><?php endforeach; endif; ?>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="assist_department">配合接待处室: </label>
+								<div class="col-sm-9">
+									<?php if(is_array($departments)): foreach($departments as $key=>$department): ?><label>
+											<input name="assist_department[]" type="checkbox" class="ace group" value="<?php echo ($department["short_name"]); ?>"/>
+											<span class="lbl"> <?php echo ($department["short_name"]); ?></span>
+										</label><?php endforeach; endif; ?>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="receptionist">接待领导: </label>
+								<div class="col-sm-9">
+									<input type="text" name="reception_leader" id="reception_leader" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="receptionist">接待人员: </label>
+								<div class="col-sm-9">
+									<input type="text" name="receptionist" id="receptionist" class="col-xs-10 col-sm-8" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="description"> 说明: </label>
+								<div class="col-sm-6">
+									<textarea class="form-control" name="description" id="description"></textarea>
+								</div>
+							</div>
+
+							
+
+							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right" for="description"></label>
 								<div class="checkbox col-sm-9">
 									<label>
-										<input name="is_allday" id="is_allday" type="checkbox" class="ace" value="1" />
-									<span class="lbl"> 全天日程</span>
+										<input name="is_meal" id="is_meal" type="checkbox" class="ace" value="1" />
+									<span class="lbl"> 是否用餐</span>
 									</label>
 								</div>
 							</div>
 
-							<input type="hidden" name="user_id" id="user_id" value="<?php echo getCurrentUserId();?>"/>
+							<input type="hidden" name="record_id" id="record_id" value="<?php echo getCurrentUserId();?>"/>
 							<input type="hidden" name="id" id="id">
 							<!-- <input type="hidden" id="is_allday" name="is_allday" value="0"> -->
 
@@ -835,8 +913,9 @@
 				header: {
 					left: 'prev,next today',
 					center: 'title',
-					right: 'month,agendaWeek,agendaDay'
+					right: 'agendaWeek,agendaDay'
 				},
+				defaultView: 'agendaWeek',
                 timeFormat: 'H:mm',
                 buttonText: {
                     prev: '<',
@@ -846,25 +925,17 @@
 				minTime: "06:00:00",
 				maxTime: "21:00:00",
 				slotDuration: "00:15:00",
-				// events: "<?php echo U('Schedule/getEvents', array('id'=>getCurrentUserId()));?>",
+				events: "<?php echo U('Reception/getReception');?>",
 				selectable: true,
 				selectHelper: true,
 				select: function(start, end, jsEvent, view) {
-					if(view.name=='month')
-						$('#is_allday').get(0).checked = true;
-					else{
-						if(start.diff(end, 'days')!=0)
-							$('#is_allday').get(0).checked = true;
-						else
-							$('#is_allday').get(0).checked = false;
-					}
-					$('#id').val('');
-					$('#title').val('');
-					$('#description').val('');
+					// $('#id').val('');
+					// $('#title').val('');
+					// $('#description').val('');
 					$("#begin_time").val(formatTime(start));
 					$('#end_time').val(formatTime(end));
-					$('.btn-danger').hide();
-					$('#eventform').get(0).action = "<?php echo U('Schedule/add');?>";
+					// $('.btn-danger').hide();
+					// $('#eventform').get(0).action = "<?php echo U('Schedule/add');?>";
 					$('.modal').modal('show');	
 				},
 				eventClick: function(calEvent, jsEvent, view){
@@ -921,7 +992,7 @@
 				dataType: 'json'
 			});
 
-			setSidebarActive('calendar_root', 'add_leader_calendar');
+			setSidebarActive('reception_root', 'personal_calendar');
 
 			$('#addCalendar').on('click', function(){
 				$('#id').val('');
@@ -933,33 +1004,7 @@
 				$('#eventform').get(0).action = "<?php echo U('Schedule/add');?>";
 				$('#is_allday').get(0).checked = false;
 				$('.modal').modal('show');	
-			});
-
-			//处理添加处室领导日程
-			var departLeaderId = "<?php echo ($departLeader["id"]); ?>";
-			if(departLeaderId)
-				$('#user_id').val('<?php echo ($departLeader["id"]); ?>');
-			var departSource = getEventSource(departLeaderId);
-			$('#calendar').fullCalendar('addEventSource', departSource);
-
-			//添加全委领导日程的处理
-			//保存上一次的选择值
-			var lastLeaderId = $('#select_leader').val(); 
-			//初始化日历显示
-			$('#calendar').fullCalendar('addEventSource', getEventSource(lastLeaderId));
-			//添加变更事件
-			$('#select_leader').on('change', function(){
-				var nowLeaderId = $('#select_leader').val();
-				var oldSource = getEventSource(lastLeaderId);
-				var newSource = getEventSource(nowLeaderId);
-				
-				$('#calendar').fullCalendar('removeEventSource', oldSource);
-					
-				$('#calendar').fullCalendar('addEventSource', newSource);
-				$('#user_id').val(nowLeaderId);
-				
-				lastLeaderId = nowLeaderId;				
-			});
+			})
 
 			function showRequest(formData, jqForm, options){
 				var form = jqForm[0];
@@ -1017,13 +1062,6 @@
 				});
 			}
 
-			function getEventSource(leaderId){
-				//直接使用thinkphp的U函数出错，只能采用如下方法处理
-				if(!leaderId)
-					return '';
-				var urlStr = "<?php echo U('Schedule/getEvents');?>".split(".");
-				return urlStr[0]+"/id/"+leaderId+".html";
-			}
 			
 		});
 	</script>
