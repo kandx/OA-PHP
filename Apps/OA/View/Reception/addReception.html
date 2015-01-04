@@ -29,14 +29,14 @@
 						<i class="ace-icon fa fa-pencil bigger-160"></i>
 						添加
 					</button>
-					<button class="btn btn-app btn-purple btn-xs">
+					<!-- <button class="btn btn-app btn-purple btn-xs">
 						<i class="ace-icon fa fa-cloud-download bigger-160"></i>
 						导出
 					</button>
 					<button class="btn btn-app btn-info btn-xs">
 						<i class="ace-icon fa fa-envelope bigger-160"></i>
 						发至邮箱
-					</button>
+					</button> -->
 				</p>
 			</div>
 			
@@ -88,7 +88,7 @@
 					$("#begin_time").val(formatTime(start));
 					$('#end_time').val(formatTime(end));
 					// $('.btn-danger').hide();
-					// $('#eventform').get(0).action = "{:U('Schedule/add')}";
+					$('#event-form').get(0).action = "{:U('Reception/addReception')}";
 					$('.modal').modal('show');	
 				},
 				eventClick: function(calEvent, jsEvent, view){

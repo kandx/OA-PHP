@@ -670,14 +670,14 @@
 						<i class="ace-icon fa fa-pencil bigger-160"></i>
 						添加
 					</button>
-					<button class="btn btn-app btn-purple btn-xs">
+					<!-- <button class="btn btn-app btn-purple btn-xs">
 						<i class="ace-icon fa fa-cloud-download bigger-160"></i>
 						导出
 					</button>
 					<button class="btn btn-app btn-info btn-xs">
 						<i class="ace-icon fa fa-envelope bigger-160"></i>
 						发至邮箱
-					</button>
+					</button> -->
 				</p>
 			</div>
 			
@@ -754,8 +754,6 @@
 								<label class="col-sm-3 control-label no-padding-right" for="begin_time"> 到访时间: </label>
 								<div class="col-sm-9">
 									<input type="text" id="begin_time" name="begin_time" class="datetime-picker col-xs-10 col-sm-8" data-date-format="yyyy-mm-dd hh:ii">
-									<a href="">预定会议室</a>
-									<a href="">预定展厅</a>
 								</div>
 							</div>
 							
@@ -935,7 +933,7 @@
 					$("#begin_time").val(formatTime(start));
 					$('#end_time').val(formatTime(end));
 					// $('.btn-danger').hide();
-					// $('#eventform').get(0).action = "<?php echo U('Schedule/add');?>";
+					$('#event-form').get(0).action = "<?php echo U('Reception/addReception');?>";
 					$('.modal').modal('show');	
 				},
 				eventClick: function(calEvent, jsEvent, view){

@@ -5,13 +5,26 @@ class ReceptionController extends BaseController {
 
     public function addReception(){
         $this->hasLogined();
-        $vp = M('Viewplace');
-        $this->assign('places', $vp->field('id, name')->select());
-        $dp = M('Department');
-        $this->assign('departments', $dp->field('id, short_name')->select());
+        if(IS_GET){
+            $vp = M('Viewplace');
+            $this->assign('places', $vp->field('id, name')->select());
+            $dp = M('Department');
+            $where['id'] = array('neq', 1);
+            $this->assign('departments', $dp->field('id, short_name')->where($where)->select());
 
-        $this->display();
+            $this->display();
+        }
+        else if(IS_POST){
+            p($_POST);
+        }
+        
     }
+
+    public function getReception(){
+        
+    }
+
+
 
 
     public function test(){
