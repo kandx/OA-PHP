@@ -47,6 +47,47 @@
 
 			</ul>
 		</li>
+
+		<!-- 发文管理 -->
+		<li class="" id="article_root">
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-pencil"></i>
+				<span class="menu-text"> 发文管理 </span>
+
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+
+			<b class="arrow"></b>
+
+			<ul class="submenu">
+				<li class="" id="leader_calendar">
+					<a href="{:U('Schedule/leaderCalendar')}">
+						<i class="menu-icon fa fa-caret-right"></i>
+						申请文号
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="" id="personal_calendar">
+					<a href="{:U('Schedule/personalCalendar')}">
+						<i class="menu-icon fa fa-caret-right"></i>
+						文号审批
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+				
+				<li class="" id="add_leader_calendar">
+					<a href="{:U('Schedule/addLeaderCalendar')}">
+						<i class="menu-icon fa fa-caret-right"></i>
+						发文查询
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+			</ul>
+		</li>
 		
 		<!-- 接待管理 -->
 		<li class="" id="reception_root">
@@ -64,7 +105,16 @@
 				<li class="" id="reception_add">
 					<a href="{:U('Reception/addReception')}">
 						<i class="menu-icon fa fa-caret-right"></i>
-						新增接待
+						接待登记
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="" id="reception_meeting_add">
+					<a href="{:U('Reception/addMeeting')}">
+						<i class="menu-icon fa fa-caret-right"></i>
+						会议登记
 					</a>
 
 					<b class="arrow"></b>
