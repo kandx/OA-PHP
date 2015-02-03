@@ -14,7 +14,6 @@
 
 		<!-- page specific plugin styles -->
 		
-	<link rel="stylesheet" href="/develop/OA/Public/static/css/fullcalendar.css" />
 	<link rel="stylesheet" href="/develop/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
 	
 
@@ -592,10 +591,10 @@
 		</li>
 
 		<li>
-			<a href=#>接待管理</a>
+			<a href=<?php echo U('Reception/addReception');?>>接待登记</a>
 		</li>
 
-		<li class="active">接待登记</li>
+		<li class="active">填写接待信息</li>
 	</ul><!-- /.breadcrumb -->
 </div>
 <!-- /section:basics/content.breadcrumbs -->
@@ -702,17 +701,196 @@
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
 							
+	<form class="form-horizontal" role="form"  method="post" action="<?php echo U('Reception/addReception');?>" id="receptionform">
 	<div class="row">
-		<div class="col-sm-11">
-			<div class="space"></div>
+			<div class="col-xs-12 col-sm-4">
+				<div class="widget-box">
+					<div class="widget-header">
+						<h4>来访信息</h4>
+					</div>
 
-			<!-- #section:plugins/data-time.calendar -->
-			<div id="calendar"></div>
+					<div class="widget-body">
+						<div class="widget-main">
+
+						<div class="form-group">
+							<label class="col-sm-12" for="article_no"> 来访机构: </label>
+							<div class="col-sm-12">
+								<input type="text" name="vistor" id="vistor" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-12" for="article_no"> 到访内容: </label>
+							<div class="col-sm-12">
+								<input type="text" name="visit_content" id="visit_content" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-12" for="article_no"> 带队领导: </label>
+							<div class="col-sm-12">
+								<input type="text" name="visit_leader" id="visit_leader" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-12" for="article_no"> 联系人: </label>
+							<div class="col-sm-12">
+								<input type="text" name="contact" id="contact" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-12" for="phone"> 联系电话: </label>
+							<div class="col-sm-12">
+								<input type="text" name="phone" id="phone" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-12" for="visitor_count"> 到访人数: </label>
+							<div class="col-sm-12">
+								<input type="text" name="visitor_count" id="visitor_count" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+
+						<div class="form-group">				
+							<label class="col-sm-12" for="begin_time"> 到访时间: </label>
+							<div class="col-sm-12">
+								<input type="text" id="begin_time" name="begin_time" class="datetime-picker col-xs-12 col-sm-12" data-date-format="yyyy-mm-dd hh:ii" value="<?php echo ($start); ?>">
+							</div>
+						</div>
+						
+						<div class="form-group end_time">
+							<label class="col-sm-12" for="end_time"> 结束时间: </label>
+							<div class="col-sm-12">
+								<input type="text" id="end_time" name="end_time" class="datetime-picker col-xs-12 col-sm-12" value="<?php echo ($end); ?>">
+							</div>
+						</div>
+
+						
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-12 col-sm-4">
+				<div class="widget-box">
+					<div class="widget-header">
+						<h4>接待信息</h4>
+					</div>
+
+					<div class="widget-body">
+						<div class="widget-main">
+
+							<div class="form-group">
+								<label class="col-sm-12" for="major_department">接待处室: </label>
+								<div class="col-sm-12">
+									<!-- <input type="text" name="major_department" id="major_department" class="col-xs-10 col-sm-8" /> -->
+									<?php if(is_array($departments)): foreach($departments as $key=>$department): ?><label>
+											<input name="major_department" type="radio" class="ace group" value="<?php echo ($department["short_name"]); ?>"/>
+											<span class="lbl"> <?php echo ($department["short_name"]); ?></span>
+										</label><?php endforeach; endif; ?>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-12" for="assist_department">配合处室: </label>
+								<div class="col-sm-12">
+									<?php if(is_array($departments)): foreach($departments as $key=>$department): ?><label>
+											<input name="assist_department[]" type="checkbox" class="ace group" value="<?php echo ($department["short_name"]); ?>"/>
+											<span class="lbl"> <?php echo ($department["short_name"]); ?></span>
+										</label><?php endforeach; endif; ?>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-12" for="receptionist">接待领导: </label>
+								<div class="col-sm-12">
+									<input type="text" name="reception_leader" id="reception_leader" class="col-xs-12 col-sm-12" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-12" for="receptionist">接待人员: </label>
+								<div class="col-sm-12">
+									<input type="text" name="receptionist" id="receptionist" class="col-xs-12 col-sm-12" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-12" for="description"> 说明: </label>
+								<div class="col-sm-12">
+									<textarea class="form-control" name="description" id="description"></textarea>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-12" for="description"></label>
+								<div class="checkbox col-sm-12">
+									<label>
+										<input name="need_mail" id="is_meal" type="checkbox" class="ace" value="1" />
+									<span class="lbl"> 邮件提醒</span>
+									</label>
+									<label>
+										<input name="is_meal" id="is_meal" type="checkbox" class="ace" value="1" />
+									<span class="lbl"> 需要用餐</span>
+									</label>
+								</div>
+							</div>
+
+							<input type="hidden" name="record_id" id="record_id" value="<?php echo getCurrentUserId();?>"/>
+							<input type="hidden" name="id" id="id">
+							<!-- <input type="hidden" id="is_allday" name="is_allday" value="0"> -->
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-12 col-sm-4">
+				<div class="widget-box">
+					<div class="widget-header">
+						<h4>参观信息</h4>
+					</div>
+
+					<div class="widget-body">
+						<div class="widget-main">
+							<div class="form-group">
+								<label class="col-sm-12" for="visit_places">考察地点: </label>
+								<div class="col-sm-12">
+									<?php if(is_array($places)): foreach($places as $key=>$place): ?><label>
+											<input name="view_place[]" type="checkbox" class="ace group" value="<?php echo ($place["id"]); ?>"/>
+											<span class="lbl"> <?php echo ($place["name"]); ?></span>
+										</label><?php endforeach; endif; ?>
+									<!-- <input type="text" name="visit_places" id="visit_places" class="col-xs-10 col-sm-8" /> -->
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
 			
-			<!-- /section:plugins/data-time.calendar -->
-		</div>
-
+		
 	</div>
+	<div class="row">
+		<div class="clearfix form-actions">
+			<div class="col-md-offset-3 col-md-9">
+				<button class="btn btn-info" type="submit">
+					<i class="icon-ok bigger-110"></i>
+					保存
+				</button>
+
+				&nbsp; &nbsp; &nbsp;
+				<a class="btn" type="button" href="<?php echo U('Reception/addReception');?>">
+					<i class="icon-undo bigger-110"></i>
+					返回
+				</a>
+			</div>
+		</div>
+	</div>
+	</form>
 
 
 							<!-- PAGE CONTENT ENDS -->
@@ -751,15 +929,11 @@
 
 		<!-- page specific plugin scripts -->
 		
-	<script src="/develop/OA/Public/static/js/date-time/moment.min.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery-ui.custom.min.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
 	<script src="/develop/OA/Public/static/js/date-time/bootstrap-datetimepicker.min.js"></script>
 	<script src="/develop/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-	<script src="/develop/OA/Public/static/js/fullcalendar.min.js"></script>
-	<script src="/develop/OA/Public/static/js/zh-cn.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery.form.min.js"></script>
-	<script src="/develop/OA/Public/static/js/bootbox.min.js"></script>
 
 
 		<!-- ace scripts -->
@@ -771,143 +945,16 @@
 		
 	<script type="text/javascript">
 		jQuery(function($){
-			var calendar = $('#calendar').fullCalendar({
-				header: {
-					left: 'prev,next today',
-					center: 'title',
-					right: 'month,agendaWeek,agendaDay'
-				},
-				defaultView: 'agendaWeek',
-                timeFormat: 'H:mm',
-                buttonText: {
-                    prev: '<',
-                    next: '>',
-                }, 
-				weekNumbers: true,
-				minTime: "06:00:00",
-				maxTime: "21:00:00",
-				slotDuration: "00:15:00",
-				events: "<?php echo U('Reception/getReception');?>",
-				selectable: true,
-				selectHelper: true,
-				select: function(start, end, jsEvent, view) {
-					
-					// $("#begin_time").val(formatTime(start));
-					// $('#end_time').val(formatTime(end));
-					// $('#event-form').get(0).action = "<?php echo U('Reception/addReception');?>";
-					// $('.modal').modal('show');
-					var root = "<?php echo U('Reception/receptionForm');?>".split(".");
-					var url = root[0]+"/start/"+formatTime(start)+"/end/"+formatTime(end)+".html";
-					window.location.href = url;	
-				},
-				eventClick: function(calEvent, jsEvent, view){
-					$.get("<?php echo U('Schedule/getDescription');?>", {id:calEvent.id}, function(data, textStatus){
-						$('#description').val(data);
-					}, 'json');
-					$('#id').val(calEvent.id);
-					$('#title').val(calEvent.title);
-					$("#begin_time").val(formatTime(calEvent.start));
-					$('#end_time').val(formatTime(calEvent.end));
-					$('#is_allday').get(0).checked = calEvent.allDay;
-					$('.btn-danger').show();
-					$('#eventform').attr('action', "<?php echo U('Schedule/edit');?>");
-					$('.modal').modal('show');
-				},
-				
-			});
-			
+
 			$('.datetime-picker').datetimepicker({
-				format:'yyyy-mm-dd hh:ii',
+				format:'yyyy-m-d h:i',
 				autoclose:true,
 				todayBtn:true,
 				language:'zh-CN',
 			});
 
-			$('.btn-danger').hide();
-			//删除日程的处理
-			$('.btn-danger').on('click', function(e){
-				bootbox.confirm('你确定要删除吗？', function(){
-					var eventID = $('#id').val();
-					$.get("<?php echo U('Schedule/del');?>", {id:eventID}, function(msg){
-						if(1==msg){
-							$('#calendar').fullCalendar('removeEvents', eventID);
-							$('.modal').modal('hide');
-						}
-						else{
-							bootbox.alert(msg);
-						}
-					});
-				});
-			});
-
-			$('#event-form').ajaxForm({
-				beforeSubmit: showRequest,
-				success: showResponse,
-				clearForm: true,
-				//resetForm: true,
-				dataType: 'json'
-			});
-
 			setSidebarActive('reception_root', 'reception_add');
 
-			
-			function showRequest(formData, jqForm, options){
-				var form = jqForm[0];
-				var title = form.title.value;
-				var start = form.begin_time.value;
-				if(title==''){
-					bootbox.alert('请填写日程内容！');
-					$('#title').focus();
-					return false;
-				}
-				else if(start==''){
-					bootbox.alert('请填写开始时间！');
-					$('#begin_time').focus();
-					return false;
-				}
-				else
-					return true;		
-			}
-
-			function showResponse(responseText, statusText, xhr, $form){
-				if(statusText=="success"){     
-				        if(responseText==1){ 
-				            $('.modal').modal('hide');//关闭弹出层 
-				            $('#calendar').fullCalendar('refetchEvents'); //重新获取所有事件数据 
-				        }
-				        else{ 
-				            bootbox.alert(responseText); 
-				        } 
-				}
-				else{ 
-				    bootbox.alert(statusText); 
-				} 
-			}
-			function formatTime(time){
-				if(!time)
-					return '';
-				if(time.hasTime())
-					return time.format('YYYY-M-D H:mm');
-				else
-					return time.format('YYYY-M-D');
-			}
-
-			function dropAndResize(event, revertFunc){
-				var eventData = {
-					id: event.id,
-					start: formatTime(event.start),
-					end: formatTime(event.end),
-					allDay: event.allDay
-				};
-				$.post("<?php echo U('Schedule/drop');?>", eventData, function(msg){
-					if(msg!=1){
-						bootbox.alert(msg);
-						revertFunc();
-					}
-				});
-			}
-
-			
 		});
 	</script>
 

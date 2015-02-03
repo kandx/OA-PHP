@@ -20,6 +20,19 @@ class ReceptionController extends BaseController {
         
     }
 
+    public function receptionForm(){
+
+    	$vp = M('Viewplace');
+    	$this->assign('places', $vp->field('id, name')->select());
+    	$dp = M('Department');
+    	$where['id'] = array('neq', 1);
+    	$this->assign('departments', $dp->field('id, short_name')->where($where)->select());
+    	$this->assign('start', I('start'));
+    	$this->assign('end', I('end'));
+    	$this->display();
+
+    }
+
     public function getReception(){
         
     }
@@ -28,9 +41,9 @@ class ReceptionController extends BaseController {
 
 
     public function test(){
-        $users = D('User');
         
-        p($users->getDepartLeader(getCurrentUserId()));
+        p(I('start'));
+        //p(U('Reception/test', array('start'=>'2015-2-3 06:45')));
         // if($time)
         //     p('zero time is not false');
         // else
