@@ -138,5 +138,13 @@ class UserModel extends Model
 					->field('id, first_name, last_name')
 					->find();
 	}
+
+	//根据部门ID获取部门成员信息
+	//部门ID为0时，获取全委除领导外的成员信息
+	public function getStaff($departmentId=0){
+		if ($departmentId) {
+			# code...
+		}
+	}
 	
 }

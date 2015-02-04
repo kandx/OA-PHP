@@ -15,6 +15,7 @@
 		<!-- page specific plugin styles -->
 		
 	<link rel="stylesheet" href="/develop/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
+	<link rel="stylesheet" href="/develop/OA/Public/static/css/chosen.css" />
 	
 
 
@@ -589,10 +590,10 @@
 			<i class="ace-icon fa fa-home home-icon"></i>
 			<a href="<?php echo U('Index/main');?>">OA系统</a>
 		</li>
-
-		<li>
+		
+		<?php if(接待登记 != ''): ?><li>
 			<a href=<?php echo U('Reception/addReception');?>>接待登记</a>
-		</li>
+		</li><?php endif; ?>
 
 		<li class="active">填写接待信息</li>
 	</ul><!-- /.breadcrumb -->
@@ -703,176 +704,233 @@
 							
 	<form class="form-horizontal" role="form"  method="post" action="<?php echo U('Reception/addReception');?>" id="receptionform">
 	<div class="row">
-			<div class="col-xs-12 col-sm-4">
-				<div class="widget-box">
-					<div class="widget-header">
-						<h4>来访信息</h4>
+		<div class="col-xs-12 col-sm-4">
+			<div class="widget-box">
+				<div class="widget-header">
+					<h4>来访信息</h4>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main">
+
+					<div class="form-group">
+						<label class="col-sm-12" for="article_no"> 来访机构: </label>
+						<div class="col-sm-12">
+							<input type="text" name="vistor" id="vistor" class="col-xs-12 col-sm-12" />
+						</div>
 					</div>
 
-					<div class="widget-body">
-						<div class="widget-main">
+					<div class="form-group">
+						<label class="col-sm-12" for="article_no"> 到访内容: </label>
+						<div class="col-sm-12">
+							<input type="text" name="visit_content" id="visit_content" class="col-xs-12 col-sm-12" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-12" for="article_no"> 带队领导: </label>
+						<div class="col-sm-12">
+							<input type="text" name="visit_leader" id="visit_leader" class="col-xs-12 col-sm-12" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-12" for="article_no"> 联系人: </label>
+						<div class="col-sm-12">
+							<input type="text" name="contact" id="contact" class="col-xs-12 col-sm-12" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-12" for="phone"> 联系电话: </label>
+						<div class="col-sm-12">
+							<input type="text" name="phone" id="phone" class="col-xs-12 col-sm-12" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-12" for="visitor_count"> 到访人数: </label>
+						<div class="col-sm-12">
+							<input type="text" name="visitor_count" id="visitor_count" class="col-xs-12 col-sm-12" />
+						</div>
+					</div>
+
+					<div class="form-group">				
+						<label class="col-sm-12" for="begin_time"> 到访时间: </label>
+						<div class="col-sm-12">
+							<input type="text" id="begin_time" name="begin_time" class="datetime-picker col-xs-12 col-sm-12" data-date-format="yyyy-mm-dd hh:ii" value="<?php echo ($start); ?>">
+						</div>
+					</div>
+					
+					<div class="form-group end_time">
+						<label class="col-sm-12" for="end_time"> 结束时间: </label>
+						<div class="col-sm-12">
+							<input type="text" id="end_time" name="end_time" class="datetime-picker col-xs-12 col-sm-12" value="<?php echo ($end); ?>">
+						</div>
+					</div>
+
+					
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-sm-4">
+			<div class="widget-box">
+				<div class="widget-header">
+					<h4>接待信息</h4>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main">
 
 						<div class="form-group">
-							<label class="col-sm-12" for="article_no"> 来访机构: </label>
+							<label class="col-sm-12" for="major_department">接待处室: </label>
 							<div class="col-sm-12">
-								<input type="text" name="vistor" id="vistor" class="col-xs-12 col-sm-12" />
+								<!-- <input type="text" name="major_department" id="major_department" class="col-xs-10 col-sm-8" /> -->
+								<?php if(is_array($departments)): foreach($departments as $key=>$department): ?><label>
+										<input name="major_department" id="major_department" type="radio" class="ace group" value="<?php echo ($department["id"]); ?>"/>
+										<span class="lbl"> <?php echo ($department["short_name"]); ?></span>
+									</label><?php endforeach; endif; ?>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-12" for="article_no"> 到访内容: </label>
-							<div class="col-sm-12">
-								<input type="text" name="visit_content" id="visit_content" class="col-xs-12 col-sm-12" />
+							<!-- <label class="col-sm-12" for="assist_department">配合处室: </label> -->
+							<label class="col-sm-12">
+								<input id="need_assist_department" type="checkbox" class="ace" />
+								<span class="lbl"> 配合处室</span>
+							</label>
+							<div class="col-sm-12" id="assist_deparment_div">
+								<!-- <?php if(is_array($departments)): foreach($departments as $key=>$department): ?><label>
+										<input name="assist_department[]" type="checkbox" class="ace group" value="<?php echo ($department["id"]); ?>"/>
+										<span class="lbl"> <?php echo ($department["short_name"]); ?></span>
+									</label><?php endforeach; endif; ?> -->
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-12" for="article_no"> 带队领导: </label>
+							<label class="col-sm-12" for="receptionist">接待领导: </label>
 							<div class="col-sm-12">
-								<input type="text" name="visit_leader" id="visit_leader" class="col-xs-12 col-sm-12" />
+								<!-- <input type="text" name="reception_leader" id="reception_leader" class="col-xs-12 col-sm-12" /> -->
+								<select multiple="" class="width-90 chosen-select tag-input-style" id="reception_leader" name="reception_leader[]" data-placeholder="请选择领导...">
+									<option value="">&nbsp;</option>
+									<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><option class="col-xs-10 col-sm-5" value="<?php echo ($leader["id"]); ?>"><?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?></option><?php endforeach; endif; ?>
+								</select>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-12" for="article_no"> 联系人: </label>
+							<label class="col-sm-12" for="receptionist">接待人员: </label>
 							<div class="col-sm-12">
-								<input type="text" name="contact" id="contact" class="col-xs-12 col-sm-12" />
+								<input type="text" name="receptionist" id="receptionist" class="col-xs-12 col-sm-12" />
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-12" for="phone"> 联系电话: </label>
+							<label class="col-sm-12" for="description"> 说明: </label>
 							<div class="col-sm-12">
-								<input type="text" name="phone" id="phone" class="col-xs-12 col-sm-12" />
+								<textarea class="form-control" name="description" id="description"></textarea>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-12" for="visitor_count"> 到访人数: </label>
-							<div class="col-sm-12">
-								<input type="text" name="visitor_count" id="visitor_count" class="col-xs-12 col-sm-12" />
+							<label class="col-sm-12" for="description"></label>
+							<div class="checkbox col-sm-12">
+								<label>
+									<input name="need_mail" id="is_meal" type="checkbox" class="ace" value="1" />
+								<span class="lbl"> 邮件提醒</span>
+								</label>
+								<label>
+									<input name="is_meal" id="is_meal" type="checkbox" class="ace" value="1" />
+								<span class="lbl"> 需要用餐</span>
+								</label>
 							</div>
 						</div>
 
-						<div class="form-group">				
-							<label class="col-sm-12" for="begin_time"> 到访时间: </label>
+						<input type="hidden" name="record_id" id="record_id" value="<?php echo getCurrentUserId();?>"/>
+						<input type="hidden" name="id" id="id">
+						<!-- <input type="hidden" id="is_allday" name="is_allday" value="0"> -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-sm-4">
+			<div class="widget-box">
+				<div class="widget-header">
+					<h4>参观信息</h4>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main">
+						<div class="form-group">
+							<label class="col-sm-12" for="visit_places">考察地点: </label>
 							<div class="col-sm-12">
-								<input type="text" id="begin_time" name="begin_time" class="datetime-picker col-xs-12 col-sm-12" data-date-format="yyyy-mm-dd hh:ii" value="<?php echo ($start); ?>">
+								<?php if(is_array($places)): foreach($places as $key=>$place): ?><label>
+										<input name="view_place[]" type="checkbox" class="ace group" value="<?php echo ($place["id"]); ?>"/>
+										<span class="lbl"> <?php echo ($place["name"]); ?></span>
+									</label><?php endforeach; endif; ?>
 							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-12">
+								<label>
+									<input id="is_book_hall" type="checkbox" class="ace group" value="1"/>
+									<span class="lbl">预定展厅</span>
+								</label>
+							</div>
+							<div class="form-group" id="bookHall">
+								<div class="col-sm-12">			
+									<label class="col-sm-3 control-label no-padding-right" for="begin_time"> 开始时间: </label>
+									<div class="col-sm-9">
+										<input type="text" id="hall_start_time" name="hall_start_time" class="datetime-picker col-xs-12 col-sm-9" data-date-format="yyyy-mm-dd hh:ii">
+									</div>
+								
+									<label class="col-sm-3 control-label no-padding-right" for="end_time"> 结束时间: </label>
+									<div class="col-sm-9">
+										<input type="text" id="hall_end_time" name="hall_end_time" class="datetime-picker col-xs-12 col-sm-9">
+									</div>
+								</div>
+							</div>	
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-12">
+								<label>
+									<input id="is_book_room" type="checkbox" class="ace group" value="1"/>
+									<span class="lbl">预定其他房间</span>
+								</label>
+							</div>
+							<div class="form-group" id="bookRoom">
+								<div class="col-sm-12">	
+									<label class="col-sm-3 control-label no-padding-right" for="dealer">选择房间:</label>
+									<div class="col-sm-9">
+									<select class="col-xs-10 col-sm-9"  name="room_id">
+										<option value="">&nbsp;</option>
+										<?php if(is_array($rooms)): foreach($rooms as $key=>$rm): ?><option class="col-xs-10 col-sm-5" value="<?php echo ($rm["id"]); ?>"><?php echo ($rm["name"]); ?></option><?php endforeach; endif; ?>
+									</select>
+									</div>
+
+									<label class="col-sm-3 control-label no-padding-right" for="begin_time"> 开始时间: </label>
+									<div class="col-sm-9">
+										<input type="text" id="room_start_time" name="room_start_time" class="datetime-picker col-xs-12 col-sm-9" data-date-format="yyyy-mm-dd hh:ii">
+									</div>
+								
+									<label class="col-sm-3 control-label no-padding-right" for="end_time"> 结束时间: </label>
+									<div class="col-sm-9">
+										<input type="text" id="room_end_time" name="room_end_time" class="datetime-picker col-xs-12 col-sm-9">
+									</div>
+								</div>
+							</div>	
 						</div>
 						
-						<div class="form-group end_time">
-							<label class="col-sm-12" for="end_time"> 结束时间: </label>
-							<div class="col-sm-12">
-								<input type="text" id="end_time" name="end_time" class="datetime-picker col-xs-12 col-sm-12" value="<?php echo ($end); ?>">
-							</div>
-						</div>
 
-						
-						</div>
 					</div>
 				</div>
 			</div>
-
-			<div class="col-xs-12 col-sm-4">
-				<div class="widget-box">
-					<div class="widget-header">
-						<h4>接待信息</h4>
-					</div>
-
-					<div class="widget-body">
-						<div class="widget-main">
-
-							<div class="form-group">
-								<label class="col-sm-12" for="major_department">接待处室: </label>
-								<div class="col-sm-12">
-									<!-- <input type="text" name="major_department" id="major_department" class="col-xs-10 col-sm-8" /> -->
-									<?php if(is_array($departments)): foreach($departments as $key=>$department): ?><label>
-											<input name="major_department" type="radio" class="ace group" value="<?php echo ($department["short_name"]); ?>"/>
-											<span class="lbl"> <?php echo ($department["short_name"]); ?></span>
-										</label><?php endforeach; endif; ?>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="col-sm-12" for="assist_department">配合处室: </label>
-								<div class="col-sm-12">
-									<?php if(is_array($departments)): foreach($departments as $key=>$department): ?><label>
-											<input name="assist_department[]" type="checkbox" class="ace group" value="<?php echo ($department["short_name"]); ?>"/>
-											<span class="lbl"> <?php echo ($department["short_name"]); ?></span>
-										</label><?php endforeach; endif; ?>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="col-sm-12" for="receptionist">接待领导: </label>
-								<div class="col-sm-12">
-									<input type="text" name="reception_leader" id="reception_leader" class="col-xs-12 col-sm-12" />
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="col-sm-12" for="receptionist">接待人员: </label>
-								<div class="col-sm-12">
-									<input type="text" name="receptionist" id="receptionist" class="col-xs-12 col-sm-12" />
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="col-sm-12" for="description"> 说明: </label>
-								<div class="col-sm-12">
-									<textarea class="form-control" name="description" id="description"></textarea>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="col-sm-12" for="description"></label>
-								<div class="checkbox col-sm-12">
-									<label>
-										<input name="need_mail" id="is_meal" type="checkbox" class="ace" value="1" />
-									<span class="lbl"> 邮件提醒</span>
-									</label>
-									<label>
-										<input name="is_meal" id="is_meal" type="checkbox" class="ace" value="1" />
-									<span class="lbl"> 需要用餐</span>
-									</label>
-								</div>
-							</div>
-
-							<input type="hidden" name="record_id" id="record_id" value="<?php echo getCurrentUserId();?>"/>
-							<input type="hidden" name="id" id="id">
-							<!-- <input type="hidden" id="is_allday" name="is_allday" value="0"> -->
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-xs-12 col-sm-4">
-				<div class="widget-box">
-					<div class="widget-header">
-						<h4>参观信息</h4>
-					</div>
-
-					<div class="widget-body">
-						<div class="widget-main">
-							<div class="form-group">
-								<label class="col-sm-12" for="visit_places">考察地点: </label>
-								<div class="col-sm-12">
-									<?php if(is_array($places)): foreach($places as $key=>$place): ?><label>
-											<input name="view_place[]" type="checkbox" class="ace group" value="<?php echo ($place["id"]); ?>"/>
-											<span class="lbl"> <?php echo ($place["name"]); ?></span>
-										</label><?php endforeach; endif; ?>
-									<!-- <input type="text" name="visit_places" id="visit_places" class="col-xs-10 col-sm-8" /> -->
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-
-			
-		
+		</div>
 	</div>
 	<div class="row">
 		<div class="clearfix form-actions">
@@ -931,9 +989,11 @@
 		
 	<script src="/develop/OA/Public/static/js/jquery-ui.custom.min.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="/develop/OA/Public/static/js/chosen.jquery.min.js"></script>
 	<script src="/develop/OA/Public/static/js/date-time/bootstrap-datetimepicker.min.js"></script>
 	<script src="/develop/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery.form.min.js"></script>
+	<script src="/develop/OA/Public/static/js/bootbox.min.js"></script>
 
 
 		<!-- ace scripts -->
@@ -945,17 +1005,83 @@
 		
 	<script type="text/javascript">
 		jQuery(function($){
-
+			//初始化datetime控件
 			$('.datetime-picker').datetimepicker({
 				format:'yyyy-m-d h:i',
 				autoclose:true,
 				todayBtn:true,
 				language:'zh-CN',
 			});
-
+			//初始化chosen控件
+			$(".chosen-select").chosen();
+			//设置指示标位置
 			setSidebarActive('reception_root', 'reception_add');
+			$('#bookHall').hide();
+			$('#bookRoom').hide();
+			$('#assist_deparment_div').hide();
+
+			//预定展厅显示与隐藏
+			$('#is_book_hall').on('click', function(){
+				if(this.checked)
+					$('#bookHall').show();
+				else
+					$('#bookHall').hide();
+			});
+			//预定其他房间的显示与隐藏
+			$('#is_book_room').on('click', function(){
+				if(this.checked)
+					$('#bookRoom').show();
+				else
+					$('#bookRoom').hide();
+			});
+			//配合处室的显示与隐藏
+			$('#need_assist_department').on('click', function(){
+				if(this.checked){
+					var chargeDeaprtment = $("input[name='major_department']:checked").val();
+					if(chargeDeaprtment){
+						createAssistDepartments(chargeDeaprtment);
+						$('#assist_deparment_div').show();
+					}
+					else{
+						bootbox.alert('请先选择接待处室！');
+						this.checked = false;
+					}	
+				}
+				else{
+					$('#assist_deparment_div').empty();
+					$('#assist_deparment_div').hide();
+				}
+			});
+			//接待处室变化后，配合处室的改变
+			$('#major_department').on('change', function(){
+				var isChecked = $('#need_assist_department').attr('checked');
+				if(isChecked){
+					var chargeDeaprtment = $("input[name='major_department']:checked").val();
+					$('#assist_deparment_div').hide();
+					$('#assist_deparment_div').empty();
+					createAssistDepartments(chargeDeaprtment);
+					$('#assist_deparment_div').show();
+				}
+			});
+
 
 		});
+
+		function createAssistDepartments(exceptId){
+			$.get("<?php echo U('Reception/getAssistDepartments');?>", {id:exceptId}, function(data, textStatus){
+				var html = "";
+				var node = "<input name='assist_department[]' type='checkbox' class='ace' value='";
+				var title = "<span class='lbl'>";
+				$.each(data, function(n, depart){
+					var tmpInput = node+depart.id+"'"+"/>";
+					var tmpTitle = title+depart.short_name+"</span>";
+					var tmpNode = tmpInput+tmpTitle;
+					html += "<label>"+tmpNode+"</label>";
+				});	
+				$('#assist_deparment_div').append($(html));
+			}, 'json');
+			
+		}
 	</script>
 
 		

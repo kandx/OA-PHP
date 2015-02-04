@@ -24,9 +24,18 @@ class ReceptionController extends BaseController {
 
     	$vp = M('Viewplace');
     	$this->assign('places', $vp->field('id, name')->select());
+    	
     	$dp = M('Department');
     	$where['id'] = array('neq', 1);
     	$this->assign('departments', $dp->field('id, short_name')->where($where)->select());
+
+    	$room = M('Room');
+    	$cond['name'] = array('neq', '展厅');
+    	$this->assign('rooms', $room->where($cond)->select());
+
+    	$users = D('User');
+    	$this->assign('leaders', $users->getLeaders(true));
+
     	$this->assign('start', I('start'));
     	$this->assign('end', I('end'));
     	$this->display();
@@ -37,17 +46,21 @@ class ReceptionController extends BaseController {
         
     }
 
+    public function getAssistDepartments(){
+    	$this->hasPermission(IS_AJAX);
+    	$exceptId = I('id');
+    	$dp = D('Department');
+    	$departments = $dp->getDepartmentsExcept($exceptId);
+    	$this->ajaxReturn($departments);
+    }
+
 
 
 
     public function test(){
+        $dp = D('Department');
+        p($dp->getDepartmentsExcept(2));
         
-        p(I('start'));
-        //p(U('Reception/test', array('start'=>'2015-2-3 06:45')));
-        // if($time)
-        //     p('zero time is not false');
-        // else
-        //     p('zero time is false');
 
     }
 }

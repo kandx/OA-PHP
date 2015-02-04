@@ -590,10 +590,10 @@
 			<i class="ace-icon fa fa-home home-icon"></i>
 			<a href="<?php echo U('Index/main');?>">OA系统</a>
 		</li>
-
-		<li>
+		
+		<?php if(接待管理 != ''): ?><li>
 			<a href=#>接待管理</a>
-		</li>
+		</li><?php endif; ?>
 
 		<li class="active">接待登记</li>
 	</ul><!-- /.breadcrumb -->
@@ -703,7 +703,7 @@
 							<!-- PAGE CONTENT BEGINS -->
 							
 	<div class="row">
-		<div class="col-sm-11">
+		<div class="col-sm-10">
 			<div class="space"></div>
 
 			<!-- #section:plugins/data-time.calendar -->
@@ -758,7 +758,6 @@
 	<script src="/develop/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="/develop/OA/Public/static/js/fullcalendar.min.js"></script>
 	<script src="/develop/OA/Public/static/js/zh-cn.js"></script>
-	<script src="/develop/OA/Public/static/js/jquery.form.min.js"></script>
 	<script src="/develop/OA/Public/static/js/bootbox.min.js"></script>
 
 
@@ -782,7 +781,8 @@
                 buttonText: {
                     prev: '<',
                     next: '>',
-                }, 
+                },
+                allDaySlot: false, 
 				weekNumbers: true,
 				minTime: "06:00:00",
 				maxTime: "21:00:00",
