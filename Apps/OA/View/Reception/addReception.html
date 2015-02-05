@@ -90,6 +90,7 @@
 				todayBtn:true,
 				language:'zh-CN',
 			});
+			setSidebarActive('reception_root', 'reception_add');
 
 			$('.btn-danger').hide();
 			//删除日程的处理
@@ -115,8 +116,6 @@
 				//resetForm: true,
 				dataType: 'json'
 			});
-
-			setSidebarActive('reception_root', 'reception_add');
 
 			
 			function showRequest(formData, jqForm, options){

@@ -54,12 +54,34 @@ class ReceptionController extends BaseController {
     	$this->ajaxReturn($departments);
     }
 
+    public function getReceptionist(){
+    	$this->hasPermission(IS_AJAX);
+    	$ids = I('id');
+    	$users = D('User');
+    	$staff = array();
+    	if(is_array($ids)){
+    		foreach ($ids as $id) {
+    			$members = $users->getStaff($id);
+    			$staff = array_merge($staff, $members);
+    		}
+    	}
+    	$this->ajaxReturn($staff);
+    }
+
 
 
 
     public function test(){
-        $dp = D('Department');
-        p($dp->getDepartmentsExcept(2));
+        $users = D('User');
+        $staff = array();
+        $ids = array(3, 4, 6);
+        if(is_array($ids)){
+        	foreach ($ids as $k => $v) {
+        		$members = $users->getStaff($v);
+        		$staff = array_merge($staff, $members);
+        	}
+        }
+        p($staff);
         
 
     }

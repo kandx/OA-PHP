@@ -16,7 +16,6 @@
 		
 	<link rel="stylesheet" href="/develop/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
 	<link rel="stylesheet" href="/develop/OA/Public/static/css/chosen.css" />
-	
 
 
 		<!-- text fonts -->
@@ -751,7 +750,7 @@
 					<div class="form-group">
 						<label class="col-sm-12" for="visitor_count"> 到访人数: </label>
 						<div class="col-sm-12">
-							<input type="text" name="visitor_count" id="visitor_count" class="col-xs-12 col-sm-12" />
+							<input type="text" name="visitor_count" id="visitor_count" class="input-mini" />
 						</div>
 					</div>
 
@@ -789,7 +788,7 @@
 							<div class="col-sm-12">
 								<!-- <input type="text" name="major_department" id="major_department" class="col-xs-10 col-sm-8" /> -->
 								<?php if(is_array($departments)): foreach($departments as $key=>$department): ?><label>
-										<input name="major_department" id="major_department" type="radio" class="ace group" value="<?php echo ($department["id"]); ?>"/>
+										<input name="major_department" type="radio" class="ace group" value="<?php echo ($department["id"]); ?>"/>
 										<span class="lbl"> <?php echo ($department["short_name"]); ?></span>
 									</label><?php endforeach; endif; ?>
 							</div>
@@ -812,7 +811,6 @@
 						<div class="form-group">
 							<label class="col-sm-12" for="receptionist">接待领导: </label>
 							<div class="col-sm-12">
-								<!-- <input type="text" name="reception_leader" id="reception_leader" class="col-xs-12 col-sm-12" /> -->
 								<select multiple="" class="width-90 chosen-select tag-input-style" id="reception_leader" name="reception_leader[]" data-placeholder="请选择领导...">
 									<option value="">&nbsp;</option>
 									<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><option class="col-xs-10 col-sm-5" value="<?php echo ($leader["id"]); ?>"><?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?></option><?php endforeach; endif; ?>
@@ -821,9 +819,13 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-12" for="receptionist">接待人员: </label>
-							<div class="col-sm-12">
-								<input type="text" name="receptionist" id="receptionist" class="col-xs-12 col-sm-12" />
+							<label class="col-sm-12">
+								<input id="need_receptionist" type="checkbox" class="ace" />
+								<span class="lbl"> 接待人员</span>
+							</label>
+							<div class="col-sm-12" id="receptionist_div">
+								<!-- <select multiple='' class='width-90 chosen-select tag-input-style' id='receptionist' name='receptionist[]' data-placeholder='请选择接待人员...'>
+								</select> -->
 							</div>
 						</div>
 
@@ -838,7 +840,7 @@
 							<label class="col-sm-12" for="description"></label>
 							<div class="checkbox col-sm-12">
 								<label>
-									<input name="need_mail" id="is_meal" type="checkbox" class="ace" value="1" />
+									<input name="need_mail" id="need_mail" type="checkbox" class="ace" value="1" />
 								<span class="lbl"> 邮件提醒</span>
 								</label>
 								<label>
@@ -878,7 +880,7 @@
 							<div class="col-sm-12">
 								<label>
 									<input id="is_book_hall" type="checkbox" class="ace group" value="1"/>
-									<span class="lbl">预定展厅</span>
+									<span class="lbl">预订展厅</span>
 								</label>
 							</div>
 							<div class="form-group" id="bookHall">
@@ -900,14 +902,14 @@
 							<div class="col-sm-12">
 								<label>
 									<input id="is_book_room" type="checkbox" class="ace group" value="1"/>
-									<span class="lbl">预定其他房间</span>
+									<span class="lbl">预订会议室</span>
 								</label>
 							</div>
 							<div class="form-group" id="bookRoom">
 								<div class="col-sm-12">	
-									<label class="col-sm-3 control-label no-padding-right" for="dealer">选择房间:</label>
+									<label class="col-sm-3 control-label no-padding-right" for="dealer">选择会议室:</label>
 									<div class="col-sm-9">
-									<select class="col-xs-10 col-sm-9"  name="room_id">
+									<select class="width-70 chosen-select" name="room_id">
 										<option value="">&nbsp;</option>
 										<?php if(is_array($rooms)): foreach($rooms as $key=>$rm): ?><option class="col-xs-10 col-sm-5" value="<?php echo ($rm["id"]); ?>"><?php echo ($rm["name"]); ?></option><?php endforeach; endif; ?>
 									</select>
@@ -994,6 +996,7 @@
 	<script src="/develop/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery.form.min.js"></script>
 	<script src="/develop/OA/Public/static/js/bootbox.min.js"></script>
+	<script src="/develop/OA/Public/static/js/fuelux/fuelux.spinner.min.js"></script>
 
 
 		<!-- ace scripts -->
@@ -1005,9 +1008,12 @@
 		
 	<script type="text/javascript">
 		jQuery(function($){
+			//初始化数字控件
+			//注意：图标不能是icon-xxx形式，必须是fa fa-xxx
+			$('.input-mini').ace_spinner({value:0,min:0,max:100,step:1, on_sides: true, icon_up:'fa fa-plus smaller-75', icon_down:'fa fa-minus smaller-75', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});
 			//初始化datetime控件
 			$('.datetime-picker').datetimepicker({
-				format:'yyyy-m-d h:i',
+				format:'yyyy-m-d h:ii',
 				autoclose:true,
 				todayBtn:true,
 				language:'zh-CN',
@@ -1019,6 +1025,7 @@
 			$('#bookHall').hide();
 			$('#bookRoom').hide();
 			$('#assist_deparment_div').hide();
+			$('#receptionist_div').hide();
 
 			//预定展厅显示与隐藏
 			$('#is_book_hall').on('click', function(){
@@ -1048,19 +1055,49 @@
 					}	
 				}
 				else{
+					if($('#need_receptionist').is(':checked')){
+						$('#need_receptionist').trigger('click');
+					}
 					$('#assist_deparment_div').empty();
 					$('#assist_deparment_div').hide();
 				}
 			});
 			//接待处室变化后，配合处室的改变
-			$('#major_department').on('change', function(){
-				var isChecked = $('#need_assist_department').attr('checked');
-				if(isChecked){
+			$("input[name='major_department']").on('change', function(e){
+				//判断配合处室、接待人员是否打钩，打钩则触发'click'事件
+				if($('#need_assist_department').is(':checked')){
+					$('#need_assist_department').trigger('click');
+				}
+				if($('#need_receptionist').is(':checked')){
+					$('#need_receptionist').trigger('click');
+				}
+				
+			});
+			//接待人员情况
+			$('input#need_receptionist').on('click', function(){
+				if(this.checked){
+					var departmentIds = [];
 					var chargeDeaprtment = $("input[name='major_department']:checked").val();
-					$('#assist_deparment_div').hide();
-					$('#assist_deparment_div').empty();
-					createAssistDepartments(chargeDeaprtment);
-					$('#assist_deparment_div').show();
+					if(!chargeDeaprtment){
+						bootbox.alert('请先选择接待处室！');
+						this.checked = false;
+					}
+					else{
+						departmentIds.push(chargeDeaprtment);
+						if($('#need_assist_department').is(':checked')){
+							$("input:checkbox[name='assist_department[]']:checked").each(function(){
+								
+								departmentIds.push($(this).val());
+							});
+						}
+						
+						createReceptionist(departmentIds);
+						$('#receptionist_div').show();	
+					}
+				}
+				else{
+					$('#receptionist_div').hide();
+					$('#receptionist_div').empty();
 				}
 			});
 
@@ -1081,6 +1118,23 @@
 				$('#assist_deparment_div').append($(html));
 			}, 'json');
 			
+		}
+
+		function createReceptionist(Ids){
+			$.get("<?php echo U('Reception/getReceptionist');?>", {id:Ids}, function(data, textStatus){
+				var html = "<select multiple='' class='width-90 chosen-select tag-input-style' id='receptionist' name='receptionist[]' data-placeholder='请选择接待人员...'>";
+				    html += "<option value=''>&nbsp;</option>";
+				var node = "<option class='col-xs-10 col-sm-5' value='";
+				$.each(data, function(n, person){
+					var tmpOption = node+person.id+"'>"+person.first_name+person.last_name+"</option>";
+					html += tmpOption;
+				});	
+				html += "</select>";
+				$('#receptionist_div').append($(html));
+				//注意，必须要重新初始化，不然chosen无法显示
+				$(".chosen-select").chosen();
+				
+			}, 'json');
 		}
 	</script>
 
