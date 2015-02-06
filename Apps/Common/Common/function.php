@@ -66,5 +66,13 @@
 		return session("?uid");
 	}
 
+	//判断时间段是否存在冲突
+	function isTimeConflict($usedStart, $usedEnd, $wantStart, $wantEnd){
+		if((strtotime($wantStart)<strtotime($usedEnd))&&(strtotime($wantEnd)>strtotime($usedStart)))
+			return true;
+		else
+			return false;
+	}
+
 
  ?>

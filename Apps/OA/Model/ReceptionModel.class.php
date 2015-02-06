@@ -56,6 +56,19 @@ class ReceptionModel extends Model
 
 	}
 
+	public function getReceptionForDay($date){
+		if($date){
+			$start = $date.TIME_START;
+			$end = $date.TIME_END;
+			$where['begin_time'] = array('egt', $start);
+			$where['end_time'] = array('elt', $end);
+			return $this->where($where)
+						->field('id, vistor, begin_time, end_time')
+						->order('begin_time')
+						->select();
+		}
+	}
+
 	
 	
 }

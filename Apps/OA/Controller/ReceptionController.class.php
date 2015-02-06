@@ -68,6 +68,27 @@ class ReceptionController extends BaseController {
     	$this->ajaxReturn($staff);
     }
 
+    public function checkReceptionTime(){
+    	$this->hasPermission(IS_AJAX);
+    	$wantStart = I('start');
+    	$wantEnd = I('end');
+    	$day = date('Y-m-d', strtotime($wantStart));
+    	$rp = D('Reception');
+    	$receptions = $rp->getReceptionForDay($day);
+    	$conflictReceptions = array();
+    	if($receptions){
+    		foreach ($receptions as $item) {
+    			if(isTimeConflict($item['begin_time'], $item['end_time'], $wantStart, $wantEnd))
+    				$conflictReceptions[] = $item;
+    		}
+    		if($conflictReceptions)
+    			$this->ajaxReturn($conflictReceptions);
+    		else
+    			$this->ajaxReturn("时间没有冲突");
+    	}
+    	$this->ajaxReturn("时间没有冲突");
+    }
+
 
 
 
