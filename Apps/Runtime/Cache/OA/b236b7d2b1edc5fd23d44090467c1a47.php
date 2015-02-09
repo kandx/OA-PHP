@@ -590,6 +590,10 @@
 			<i class="ace-icon fa fa-home home-icon"></i>
 			<a href="<?php echo U('Index/main');?>">OA系统</a>
 		</li>
+		
+		<?php if([leaf] != ''): ?><li>
+			<a href=[url]>[leaf]</a>
+		</li><?php endif; ?>
 
 		<li class="active">空白</li>
 	</ul><!-- /.breadcrumb -->
