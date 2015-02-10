@@ -43,6 +43,9 @@ class ReceptionController extends BaseController {
     }
 
     public function getReception(){
+    	$this->hasPermission(IS_AJAX);
+    	$rp = D('Reception');
+    	$this->ajaxReturn($rp->getReceptionCalendar());
         
     }
 
@@ -68,41 +71,36 @@ class ReceptionController extends BaseController {
     	$this->ajaxReturn($staff);
     }
 
-    public function checkReceptionTime(){
+
+    public function checkTimeConflict(){
     	$this->hasPermission(IS_AJAX);
     	$wantStart = I('start');
     	$wantEnd = I('end');
+    	$roomId = I('id');
     	$day = date('Y-m-d', strtotime($wantStart));
-    	$rp = D('Reception');
-    	$receptions = $rp->getReceptionForDay($day);
+    	$rb = D('RoomBooking');
+    	$receptions = $rb->getRoomSchedule($roomId,$day);
     	$conflictReceptions = array();
     	if($receptions){
     		foreach ($receptions as $item) {
-    			if(isTimeConflict($item['begin_time'], $item['end_time'], $wantStart, $wantEnd))
+    			if(isTimeConflict($item['start'], $item['end'], $wantStart, $wantEnd))
     				$conflictReceptions[] = $item;
     		}
     		if($conflictReceptions)
     			$this->ajaxReturn($conflictReceptions);
     		else
-    			$this->ajaxReturn("时间没有冲突");
+    			$this->ajaxReturn(-1);
     	}
-    	$this->ajaxReturn("时间没有冲突");
+    	else
+    		$this->ajaxReturn(-1);
     }
 
 
 
 
+
     public function test(){
-        $users = D('User');
-        $staff = array();
-        $ids = array(3, 4, 6);
-        if(is_array($ids)){
-        	foreach ($ids as $k => $v) {
-        		$members = $users->getStaff($v);
-        		$staff = array_merge($staff, $members);
-        	}
-        }
-        p($staff);
+        p(getMemberName(5));
         
 
     }

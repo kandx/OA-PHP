@@ -31,7 +31,7 @@ class ReceptionModel extends Model
 			foreach ($data as $k) {
 				$result[] = array(
 					'id' => $k['id'],
-					'title' => $k['vistor'].'到访',
+					'title' => $k['vistor'],
 					'start' => $k['begin_time'],
 					'end' => $k['end_time'],
 					'allDay' => false

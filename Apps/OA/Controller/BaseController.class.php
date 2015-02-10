@@ -38,6 +38,8 @@ class BaseController extends Controller {
 	public function __construct(){
 		//调用父类构造函数
 		parent::__construct();
+		initialCache();
 	}
+
 
 }

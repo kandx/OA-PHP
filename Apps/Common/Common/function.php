@@ -39,7 +39,7 @@
 			return $auth->check($rule,$uid,$type,$mode,$relation)?true:false;
 		}
 	}
-
+	//*****************************************************************************
 	//以下是对session操作的封装
 	//初始化和销毁
 	function initialSession($user){
@@ -65,6 +65,7 @@
 	function isLogin(){
 		return session("?uid");
 	}
+	//*******************************************************************************
 
 	//判断时间段是否存在冲突
 	function isTimeConflict($usedStart, $usedEnd, $wantStart, $wantEnd){
@@ -73,6 +74,48 @@
 		else
 			return false;
 	}
+
+	//******************************************************************************
+	function initialCache(){
+		if(!F('members')){
+			$users = D('User');
+			$results = $users->getAllMembers();
+			$members = array();
+			foreach ($results as $member) {
+				$members[$member['id']] = $member['first_name'].$member['last_name']; 
+			}
+			F('members', $members);
+		}
+
+		;
+		if(!F('departments')){
+			$dp = D('Department');
+			$results = $dp->getDepartments(true);
+			$departments = array();
+			foreach ($results as $department) {
+				$departments[$department['id']] = $department['short_name'];
+			}
+			F('departments', $departments);
+		}		
+
+		
+	}
+
+	function destoryCache(){
+		F('members', null);
+		F('departments', null);
+	}
+
+	function getMemberName($id){
+		$members = F('members');
+		return $members[$id];
+	}
+
+	function getDepartmentName($id){
+		$departments = F('departments');
+		return $departments[$id];
+	}
+
 
 
  ?>

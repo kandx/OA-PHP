@@ -128,6 +128,7 @@ class UserModel extends Model
 	public function getDepartLeader($staffId){
 		//$department_id = $this->where('id=$staffId')->getField('department_id');
 		$where['a.id'] = $staffId;
+		$where['a.is_active'] = 1;
 		$leaderId = $this->table('oa_user a')
 			   		   	 ->join('oa_department b on a.department_id = b.id', 'LEFT')
 					     ->where($where)
@@ -146,12 +147,25 @@ class UserModel extends Model
 			$dp = M('Department');
 			$leaderId = $dp->where(array('id'=>$departmentId))->getField('leader_id');
 			$where['id'] = array('neq', $leaderId);
+			$where['is_active'] = 1;
 			$where['department_id'] = $departmentId; 
 			return $this->where($where)->field('id, first_name, last_name')->select();
 		}
 		else{
 			return null;
 		}
+	}
+
+	//获取所有成员名单
+	//isActive为true时获取所有激活状态用户，否则获取全体用户
+	public function getAllMembers($isActive=true){
+		if($isActive){
+			$where['is_active'] = 1;
+			return $this->where($where)->field('id, first_name, last_name')->select();
+		}
+		else
+			return $this->field('id, first_name, last_name')->select();
+
 	}
 	
 }

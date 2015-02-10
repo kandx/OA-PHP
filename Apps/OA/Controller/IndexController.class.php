@@ -63,6 +63,7 @@ class IndexController extends BaseController {
             $user = D('User');
             if($user->logout(getCurrentUserId())){
                 destorySession();
+                destoryCache();
                 $this->redirect('Index/index');
             }
                 

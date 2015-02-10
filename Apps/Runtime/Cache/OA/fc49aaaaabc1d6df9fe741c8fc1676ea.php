@@ -841,47 +841,7 @@
 				});
 			});
 
-			$('#event-form').ajaxForm({
-				beforeSubmit: showRequest,
-				success: showResponse,
-				clearForm: true,
-				//resetForm: true,
-				dataType: 'json'
-			});
-
 			
-			function showRequest(formData, jqForm, options){
-				var form = jqForm[0];
-				var title = form.title.value;
-				var start = form.begin_time.value;
-				if(title==''){
-					bootbox.alert('请填写日程内容！');
-					$('#title').focus();
-					return false;
-				}
-				else if(start==''){
-					bootbox.alert('请填写开始时间！');
-					$('#begin_time').focus();
-					return false;
-				}
-				else
-					return true;		
-			}
-
-			function showResponse(responseText, statusText, xhr, $form){
-				if(statusText=="success"){     
-				        if(responseText==1){ 
-				            $('.modal').modal('hide');//关闭弹出层 
-				            $('#calendar').fullCalendar('refetchEvents'); //重新获取所有事件数据 
-				        }
-				        else{ 
-				            bootbox.alert(responseText); 
-				        } 
-				}
-				else{ 
-				    bootbox.alert(statusText); 
-				} 
-			}
 			function formatTime(time){
 				if(!time)
 					return '';
