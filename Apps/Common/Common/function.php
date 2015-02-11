@@ -106,9 +106,21 @@
 		F('departments', null);
 	}
 
-	function getMemberName($id){
+	function getMemberName($ids){
 		$members = F('members');
-		return $members[$id];
+		if(strpos(",", $ids)){
+			$ids = explode(",", $ids);
+			$leaders = "";
+			foreach ($ids as $k) {
+				if(!$leaders)
+					$leaders = $members[$k];
+				else
+					$leaders .= "、".$members[$k];
+			}
+			return $leaders;
+		}
+		else
+			return $members[$id];
 	}
 
 	function getDepartmentName($id){

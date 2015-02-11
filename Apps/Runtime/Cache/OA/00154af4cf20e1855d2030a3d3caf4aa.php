@@ -1267,22 +1267,6 @@
 			}, 'json');
 		}
 
-		// function checkTimeConflict(roomIstartTime, endTime){
-		// 	$.get("<?php echo U('Reception/checkHallTime');?>", {start:startTime, end:endTime}, function(data, textStatus){
-		// 		if(data!=-1){
-		// 			var liTag = "<li class='text-danger'>";
-		// 			var html = "<div class='col-sm-12' id='conflict_note'><label class='col-sm-12 text-danger'>注意，以下时间段可能存在冲突：</label><ul class='col-sm-12'>";											
-		// 			$.each(data, function(n, item){
-		// 				var start = getTime(item['start']);
-		// 				var end = getTime(item['end']);
-		// 				var tempLi = liTag+start+"-"+end+"&nbsp;&nbsp;&nbsp;"+item['content']+"</li>";
-		// 				html += tempLi;
-		// 			});
-		// 			html += "</ul></div>";
-		// 			$('#bookHall').append($(html));
-		// 		}
-		// 	}, 'json');
-		// }
 
 		function checkTimeConflict(roomId, startTime, endTime){
 			$.get("<?php echo U('Reception/checkTimeConflict');?>", {id:roomId, start:startTime, end:endTime}, function(data, textStatus){

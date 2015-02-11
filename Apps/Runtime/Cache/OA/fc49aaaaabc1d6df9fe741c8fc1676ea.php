@@ -703,13 +703,95 @@
 							<!-- PAGE CONTENT BEGINS -->
 							
 	<div class="row">
-		<div class="col-sm-10">
+		<div class="col-sm-9">
 			<div class="space"></div>
 
 			<!-- #section:plugins/data-time.calendar -->
 			<div id="calendar"></div>
 			
 			<!-- /section:plugins/data-time.calendar -->
+		</div>
+
+		<div class="col-sm-3">
+			<div class="space"></div>
+			<div class="space"></div>
+			<div class="space"></div>
+			<div class="space"></div>
+
+			
+			<p>
+				<a class="btn btn-block btn-success btn-xs" id="addReception" href="<?php echo U('Reception/receptionForm');?>">
+					<i class="ace-icon fa fa-pencil bigger-160"></i>
+					添加
+				</a>
+			</p>
+			
+			
+			<div class="row">
+				<div class="col-xs-6 col-sm-12 pricing-box">
+					<div class="widget-box widget-color-blue">
+						<div class="widget-header">
+							<h5 class="widget-title bigger lighter">接待信息</h5>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main">
+								<ul class="list-unstyled spaced2">
+									<li>
+										<i class="ace-icon fa fa-trash green"></i>
+										到访：第一太平戴维斯到访
+									</li>
+
+									<li>
+										<i class="ace-icon fa fa-trash green"></i>
+										时间：2015年2月11日 10:00
+									</li>
+
+									<li>
+										<i class="ace-icon fa fa-trash green"></i>
+										参观地点：展厅、花城广场
+									</li>
+
+									<li>
+										<i class="ace-icon fa fa-trash green"></i>
+										接待领导：张海波
+									</li>
+
+									<li>
+										<i class="ace-icon fa fa-trash green"></i>
+										接待处室：综合处
+									</li>
+
+									<li>
+										<i class="ace-icon fa fa-trash green"></i>
+										使用展厅：10:30
+									</li>
+
+									<li>
+										<i class="ace-icon fa fa-trash green"></i>
+										会议室：10:30
+									</li>
+									<!-- <li>
+										<i class="ace-icon fa fa-check green"></i>
+										使用展厅：10:30
+									</li> -->
+								</ul>
+
+							</div>
+
+							<div>
+								<a href="#" class="btn btn-block btn-primary">
+									<i class="ace-icon fa fa-trash-o bigger-110"></i>
+									<span>删除</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			
 		</div>
 
 	</div>
@@ -792,26 +874,13 @@
 				selectHelper: true,
 				select: function(start, end, jsEvent, view) {
 					
-					// $("#begin_time").val(formatTime(start));
-					// $('#end_time').val(formatTime(end));
-					// $('#event-form').get(0).action = "<?php echo U('Reception/addReception');?>";
-					// $('.modal').modal('show');
 					var root = "<?php echo U('Reception/receptionForm');?>".split(".");
 					var url = root[0]+"/start/"+formatTime(start)+"/end/"+formatTime(end)+".html";
 					window.location.href = url;	
 				},
 				eventClick: function(calEvent, jsEvent, view){
-					$.get("<?php echo U('Schedule/getDescription');?>", {id:calEvent.id}, function(data, textStatus){
-						$('#description').val(data);
-					}, 'json');
-					$('#id').val(calEvent.id);
-					$('#title').val(calEvent.title);
-					$("#begin_time").val(formatTime(calEvent.start));
-					$('#end_time').val(formatTime(calEvent.end));
-					$('#is_allday').get(0).checked = calEvent.allDay;
-					$('.btn-danger').show();
-					$('#eventform').attr('action', "<?php echo U('Schedule/edit');?>");
-					$('.modal').modal('show');
+					var receptionId = calEvent.id;
+					getReceptionInfo(receptionId);
 				},
 				
 			});
@@ -864,6 +933,28 @@
 						revertFunc();
 					}
 				});
+			}
+
+			function getReceptionInfo(id){
+				if(id){
+					$.get("<?php echo U('Reception/receptionInfo');?>", {id: receptionId}, function(data, statusText){
+						var li = "<li><i class='ace-icon fa fa-trash green'></i>";
+						var html = "";
+						html += li+"到访："+data.vistor+"</li>";
+						html += li+"时间："+data.time+"</li>";
+						html += li+"人数："+data.count+"</li>";
+						html += li+"参观地点："+data.visitplaces+"</li>";
+						html += li+"接待处室："+data.department+"</li>";
+						html += li+"接待领导："+data.leaders+"</li>";
+						if(data.hall)
+							html += li+"展厅时间："+data.hall+"</li>";
+						if(data.meeting)
+							html += li+"会议室："+data.meeting+"</li>";
+						$('ul.spaced2').empty();
+						$('ul.spaced2').append($(html));
+								
+					}, 'json');
+				}
 			}
 
 			

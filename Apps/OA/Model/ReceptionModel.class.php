@@ -69,6 +69,10 @@ class ReceptionModel extends Model
 		}
 	}
 
+	public function addReception(){
+		
+	}
+
 	
 	
 }

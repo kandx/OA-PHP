@@ -29,6 +29,7 @@ class RoomBookingModel extends Model
 			return null;
 	}	
 
+	//获取指定房间，指定日期的预定情况
 	public function getRoomSchedule($roomId, $date){
 		if($date){
 			$start = $date.' '.TIME_START;
@@ -53,6 +54,16 @@ class RoomBookingModel extends Model
 				return null;
 
 		}
+	}
+
+	//根据事件ID获取房间预定情况
+	public function getRoomBookedInfo($event_id, $event_type){
+		$where['a.event_type'] = $event_type;
+		$where['a.event_id'] = $event_id;
+		return $this->table('cbd_room_booking a')
+					->join('cbd_room b on b.id = a.room_id', 'LEFT')
+					->field('b.name, a.begin_time, a.end_time')
+					->select();
 	}
 	
 }

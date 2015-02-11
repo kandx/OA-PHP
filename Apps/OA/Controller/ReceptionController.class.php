@@ -3,6 +3,19 @@ namespace OA\Controller;
 use OA\Controller\BaseController;
 class ReceptionController extends BaseController {
 
+	//***********************************************************************************
+	//一些内部处理的方法
+
+	private function createReceptionData(){
+
+	}
+
+	private function saveReception(){
+
+	}
+
+	//************************************************************************************
+	//页面Action
     public function addReception(){
         $this->hasLogined();
         if(IS_GET){
@@ -42,6 +55,9 @@ class ReceptionController extends BaseController {
 
     }
 
+    //**************************************************************************************
+    //以下是响应网页AJAX的方法
+    //获取日程安排，并在日历上显示
     public function getReception(){
     	$this->hasPermission(IS_AJAX);
     	$rp = D('Reception');
@@ -49,6 +65,7 @@ class ReceptionController extends BaseController {
         
     }
 
+    //根据已选择的接待处室，获取剩余处室
     public function getAssistDepartments(){
     	$this->hasPermission(IS_AJAX);
     	$exceptId = I('id');
@@ -57,6 +74,7 @@ class ReceptionController extends BaseController {
     	$this->ajaxReturn($departments);
     }
 
+    //获取接待人员列表
     public function getReceptionist(){
     	$this->hasPermission(IS_AJAX);
     	$ids = I('id');
@@ -71,7 +89,7 @@ class ReceptionController extends BaseController {
     	$this->ajaxReturn($staff);
     }
 
-
+    //检测预约时间是否存在冲突
     public function checkTimeConflict(){
     	$this->hasPermission(IS_AJAX);
     	$wantStart = I('start');
@@ -95,13 +113,42 @@ class ReceptionController extends BaseController {
     		$this->ajaxReturn(-1);
     }
 
+    public function receptionInfo(){
+    	$this->hasPermission(IS_AJAX);
+    	$id = I('id');
+    	$rp = D('Reception');
+    	$reception = $rp->getReception($id);
+    	if($reception){
+    		$data['vistor'] = $reception['vistor'];
+    		$data['count'] = $reception['visitor_count'];
+    		$vp = D('Viewplace');
+    		$data['visit_places'] = $vp->linkPlaces($reception['visit_places']);
+    		$data['leaders'] = getMemberName($reception['reception_leader']);
+    		$data['department'] = getDepartmentName($reception['major_department']);
+    		$data['time'] = date("Y年n月j日 H:i", strtotime($reception['begin_time']))." - ".date('H:i', strtotime($reception['end_time']));
+    		$rb = D('RoomBooking');
+    		$bookedInfo = $rb->getRoomBookedInfo($reception['id'], 'R');
+    		if($bookedInfo){
+    			foreach ($bookedInfo as $k) {
+    				if($k['name']=="展厅")
+    					$data['hall'] = date('H:i', strtotime($k['begin_time']))." - ".date('H:i', strtotime($k['end_time']));
+    				else
+    					$data['meeting'] = date('H:i', strtotime($k['begin_time']))." - ".date('H:i', strtotime($k['end_time']));
+    			}
+    		}
+    		$data['delete'] = $reception['recorder_id']==getCurrentUserId()?1:0;
+    		$this->ajaxReturn($data);
+    	}
+    	else
+    		$this->ajaxReturn(-1);
+    }
 
+//*******************************************************************************************
 
 
 
     public function test(){
         p(getMemberName(5));
-        
 
     }
 }
