@@ -737,40 +737,7 @@
 						<div class="widget-body">
 							<div class="widget-main">
 								<ul class="list-unstyled spaced2">
-									<li>
-										<i class="ace-icon fa fa-trash green"></i>
-										到访：第一太平戴维斯到访
-									</li>
-
-									<li>
-										<i class="ace-icon fa fa-trash green"></i>
-										时间：2015年2月11日 10:00
-									</li>
-
-									<li>
-										<i class="ace-icon fa fa-trash green"></i>
-										参观地点：展厅、花城广场
-									</li>
-
-									<li>
-										<i class="ace-icon fa fa-trash green"></i>
-										接待领导：张海波
-									</li>
-
-									<li>
-										<i class="ace-icon fa fa-trash green"></i>
-										接待处室：综合处
-									</li>
-
-									<li>
-										<i class="ace-icon fa fa-trash green"></i>
-										使用展厅：10:30
-									</li>
-
-									<li>
-										<i class="ace-icon fa fa-trash green"></i>
-										会议室：10:30
-									</li>
+									
 									<!-- <li>
 										<i class="ace-icon fa fa-check green"></i>
 										使用展厅：10:30
@@ -779,8 +746,8 @@
 
 							</div>
 
-							<div>
-								<a href="#" class="btn btn-block btn-primary">
+							<div id="deleteBtn">
+								<a href="#" class="btn btn-block btn-primary" id="delLink">
 									<i class="ace-icon fa fa-trash-o bigger-110"></i>
 									<span>删除</span>
 								</a>
@@ -881,69 +848,27 @@
 				eventClick: function(calEvent, jsEvent, view){
 					var receptionId = calEvent.id;
 					getReceptionInfo(receptionId);
+
 				},
 				
 			});
+
+			$('#deleteBtn').hide();
+			$('.pricing-box').hide();
 			
-			$('.datetime-picker').datetimepicker({
-				format:'yyyy-mm-dd hh:ii',
-				autoclose:true,
-				todayBtn:true,
-				language:'zh-CN',
-			});
+			
 			setSidebarActive('reception_root', 'reception_add');
 
-			$('.btn-danger').hide();
-			//删除日程的处理
-			$('.btn-danger').on('click', function(e){
-				bootbox.confirm('你确定要删除吗？', function(){
-					var eventID = $('#id').val();
-					$.get("<?php echo U('Schedule/del');?>", {id:eventID}, function(msg){
-						if(1==msg){
-							$('#calendar').fullCalendar('removeEvents', eventID);
-							$('.modal').modal('hide');
-						}
-						else{
-							bootbox.alert(msg);
-						}
-					});
-				});
-			});
-
-			
-			function formatTime(time){
-				if(!time)
-					return '';
-				if(time.hasTime())
-					return time.format('YYYY-M-D H:mm');
-				else
-					return time.format('YYYY-M-D');
-			}
-
-			function dropAndResize(event, revertFunc){
-				var eventData = {
-					id: event.id,
-					start: formatTime(event.start),
-					end: formatTime(event.end),
-					allDay: event.allDay
-				};
-				$.post("<?php echo U('Schedule/drop');?>", eventData, function(msg){
-					if(msg!=1){
-						bootbox.alert(msg);
-						revertFunc();
-					}
-				});
-			}
 
 			function getReceptionInfo(id){
 				if(id){
-					$.get("<?php echo U('Reception/receptionInfo');?>", {id: receptionId}, function(data, statusText){
+					$.get("<?php echo U('Reception/receptionInfo');?>", {id: id}, function(data, statusText){
 						var li = "<li><i class='ace-icon fa fa-trash green'></i>";
 						var html = "";
 						html += li+"到访："+data.vistor+"</li>";
 						html += li+"时间："+data.time+"</li>";
 						html += li+"人数："+data.count+"</li>";
-						html += li+"参观地点："+data.visitplaces+"</li>";
+						html += li+"参观地点："+data.visit_places+"</li>";
 						html += li+"接待处室："+data.department+"</li>";
 						html += li+"接待领导："+data.leaders+"</li>";
 						if(data.hall)
@@ -952,9 +877,29 @@
 							html += li+"会议室："+data.meeting+"</li>";
 						$('ul.spaced2').empty();
 						$('ul.spaced2').append($(html));
+
+						if(data.delete){
+							var root= "<?php echo U('Reception/del');?>".split(".");
+							var link = root[0]+"/id/"+id+".html";
+							$('a#delLink').attr('href', link);
+							$('#deleteBtn').show();
+						}
+						else
+							$('#deleteBtn').hide();
+
+						$('.pricing-box').show();
 								
 					}, 'json');
 				}
+			}
+
+			function formatTime(time){
+				if(!time)
+					return '';
+				if(time.hasTime())
+					return time.format('YYYY-M-D H:mm');
+				else
+					return time.format('YYYY-M-D');
 			}
 
 			

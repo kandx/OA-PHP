@@ -60,8 +60,9 @@ class RoomBookingModel extends Model
 	public function getRoomBookedInfo($event_id, $event_type){
 		$where['a.event_type'] = $event_type;
 		$where['a.event_id'] = $event_id;
-		return $this->table('cbd_room_booking a')
-					->join('cbd_room b on b.id = a.room_id', 'LEFT')
+		return $this->table('oa_room_booking a')
+					->join('oa_room b on b.id = a.room_id', 'LEFT')
+					->where($where)
 					->field('b.name, a.begin_time, a.end_time')
 					->select();
 	}

@@ -17,7 +17,8 @@
 			print_r($content);
 		}
 		else{
-			var_dump(iconv('utf-8', 'GBK',$content));
+			var_dump($content);
+			//var_dump(iconv('utf-8', 'GBK',$content));
 		}	
 	}
 
@@ -108,19 +109,23 @@
 
 	function getMemberName($ids){
 		$members = F('members');
-		if(strpos(",", $ids)){
-			$ids = explode(",", $ids);
-			$leaders = "";
-			foreach ($ids as $k) {
-				if(!$leaders)
-					$leaders = $members[$k];
-				else
-					$leaders .= "、".$members[$k];
+		if(is_string($ids)){
+			if(strpos( $ids,",")){
+				$ids = explode(",", $ids);
+				$leaders = "";
+
+				foreach ($ids as $k) {
+					if(!$leaders)
+						$leaders = $members[$k];
+					else
+						$leaders .= "、".$members[$k];
+				}
+				return $leaders;
 			}
-			return $leaders;
+			else
+				return $members[$ids];
 		}
-		else
-			return $members[$id];
+		
 	}
 
 	function getDepartmentName($id){

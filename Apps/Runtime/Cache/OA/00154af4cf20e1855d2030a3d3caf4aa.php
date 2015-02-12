@@ -836,9 +836,9 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-12" for="description"> 说明: </label>
+							<label class="col-sm-12" for="description">备注: </label>
 							<div class="col-sm-12">
-								<textarea class="form-control" name="description" id="description"></textarea>
+								<textarea class="form-control" name="comments" id="comments"></textarea>
 							</div>
 						</div>
 
@@ -846,7 +846,7 @@
 							<label class="col-sm-12" for="description"></label>
 							<div class="checkbox col-sm-12">
 								<label>
-									<input name="need_speech" id="need_speech" type="checkbox" class="ace" value="1" />
+									<input name="is_speech" id="need_speech" type="checkbox" class="ace" value="1" />
 								<span class="lbl"> 需要讲解</span>
 								</label><label>
 									<input name="need_mail" id="need_mail" type="checkbox" class="ace" value="1" />
@@ -887,19 +887,20 @@
 							</div>
 							<div class="col-sm-12">
 								<label>
-									<input name="append_other_place" type="checkbox" class="ace group" />
+									<input name="append_other_place" type="checkbox" class="ace group" value="1"/>
 									<span class="lbl"> 其它地方 </span>						
 								</label>	
 							</div>
 							<div class="col-sm-12">
 								<input type="text" id="other_place" name="other_place" class="col-xs-12 col-sm-9">
+								<em class="text-danger"></em>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-sm-12">
 								<label>
-									<input id="is_book_hall" type="checkbox" class="ace group" value="1"/>
+									<input id="is_book_hall" name="is_book_hall" type="checkbox" class="ace group" value="1"/>
 									<span class="lbl">预订展厅</span>
 								</label>
 							</div>
@@ -924,7 +925,7 @@
 						<div class="form-group">
 							<div class="col-sm-12">
 								<label>
-									<input id="is_book_room" type="checkbox" class="ace group" value="1"/>
+									<input id="is_book_room" name="is_book_room" type="checkbox" class="ace group" value="1"/>
 									<span class="lbl">预订会议室</span>
 								</label>
 							</div>
@@ -1198,6 +1199,11 @@
 						required: function(){
 							return $('#is_book_room').attr('checked');
 						}
+					},
+					other_place:{
+						required: function(){
+							return $('#append_other_place').attr('checked');
+						}
 					}
 				},//rules end
 				errorPlacement: function(error, element){
@@ -1308,7 +1314,13 @@
 		}
 
 		function showResponse(responseText, statusText, xhr, $form){
-
+			if(responseText==1){
+				bootbox.alert('保存成功！');
+				window.location.href = "<?php echo U('Reception/addReception');?>";
+			}
+			else{
+				bootbox.alert(responseText[0]);
+			}
 		} 
 
 		function getTime(timeStr){

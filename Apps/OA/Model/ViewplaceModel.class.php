@@ -9,10 +9,10 @@ class ViewplaceModel extends Model
 {		
 	public function linkPlaces($ids){
 		$places = "";
-		if(strpos(",", $ids)){
+		if(strpos($ids, ",")){
 			$ids = explode(",", $ids);
 			foreach ($ids as $id) {
-				$place = $this->where('id=$id')->getField('name');
+				$place = $this->where(array('id'=>$id))->getField('name');
 				if(!$places)
 					$places = $place;
 				else
@@ -21,7 +21,7 @@ class ViewplaceModel extends Model
 			return $places;
 		}
 		else
-			return $this->where('id=$id')->getField('name');
+			return $this->where('id=$ids')->getField('name');
 	}
 	
 }

@@ -6,12 +6,66 @@ class ReceptionController extends BaseController {
 	//***********************************************************************************
 	//一些内部处理的方法
 
+	//生成Rectption数据的方法
 	private function createReceptionData(){
+		$data = array(
+			'vistor' => I('vistor'),
+			'visit_content' => I('visit_content'),
+			'visit_leader' => I('visit_leader'),
+			'contact' => I('contact'),
+			'phone' => I('phone'),
+			'visitor_count' => I('visitor_count'),
+			'begin_time' => I('begin_time'),
+			'end_time' => I('end_time'),
+			'major_department' => I('major_department'),
+			'is_speech' => I('is_speech'),
+			'is_meal' => I('is_meal'),
+			'recorder_id' => getCurrentUserId()
+			);
+		//$data['vistor'] = I('vistor');
+		if(!empty(I('assist_department'))){
+			$data['assist_department'] = implode(",", I('assist_department'));
+		}
+		if(!empty(I('receptionist')))
+			$data['receptionist'] = implode(",", I('receptionist'));
+		if(!empty(I('view_places')))
+			$data['visit_places'] = implode(",", I('view_place'));
+		if(I('append_other_place')==1){
+			if(I('other_place')){
+				$vp = M('Viewplace');
+				$data['name'] = I('other_place');
+				$vpId = $vp->add($data);
+				if($vpId)
+					$data['visit_places'] .= ','.$vpId;
+			}
+		}
 
+		return $data;
 	}
 
-	private function saveReception(){
-
+	private function getBookedData($receptionId){
+		$data = array();
+		if(!empty(I('hall_start_time'))&&!empty(I('hall_end_time'))){
+			$data[] = array(
+				'room_id' => I('hall_id'),
+				'event_type' => 'R',
+				'event_id' => $receptionId,
+				'begin_time' => I('hall_start_time'),
+				'end_time' => I('hall_end_time'),
+				'book_person' => getCurrentUserId()
+				);
+		}
+		if(!empty(I('room_start_time'))&&I('room_end_time')){
+			$data[] = array(
+				'room_id' => I('room_id'),
+				'event_type' => 'R',
+				'event_id' => $receptionId,
+				'begin_time' => I('room_start_time'),
+				'end_time' => I('room_end_time'),
+				'book_person' => getCurrentUserId()
+				);
+		}
+		return $data;
 	}
 
 	//************************************************************************************
@@ -28,7 +82,45 @@ class ReceptionController extends BaseController {
             $this->display();
         }
         else if(IS_POST){
-            p($_POST);
+        	$errors = array();
+            $reception = $this->createReceptionData();
+            $rp = D('Reception');
+            //开始写入逻辑
+            $rp->startTrans();
+            //添加reception记录
+            if($rp->create($reception)){
+            	$receptionId = $rp->add($reception);
+            	if(!$receptionId){
+            		$errors[] = $rp->getError();
+            	}
+            }
+            else{
+            	$errors[] = $rp->getError();
+            }
+            //添加预定展厅，会议室情况
+            $roomBookData = $this->getBookedData();
+            if($roomBookData){
+            	$rb = M('RoomBooking');
+            	foreach ($roomBookData as $k) {
+            		$bookId = $rb->add($k);
+            		if(!$bookId){
+            			$errors[] = $rb->getError();
+            			break;
+            		}
+            	}
+            }
+            //邮件提醒
+            //判断是否提交
+            if(!empty($errors)){
+            	$rp->rollback();
+            	$this->ajaxReturn($errors);
+            }
+            else{
+            	$rp->commit();
+            	$this->ajaxReturn(1);
+            }
+            
+
         }
         
     }
@@ -119,6 +211,7 @@ class ReceptionController extends BaseController {
     	$rp = D('Reception');
     	$reception = $rp->getReception($id);
     	if($reception){
+    		$data['id'] = $reception['id'];
     		$data['vistor'] = $reception['vistor'];
     		$data['count'] = $reception['visitor_count'];
     		$vp = D('Viewplace');
@@ -148,7 +241,11 @@ class ReceptionController extends BaseController {
 
 
     public function test(){
-        p(getMemberName(5));
+       $ids = array(1,2,3,4);
+       p(implode(",", $ids));
+       p(empty($b));
+       $b = null;
+       p(empty($b));
 
     }
 }
