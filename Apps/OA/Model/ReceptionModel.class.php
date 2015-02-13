@@ -8,13 +8,13 @@ use Think\Model;
 class ReceptionModel extends Model
 {		
 	protected $_validate = array(
-		array('vistor', 'required', '来访团队不能为空！'),
-		array('visit_content', 'required', '来访内容不能为空！'),
-		array('visit_count', 'required', '来访人数不能为空！'),
-		array('visit_places', 'required', '参观地点不能为空！'),
-		array('reception_leader', 'required', '接待领导不能为空！'),
-		array('major_department', 'required', '牵头接待处室不能为空！'),
-		array('begin_time', 'required', '接待时间不能为空！')
+		array('vistor', 'require', '来访机构不能为空！'),
+		array('visit_content', 'require', '来访内容不能为空！'),
+		array('visit_count', 'require', '来访人数不能为空！'),
+		// array('visit_places', 'require', '参观地点不能为空！'),
+		// array('reception_leader', 'require', '接待领导不能为空！'),
+		array('major_department', 'require', '接待处室不能为空！'),
+		array('begin_time', 'require', '接待时间不能为空！')
 		);
 
 	protected $_auto = array(

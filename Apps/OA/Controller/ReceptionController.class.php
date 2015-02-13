@@ -28,15 +28,22 @@ class ReceptionController extends BaseController {
 		}
 		if(!empty(I('receptionist')))
 			$data['receptionist'] = implode(",", I('receptionist'));
-		if(!empty(I('view_places')))
+		if(!empty(I('reception_leader')))
+			$data['reception_leader'] = implode(",", I('reception_leader'));
+		if(!empty(I('view_place')))
 			$data['visit_places'] = implode(",", I('view_place'));
-		if(I('append_other_place')==1){
+		if(I('append_other_place')){
 			if(I('other_place')){
 				$vp = M('Viewplace');
-				$data['name'] = I('other_place');
-				$vpId = $vp->add($data);
-				if($vpId)
-					$data['visit_places'] .= ','.$vpId;
+				$place['name'] = I('other_place');
+				$vpId = $vp->add($place);
+				if($vpId){
+					if($data['visit_places'])
+						$data['visit_places'] .= ','.$vpId;
+					else
+						$data['visit_places'] = $vpId;
+				}
+					
 			}
 		}
 
@@ -44,28 +51,33 @@ class ReceptionController extends BaseController {
 	}
 
 	private function getBookedData($receptionId){
-		$data = array();
-		if(!empty(I('hall_start_time'))&&!empty(I('hall_end_time'))){
-			$data[] = array(
-				'room_id' => I('hall_id'),
-				'event_type' => 'R',
-				'event_id' => $receptionId,
-				'begin_time' => I('hall_start_time'),
-				'end_time' => I('hall_end_time'),
-				'book_person' => getCurrentUserId()
-				);
+		if($receptionId){
+			$data = array();
+			if(!empty(I('hall_start_time'))&&!empty(I('hall_end_time'))){
+				$data[] = array(
+					'room_id' => I('hall_id'),
+					'event_type' => 'R',
+					'event_id' => $receptionId,
+					'begin_time' => I('hall_start_time'),
+					'end_time' => I('hall_end_time'),
+					'book_person' => getCurrentUserId()
+					);
+			}
+			if(!empty(I('room_start_time'))&&I('room_end_time')){
+				$data[] = array(
+					'room_id' => I('room_id'),
+					'event_type' => 'R',
+					'event_id' => $receptionId,
+					'begin_time' => I('room_start_time'),
+					'end_time' => I('room_end_time'),
+					'book_person' => getCurrentUserId()
+					);
+			}
+			return $data;
 		}
-		if(!empty(I('room_start_time'))&&I('room_end_time')){
-			$data[] = array(
-				'room_id' => I('room_id'),
-				'event_type' => 'R',
-				'event_id' => $receptionId,
-				'begin_time' => I('room_start_time'),
-				'end_time' => I('room_end_time'),
-				'book_person' => getCurrentUserId()
-				);
-		}
-		return $data;
+		else
+			return null;
+		
 	}
 
 	//************************************************************************************
@@ -82,44 +94,42 @@ class ReceptionController extends BaseController {
             $this->display();
         }
         else if(IS_POST){
-        	$errors = array();
             $reception = $this->createReceptionData();
             $rp = D('Reception');
+
             //开始写入逻辑
             $rp->startTrans();
             //添加reception记录
-            if($rp->create($reception)){
-            	$receptionId = $rp->add($reception);
-            	if(!$receptionId){
-            		$errors[] = $rp->getError();
-            	}
+            if(!$rp->create($reception)){
+            	$rp->rollback();
+            	$this->ajaxReturn($rp->getError());
             }
             else{
-            	$errors[] = $rp->getError();
+            	$receptionId = $rp->add();
+            	// if(!$receptionId){
+            	// 	$rp->rollback();
+            	// 	$this->ajaxReturn($rp->getError());
+            	// }
             }
+           
             //添加预定展厅，会议室情况
-            $roomBookData = $this->getBookedData();
+            $roomBookData = $this->getBookedData($receptionId);
             if($roomBookData){
             	$rb = M('RoomBooking');
             	foreach ($roomBookData as $k) {
             		$bookId = $rb->add($k);
             		if(!$bookId){
-            			$errors[] = $rb->getError();
+            			$rp->rollback();
+            			$this->ajaxReturn($rb->getError());
             			break;
             		}
             	}
             }
             //邮件提醒
             //判断是否提交
-            if(!empty($errors)){
-            	$rp->rollback();
-            	$this->ajaxReturn($errors);
-            }
-            else{
-            	$rp->commit();
-            	$this->ajaxReturn(1);
-            }
             
+        	$rp->commit();
+        	$this->ajaxReturn(1);
 
         }
         
@@ -215,8 +225,18 @@ class ReceptionController extends BaseController {
     		$data['vistor'] = $reception['vistor'];
     		$data['count'] = $reception['visitor_count'];
     		$vp = D('Viewplace');
-    		$data['visit_places'] = $vp->linkPlaces($reception['visit_places']);
-    		$data['leaders'] = getMemberName($reception['reception_leader']);
+    		$placeStr = $vp->linkPlaces($reception['visit_places']);
+    		$data['visit_places'] = ($placeStr!=null)?$placeStr:"无";
+    		if($reception['reception_leader'])
+    			$data['leaders'] = getMemberName($reception['reception_leader']);
+    		else
+    			$data['leaders'] = "无";
+
+    		if($reception['receptionist'])
+    			$data['receptionist'] = getMemberName($reception['receptionist']);
+    		else
+    			$data['receptionist'] = "无";
+
     		$data['department'] = getDepartmentName($reception['major_department']);
     		$data['time'] = date("Y年n月j日 H:i", strtotime($reception['begin_time']))." - ".date('H:i', strtotime($reception['end_time']));
     		$rb = D('RoomBooking');

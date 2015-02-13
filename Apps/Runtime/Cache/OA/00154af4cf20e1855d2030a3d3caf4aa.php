@@ -876,13 +876,12 @@
 				<div class="widget-body">
 					<div class="widget-main">
 						<div class="form-group">
-							<label class="col-sm-12" for="visit_places">考察地点:</label>
+							<label class="col-sm-12" for="visit_places">参观地点:</label>
 							<div class="col-sm-12">
-								<?php if(is_array($places)): foreach($places as $key=>$place): if(($place["id"]) != "3"): ?><label>
+								<?php if(is_array($places)): foreach($places as $key=>$place): ?><label>
 										<input name="view_place[]" type="checkbox" class="ace group" value="<?php echo ($place["id"]); ?>"/>
 										<span class="lbl"> <?php echo ($place["name"]); ?></span>						
-									</label><?php endif; ?>
-									<?php if(($place["id"]) == "3"): ?><input type="hidden" name="hall_id" value="<?php echo ($place["id"]); ?>"><?php endif; endforeach; endif; ?>
+									</label><?php endforeach; endif; ?>
 								
 							</div>
 							<div class="col-sm-12">
@@ -916,8 +915,11 @@
 									<div class="col-sm-8">
 										<input type="text" id="hall_end_time" name="hall_end_time" class="datetime-picker col-xs-12 col-sm-9">
 										<em class="text-danger"></em>
-
 									</div>
+
+
+									<input type="hidden" name="hall_id" value="1">
+								
 								</div>
 							</div>	
 						</div>
@@ -1175,7 +1177,6 @@
 						required: true,
 						min: 1
 					},
-					"reception_leader[]": "required",
 					room_id: "required",
 					begin_time: "required",
 					end_time: "required",
@@ -1213,9 +1214,9 @@
 						next = element.parent().parent().next();
 					}
 					//接待领导的显示
-					if(element.attr('id')=='reception_leader'){
-						next = element.next().next();
-					}
+					// if(element.attr('id')=='reception_leader'){
+					// 	next = element.next().next();
+					// }
 					//选择会议室的显示
 					if(element.attr('name')=='room_id'){
 						next = element.next().next();
@@ -1231,7 +1232,7 @@
 			$('#receptionform').ajaxForm({
 				beforeSubmit: showRequest,
 				success: showResponse,
-				clearForm: true,
+				clearForm: false,
 				dataType: 'json'
 			});
 
@@ -1302,24 +1303,39 @@
 		function showRequest(formData, jqForm, options){
 			//radio无法验证，单独处理
 			if($('#receptionform').valid()){
-				var form = jqForm[0];
-				if(!form.major_department.value){
-					bootbox.alert("请选择接待处室！");
+				var rpDepartment = $("input[name='major_department']").fieldValue();
+				if(!rpDepartment.length){
+					bootbox.alert('请选择接待处室！');
 					return false;
 				}
-				else
-					return true;
+				
+				var rpLeader = $("input[name='reception_leader[]']").fieldValue();
+				var receptionist = $('#receptionist').fieldValue();
+				if(!rpLeader.length&&!receptionist.length){
+					bootbox.alert("接待领导和接待人员不能同时为空！");
+					return false;
+				}
+
+				var viewPlace = $("input[name='view_place']").fieldValue();
+				var hall = $('#is_book_hall').fieldValue();
+				var meeting = $('#is_book_room').fieldValue();
+				var otherPlace = $('#other_place').fieldValue()[0];
+				if(!viewPlace.length && !hall.length && !meeting.length && !otherPlace){
+					bootbox.alert("参观地点、展厅、会议室必须选择一个！");
+					return false;
+				}
+
 			}
 
 		}
 
 		function showResponse(responseText, statusText, xhr, $form){
 			if(responseText==1){
-				bootbox.alert('保存成功！');
+				alert('保存成功！');
 				window.location.href = "<?php echo U('Reception/addReception');?>";
 			}
 			else{
-				bootbox.alert(responseText[0]);
+				bootbox.alert(responseText);
 			}
 		} 
 
