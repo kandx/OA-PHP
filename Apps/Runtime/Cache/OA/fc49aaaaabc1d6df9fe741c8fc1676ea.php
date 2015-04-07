@@ -436,23 +436,15 @@
 					<b class="arrow"></b>
 				</li>
 
-				<li class="" id="reception_meetingroom">
-					<a href="<?php echo U('Reception/bookMeetingRoom');?>">
+				<li class="" id="reception_bookroom">
+					<a href="<?php echo U('Reception/bookRoom');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
-						会议室预定
+						预定房间
 					</a>
 
 					<b class="arrow"></b>
 				</li>
 
-				<li class="" id="reception_hall">
-					<a href="<?php echo U('Reception/bookHall');?>">
-						<i class="menu-icon fa fa-caret-right"></i>
-						展厅预定
-					</a>
-
-					<b class="arrow"></b>
-				</li>
 
 				<li class="" id="reception_statics">
 					<a href="<?php echo U('Reception/receptionStatics');?>">
@@ -703,7 +695,7 @@
 							<!-- PAGE CONTENT BEGINS -->
 							
 	<div class="row">
-		<div class="col-sm-9">
+		<div class="col-sm-9" id="content">
 			<div class="space"></div>
 
 			<!-- #section:plugins/data-time.calendar -->
@@ -712,7 +704,7 @@
 			<!-- /section:plugins/data-time.calendar -->
 		</div>
 
-		<div class="col-sm-3">
+		<div class="col-sm-3" id="rightSideBar">
 			<div class="space"></div>
 			<div class="space"></div>
 			<div class="space"></div>
@@ -720,7 +712,7 @@
 
 			
 			<p>
-				<a class="btn btn-block btn-success btn-xs" id="addReception" href="<?php echo U('Reception/receptionForm');?>">
+				<a class="btn btn-app btn-success btn-xs" id="addReception" href="<?php echo U('Reception/receptionForm');?>">
 					<i class="ace-icon fa fa-pencil bigger-160"></i>
 					添加
 				</a>
@@ -841,9 +833,12 @@
 				selectHelper: true,
 				select: function(start, end, jsEvent, view) {
 					
-					var root = "<?php echo U('Reception/receptionForm');?>".split(".");
-					var url = root[0]+"/start/"+formatTime(start)+"/end/"+formatTime(end)+".html";
-					window.location.href = url;	
+					if(start.hasTime()){
+						var root = "<?php echo U('Reception/receptionForm');?>".split(".");
+						var url = root[0]+"/start/"+formatTime(start)+"/end/"+formatTime(end)+".html";
+						window.location.href = url;	
+					}
+					
 				},
 				eventClick: function(calEvent, jsEvent, view){
 					var receptionId = calEvent.id;
@@ -855,6 +850,7 @@
 
 			$('#deleteBtn').hide();
 			$('.pricing-box').hide();
+			hideInfoBox();
 			
 			
 			setSidebarActive('reception_root', 'reception_add');
@@ -880,14 +876,45 @@
 						$('ul.spaced2').append($(html));
 
 						if(data.delete){
-							var root= "<?php echo U('Reception/del');?>".split(".");
-							var link = root[0]+"/id/"+id+".html";
-							$('a#delLink').attr('href', link);
+							// var root= "<?php echo U('Reception/delReception');?>".split(".");
+							// var link = root[0]+"/id/"+id+".html";
+							// $('a#delLink').attr('href', link);
+							$('a#delLink').unbind('click');
+							$('a#delLink').on('click', function(){
+								bootbox.confirm({
+									message: "将同时删除房间预定记录和领导日程记录，是否确定？",
+									buttons: {
+										confirm:{
+											label: "确定",
+											className: "btn-primary btn-sm"
+										},
+										cancel: {
+											label: "取消",
+											className: "btn-sm"
+										}
+									},
+									callback: function(result){
+										if(result){
+											$.post("<?php echo U('Reception/delReception');?>", {id:id}, function(msg){
+												if(1==msg){
+													$('#calendar').fullCalendar('removeEvents', id);
+													$('.pricing-box').hide();
+												}
+												else{
+													bootbox.alert(msg);
+												}
+											});
+										}
+									}
+								});
+							});
 							$('#deleteBtn').show();
 						}
 						else
 							$('#deleteBtn').hide();
 
+						
+						showInfoBox();
 						$('.pricing-box').show();
 								
 					}, 'json');
@@ -901,6 +928,27 @@
 					return time.format('YYYY-M-D H:mm');
 				else
 					return time.format('YYYY-M-D');
+			}
+
+			function hideInfoBox(){
+				
+				$('#content').removeClass('col-sm-9');
+				$('#rightSideBar').removeClass('col-sm-3');
+				$('a#addReception').removeClass('btn-block');
+				$('#content').addClass('col-sm-11');
+				$('#rightSideBar').addClass('col-sm-1');
+				$('a#addReception').addClass('btn-app');
+			}
+
+			function showInfoBox(){
+				$('#content').removeClass('col-sm-11');
+				$('#rightSideBar').removeClass('col-sm-1');
+				$('a#addReception').removeClass('btn-app');
+
+				$('#content').addClass('col-sm-9');
+				$('#rightSideBar').addClass('col-sm-3');
+				$('a#addReception').addClass('btn-block');
+				
 			}
 
 			

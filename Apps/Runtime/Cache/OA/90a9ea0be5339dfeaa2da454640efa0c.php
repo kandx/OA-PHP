@@ -14,10 +14,8 @@
 
 		<!-- page specific plugin styles -->
 		
-	<link rel="stylesheet" href="/develop/OA/Public/static/css/fullcalendar.css" />
 	<link rel="stylesheet" href="/develop/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
-	<link rel="stylesheet" href="/develop/OA/Public/static/css/jquery.gritter.css" />
-	
+	<link rel="stylesheet" href="/develop/OA/Public/static/css/chosen.css" />
 
 
 		<!-- text fonts -->
@@ -572,7 +570,7 @@
 
 			<div class="main-content">
 				
-					<!-- #section:basics/content.breadcrumbs -->
+	<!-- #section:basics/content.breadcrumbs -->
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
 		try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -584,15 +582,15 @@
 			<a href="<?php echo U('Index/main');?>">OA系统</a>
 		</li>
 		
-		<?php if([leaf] != ''): ?><li>
-			<a href=[url]>[leaf]</a>
+		<?php if(会议登记 != ''): ?><li>
+			<a href=<?php echo U('Reception/addMeeting');?>>会议登记</a>
 		</li><?php endif; ?>
 
-		<li class="active">空白</li>
+		<li class="active">填写会议信息</li>
 	</ul><!-- /.breadcrumb -->
 </div>
 <!-- /section:basics/content.breadcrumbs -->
-				
+
 
 				<div class="page-content">
 					
@@ -695,48 +693,137 @@
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
 							
+	
 	<div class="row">
-		<div class="col-sm-10">
-			<div class="space"></div>
+		<div class="col-sm-12">
+			<form class="form-horizontal" role="form"  method="post" action="<?php echo U('Reception/addMeeting');?>" id="meetingform">
 
-			<!-- #section:plugins/data-time.calendar -->
-			<div id="calendar"></div>
-			
-			<!-- /section:plugins/data-time.calendar -->
-		</div>
-		<div class="col-sm-2">
-			<div class="space"></div>
-			
-			<div class="widget-box transparent">
-	<div class="widget-header">
-		<h4>图例说明</h4>
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right" for="type"> 会议性质:<strong class="text-danger">*</strong></label>
+
+					<div class="col-sm-9">
+						<select class="col-xs-10 col-sm-5" id="meeting_type" name="type">
+							<option value=""></option>
+							<option value="F">外出开会</option>
+							<option value="L">内部会议</option>
+						</select>
+						<em class="text-danger"></em>
+					</div>
+				</div>
+
+				<div id="main_content">
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="content"> 会议名称:<strong class="text-danger">*</strong></label>
+
+						<div class="col-sm-9">
+							<input type="text" name="content" placeholder="" class="col-xs-10 col-sm-5" />
+							<em class="text-danger"></em>
+						</div>
+					</div>
+
+					<div class="form-group">				
+						<label class="col-sm-3 control-label no-padding-right" for="begin_time"> 会议时间:<strong class="text-danger">*</strong> </label>
+						<div class="col-sm-8">
+							<input type="text" name="begin_time" class="datetime-picker col-xs-10 col-sm-5" data-date-format="yyyy-mm-dd hh:ii" value="<?php echo ($start); ?>">
+							<em class="text-danger"></em>
+						</div>
+					</div>
+
+					<div class="form-group" id="end_time">				
+						<label class="col-sm-3 control-label no-padding-right" for="end_time"> 结束时间:<strong class="text-danger">*</strong> </label>
+						<div class="col-sm-8">
+							<input type="text" name="end_time" class="datetime-picker col-xs-10 col-sm-5" data-date-format="yyyy-mm-dd hh:ii" value="<?php echo ($end); ?>">
+							<em class="text-danger"></em>
+						</div>
+					</div>
+
+					<div class="form-group" id="local_place">
+						<label class="col-sm-3 control-label no-padding-right" for="local_place"> 会议地点:<strong class="text-danger">*</strong></label>
+
+						<div class="col-sm-9">
+							<select class="col-xs-10 col-sm-5" id="local_place" name="local_place">
+								<option value=""></option>
+								<?php if(is_array($rooms)): foreach($rooms as $key=>$room): ?><option value="<?php echo ($room["name"]); ?>"><?php echo ($room["name"]); ?></option><?php endforeach; endif; ?>
+							</select>
+							<em class="text-danger"></em>
+						</div>
+					</div>
+
+					<div class="form-group" id="foreign_place">
+						<label class="col-sm-3 control-label no-padding-right" for="foreign_place"> 会议地点:<strong class="text-danger">*</strong></label>
+
+						<div class="col-sm-9">
+							<input type="text" name="foreign_place" placeholder="" class="col-xs-10 col-sm-5" />
+							<em class="text-danger"></em>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="host"> 主持人:</label>
+
+						<div class="col-sm-9">
+							<input type="text" name="host" placeholder="" class="col-xs-10 col-sm-5" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="departments"> 参加处室:<strong class="text-danger">*</strong></label>
+
+						<div class="col-sm-9">
+							<?php if(is_array($departments)): foreach($departments as $key=>$department): ?><label>
+									<input name="departments[]" id="departments" type="checkbox" class="ace group" value="<?php echo ($department["id"]); ?>"/>
+									<span class="lbl"> <?php echo ($department["short_name"]); ?></span>
+								</label><?php endforeach; endif; ?>
+							<em class="text-danger"></em>
+						</div>
+					</div>
+
+					<div class="form-group" id="person_div">
+						<label class="col-sm-3 control-label no-padding-right" for="participants"> 参加人员:<strong class="text-danger">*</strong></label>
+
+						<div class="col-sm-9" id="participants_div">
+							<select multiple='' class='width-40 chosen-select tag-input-style' id='participants' name='participants[]' data-placeholder='请选择参会人员...'>
+								<option value=''>&nbsp;</option>
+							</select>
+							<em class="text-danger"></em>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="participants"> &nbsp;</label>
+
+						<div class="col-sm-9">
+							<label>
+								<input name="create_schedule" id="create_schedule" type="checkbox" class="ace" value="1" />
+								<span class="lbl"> 生成领导日程</span>
+							</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="clearfix form-actions">
+							<div class="col-md-offset-3 col-md-9">
+								<button class="btn btn-info" type="submit">
+									<i class="icon-ok bigger-110"></i>
+									保存
+								</button>
+
+								&nbsp; &nbsp; &nbsp;
+								<a class="btn" type="button" href="<?php echo U('Reception/addReception');?>">
+									<i class="icon-undo bigger-110"></i>
+									返回
+								</a>
+							</div>
+						</div>
+					</div>
+
+				</div> <!-- main_content -->
+
+			</form>
+		</div>	
 	</div>
-	<div class="widget-body">
-		<div class="widget-main no-padding">
-			<!-- <div id="external-events" >
-				<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><div class="external-event" style="background-color:<?php echo ($leader["calendar_color"]); ?>;" >
-						<i class="ace-icon fa fa-arrows"></i>
-						<?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?>
-					</div><?php endforeach; endif; ?>
-			</div> -->
-			<div class="control-group">
-
-				<!-- #section:custom/checkbox -->
-				<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><div class="checkbox">
-					<label>
-						<input id="leaderIds" name="leaderIds[]" type="checkbox" class="ace leader" value="<?php echo ($leader["id"]); ?>"/>
-						<span class="lbl"> <?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?></span>
-						<span class="lbl" style="background-color:<?php echo ($leader["calendar_color"]); ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
-					</label>
-				</div><?php endforeach; endif; ?>
-
-			</div>
-		</div>
-	</div>
-</div>
-		</div>
-
-	</div>
+	
 
 
 							<!-- PAGE CONTENT ENDS -->
@@ -775,12 +862,16 @@
 
 		<!-- page specific plugin scripts -->
 		
-	<script src="/develop/OA/Public/static/js/date-time/moment.min.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery-ui.custom.min.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
-	<script src="/develop/OA/Public/static/js/fullcalendar.min.js"></script>
-	<script src="/develop/OA/Public/static/js/zh-cn.js"></script>
-	<script src="/develop/OA/Public/static/js/jquery.gritter.min.js"></script>
+	<script src="/develop/OA/Public/static/js/chosen.jquery.min.js"></script>
+	<script src="/develop/OA/Public/static/js/date-time/bootstrap-datetimepicker.min.js"></script>
+	<script src="/develop/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="/develop/OA/Public/static/js/jquery.form.min.js"></script>
+	<script src="/develop/OA/Public/static/js/jquery.validate.min.js"></script>
+	<script src="/develop/OA/Public/static/js/messages_zh.min.js"></script>
+	<script src="/develop/OA/Public/static/js/bootbox.min.js"></script>
+	<script src="/develop/OA/Public/static/js/date-time/moment.min.js"></script>
 
 
 		<!-- ace scripts -->
@@ -792,78 +883,197 @@
 		
 	<script type="text/javascript">
 		jQuery(function($){
-			//设置日历，注意：没有设置events, eventSources属性
-			var calendar = $('#calendar').fullCalendar({
-				header: {
-					left: 'prev,next today',
-					center: 'title',
-					right: 'month,agendaWeek,agendaDay'
-				},
-                timeFormat: 'H:mm',
-                buttonText: {
-                    prev: '<',
-                    next: '>',
-                }, 
-				minTime: "06:00:00",
-				maxTime: "21:00:00",
-				slotDuration: "00:15:00",
-				weekNumbers: true,
-
-				//日历点击事件
-				eventClick: function(calEvent, jsEvent, view){
-					$.get("<?php echo U('Schedule/getEventInfo');?>", {event_id:calEvent.id}, function(data, textStatus){
-						var content = "<p>"+"开始时间："+formatTime(calEvent.start)+"<br>"+"结束时间："+formatTime(calEvent.end)+"<br>"+"说&nbsp;&nbsp;"+"明："+data['description']+"</p>";
-						$.gritter.add({
-							title: calEvent.title,
-							text: content,
-							image: "/develop/OA/Public/static/avatars/avatar1.png",//data['image'],
-							sticky: false,
-							time: '',
-							class_name: ''
-						});
-					}, 'json');
-				}
-				
-			});
 			
-			// 添加复选框事件
-			// 基本逻辑：获取领导ID，如果是勾选，则添加日程源，否则删除日程源
-			$("input.leader").on('click', function(){
-				var source = getEventSource($(this).val());
-				if(this.checked){
-					$('#calendar').fullCalendar("addEventSource", source);
+			//初始化datetime控件
+			$('.datetime-picker').datetimepicker({
+				format:'yyyy-m-d h:ii',
+				autoclose:true,
+				todayBtn:true,
+				language:'zh-CN',
+			});
+			//初始化chosen控件
+			$(".chosen-select").chosen();
+			// $(window).on('resize.chosen', function() {
+			// 	var w = $('.chosen-select').parent().width();
+			// 	$('.chosen-select').next().css({'width':w});
+			// }).trigger('resize.chosen');
+			//设置指示标位置
+			setSidebarActive('reception_root', 'reception_meeting_add');
+
+			// 初始化界面
+			$('#main_content').hide();
+			//$('#person_div').hide();
+
+			// 选择会议性质
+			$('#meeting_type').on('change', function(){
+				if(this.value=='F'){
+					$('#end_time').hide();
+					$('#local_place').hide();
+					$('#foreign_place').show();
+					$('#main_content').show();
+				}
+				else if(this.value=='L'){
+					$('#end_time').show();
+					$('#local_place').show();
+					$('#foreign_place').hide();
+					$('#main_content').show();
 				}
 				else
-					$('#calendar').fullCalendar('removeEventSource', source);
+					$('#main_content').hide();
 			});
 
-			// 初始化页面，将所有领导的日程都load进来
-			$("input.leader").each(function(){
-				$(this).attr('checked', true);
-				var source = getEventSource($(this).val());
-				$('#calendar').fullCalendar("addEventSource", source); 
+			// 选择参会人员
+			
+			$("input[name='departments[]']").on('click', function(){
+				var ids = [];
+				$('#departments:checked').each(function(){
+					ids.push($(this).val());
+				});
+				
+				createParticipants(ids);
 			});
+
+			// 领导日程生成
+			$('#create_schedule').on('click', function(){
+				if(this.checked){
+					var $participants = $('#participants option:selected');
+					if(!$participants.length){
+						bootbox.alert("请先选择参会人员！");
+						this.checked = false;
+					}
+				}
+			});
+
+			//表单验证设置
+			$('#meetingform').validate({
+				rules:{
+					type: "required",
+					content: "required",
+					begin_time: "required",
+					end_time:{
+						required: function(){
+							return $('#meeting_type').val()=='L';
+						}
+					},
+					local_place:{
+						required: function(){
+							return $('#meeting_type').val()=='L';
+						}
+					},
+					foreign_place:{
+						required: function(){
+							return $('#meeting_type').val()=='F';
+						}
+					},
+					
+				},//rules end
+				errorPlacement: function(error, element){
+					var next = element.next();
+					
+					if(element.attr('name')=='departments[]'){
+						next = element.parent().next('em');
+					}
+					error.appendTo(next);
+				}
+			});
+
+			//处理表单的提交
+			$('#meetingform').ajaxForm({
+				beforeSubmit: showRequest,
+				success: showResponse,
+				clearForm: false,
+				dataType: 'json'
+			});
+
+
 
 		});
-		
-		setSidebarActive('calendar_root', 'leader_calendar');
 
-		function formatTime(time){
-			if(!time)
-				return '';
-			if(time.hasTime())
-				return time.format('YYYY-M-D H:mm');
-			else
-				return time.format('YYYY-M-D');
+
+		// 检查房间时间是否有冲突
+		function checkTimeConflict(roomId, startTime, endTime){
+			$.get("<?php echo U('Reception/checkTimeConflict');?>", {id:roomId, start:startTime, end:endTime}, function(data, textStatus){
+				if(data!=-1){
+					var divId;
+					if(1==roomId)
+						divId = "conflict_hall";
+					else
+						divId = "conflict_meeting";
+					var liTag = "<li class='text-danger'>";
+					var html = "<div class='col-sm-12' id='"+divId+"'><label class='col-sm-12 text-danger'>注意，以下时间段可能存在冲突：</label><ul class='col-sm-12'>";											
+					$.each(data, function(n, item){
+						var start = getTime(item['start']);
+						var end = getTime(item['end']);
+						var tempLi = liTag+start+"-"+end+"&nbsp;&nbsp;&nbsp;"+item['content']+"</li>";
+						html += tempLi;
+					});
+					html += "</ul></div>";
+					if(roomId==1)
+						$('#bookHall').append($(html));
+					else
+						$('#bookRoom').append($(html));
+				}
+			}, 'json');
 		}
 
-		// 根据领导ID获取日程源url
-		function getEventSource(leaderId){
-			//直接使用thinkphp的U函数出错，只能采用如下方法处理
-			var urlStr = "<?php echo U('Schedule/getEvents');?>".split(".");
-			return urlStr[0]+"/id/"+leaderId+".html";
+		// 表单验证
+		function showRequest(formData, jqForm, options){
+			//radio无法验证，单独处理
+			if($('#meetingform').valid()){
+				var departments = $("input[name='departments[]']").fieldValue();
+				if(!departments.length){
+					bootbox.alert('请选择参会处室');
+					return false;
+				}
+
+				var participants = $("select.chosen-select").fieldValue();
+				if(!participants.length){
+					bootbox.alert('请选择参会人员！');
+					return false;
+				}
+			}
 		}
-		
+
+		function showResponse(responseText, statusText, xhr, $form){
+			if(responseText==1){
+				alert('保存成功！');
+				window.location.href = "<?php echo U('Reception/addMeeting');?>";
+			}
+			else{
+				bootbox.alert(responseText);
+			}
+		} 
+
+		function createParticipants(Ids){
+			//注意：Ids是个数组
+			//$('#person_div').hide();
+			//$('#participants').empty();
+			
+			$('select#participants').empty();
+			// 注意：对于boolean型变量，统一用0:表示false, 1表示true
+			$.get("<?php echo U('Reception/getReceptionist');?>", {id:Ids, exceptLeader:0}, function(data){
+				var html = "<option value=''>&nbsp;</option>";
+				var node = "<option class='col-xs-10 col-sm-5' value='";
+				$.each(data, function(n, person){
+					var tmpOption = node+person.id+"'>"+person.first_name+person.last_name+"</option>";
+					html += tmpOption;
+				});	
+				
+				$('select#participants').append($(html));
+				//注意，必须要重新初始化，不然chosen无法显示
+				$("select#participants").trigger("chosen:updated");
+				
+			}, 'json');
+		}
+
+		function getTime(timeStr){
+			return moment(timeStr).format('h:mm');
+			//return timeStr;
+		}
+
+		function isTimeConflict(start, end, wantStart, wantEnd){
+			return moment(wantStart).isBefore(moment(end))&&moment(start).isBefore(moment(wantEnd));
+		}
 	</script>
 
 		

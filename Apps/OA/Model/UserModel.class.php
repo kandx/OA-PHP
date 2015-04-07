@@ -142,11 +142,13 @@ class UserModel extends Model
 
 	//根据部门ID获取部门成员信息
 	//部门ID为0时，获取全委除领导外的成员信息
-	public function getStaff($departmentId=0){
+	public function getStaff($departmentId=0, $exceptLeader=true){
 		if ($departmentId) {
 			$dp = M('Department');
-			$leaderId = $dp->where(array('id'=>$departmentId))->getField('leader_id');
-			$where['id'] = array('neq', $leaderId);
+			if($exceptLeader){
+				$leaderId = $dp->where(array('id'=>$departmentId))->getField('leader_id');
+				$where['id'] = array('neq', $leaderId);
+			}
 			$where['is_active'] = 1;
 			$where['department_id'] = $departmentId; 
 			return $this->where($where)->field('id, first_name, last_name')->select();

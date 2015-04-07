@@ -436,23 +436,15 @@
 					<b class="arrow"></b>
 				</li>
 
-				<li class="" id="reception_meetingroom">
-					<a href="<?php echo U('Reception/bookMeetingRoom');?>">
+				<li class="" id="reception_bookroom">
+					<a href="<?php echo U('Reception/bookRoom');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
-						会议室预定
+						预定房间
 					</a>
 
 					<b class="arrow"></b>
 				</li>
 
-				<li class="" id="reception_hall">
-					<a href="<?php echo U('Reception/bookHall');?>">
-						<i class="menu-icon fa fa-caret-right"></i>
-						展厅预定
-					</a>
-
-					<b class="arrow"></b>
-				</li>
 
 				<li class="" id="reception_statics">
 					<a href="<?php echo U('Reception/receptionStatics');?>">
@@ -946,17 +938,32 @@
 			$('.btn-danger').hide();
 			//删除日程的处理
 			$('.btn-danger').on('click', function(e){
-				bootbox.confirm('你确定要删除吗？', function(){
-					var eventID = $('#id').val();
-					$.get("<?php echo U('Schedule/del');?>", {id:eventID}, function(msg){
-						if(1==msg){
-							$('#calendar').fullCalendar('removeEvents', eventID);
-							$('.modal').modal('hide');
+				bootbox.confirm({
+					message: "您确定要删除吗？",
+					buttons: {
+						confirm: {
+							label: "确定",
+							className: "btn-primary btn-sm"
+						},
+						cancel: {
+							label: "取消",
+							className: "btn-sm"
 						}
-						else{
-							bootbox.alert(msg);
+					},
+					callback: function(result){
+						if(result){
+							var eventID = $('#id').val();
+							$.get("<?php echo U('Schedule/del');?>", {id:eventID}, function(msg){
+								if(1==msg){
+									$('#calendar').fullCalendar('removeEvents', eventID);
+									$('.modal').modal('hide');
+								}
+								else{
+									bootbox.alert(msg);
+								}
+							});
 						}
-					});
+					}
 				});
 			});
 

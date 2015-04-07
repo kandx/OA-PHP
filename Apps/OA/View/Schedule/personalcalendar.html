@@ -130,17 +130,32 @@
 			$('.btn-danger').hide();
 			//删除日程的处理
 			$('.btn-danger').on('click', function(e){
-				bootbox.confirm('你确定要删除吗？', function(){
-					var eventID = $('#id').val();
-					$.get("{:U('Schedule/del')}", {id:eventID}, function(msg){
-						if(1==msg){
-							$('#calendar').fullCalendar('removeEvents', eventID);
-							$('.modal').modal('hide');
+				bootbox.confirm({
+					message: "您确定要删除吗？",
+					buttons: {
+						confirm: {
+							label: "确定",
+							className: "btn-primary btn-sm"
+						},
+						cancel: {
+							label: "取消",
+							className: "btn-sm"
 						}
-						else{
-							bootbox.alert(msg);
+					},
+					callback: function(result){
+						if(result){
+							var eventID = $('#id').val();
+							$.get("{:U('Schedule/del')}", {id:eventID}, function(msg){
+								if(1==msg){
+									$('#calendar').fullCalendar('removeEvents', eventID);
+									$('.modal').modal('hide');
+								}
+								else{
+									bootbox.alert(msg);
+								}
+							});
 						}
-					});
+					}
 				});
 			});
 

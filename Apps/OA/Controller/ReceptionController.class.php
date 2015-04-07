@@ -6,7 +6,7 @@ class ReceptionController extends BaseController {
 	//***********************************************************************************
 	//一些内部处理的方法
 
-	//生成Rectption数据的方法
+	// 生成Rectption数据的方法
 	private function createReceptionData(){
 		$data = array(
 			'vistor' => I('vistor'),
@@ -50,6 +50,7 @@ class ReceptionController extends BaseController {
 		return $data;
 	}
 
+    // 生成房间预定数据
 	private function getBookedData($receptionId){
 		if($receptionId){
 			$data = array();
@@ -77,11 +78,57 @@ class ReceptionController extends BaseController {
 		}
 		else
 			return null;
-		
 	}
 
+    // 根据POST数据构造领导日程数据
+    // 构造条件：勾选了create_schedule复选框
+    private function createLeaderSchedule($receptionId){
+        
+        if(I('reception_leader')&&(I('create_schedule'))){
+            $leaderList = I('reception_leader');
+            $data = array();
+            foreach ($leaderList as $k) {
+                $data[] = array(
+                    'title' => '接待'.I('vistor'),
+                    'description' => '接待处室：'.getDepartmentName(I('major_department')),
+                    'begin_time' => I('begin_time'),
+                    'end_time' => I('end_time'),
+                    'user_id' => $k,
+                    'recorder_id' => getCurrentUserId(),
+                    'source' => 'R',
+                    'related_event_id' => $receptionId
+                    );
+            }
+            return $data;
+        }
+        
+    }
+
+    // 向数据库添加领导日程记录
+    // 添加成功：返回1；添加失败：返回错误信息
+    private function addLeaderSchedule($data){
+        if(!empty($data)){
+            $sch = D('Schedule');
+            foreach ($data as $k) {
+                if($sch->create($k)){
+                    $id = $sch->add();
+                    if(!$id){
+                        return $sch->getError();
+                    }
+                }
+                else{
+                    return $sch->getError();
+                }
+            }
+            return 1;
+        }
+        else
+            return "领导日程数据错误！";
+    }
+
 	//************************************************************************************
-	//页面Action
+	// 页面Action
+    // 添加接待
     public function addReception(){
         $this->hasLogined();
         if(IS_GET){
@@ -106,13 +153,13 @@ class ReceptionController extends BaseController {
             }
             else{
             	$receptionId = $rp->add();
-            	// if(!$receptionId){
-            	// 	$rp->rollback();
-            	// 	$this->ajaxReturn($rp->getError());
-            	// }
+            	if(!$receptionId){
+            		$rp->rollback();
+            		$this->ajaxReturn($rp->getError());
+            	}
             }
            
-            //添加预定展厅，会议室情况
+            // 添加预定展厅，会议室情况
             $roomBookData = $this->getBookedData($receptionId);
             if($roomBookData){
             	$rb = M('RoomBooking');
@@ -125,15 +172,21 @@ class ReceptionController extends BaseController {
             		}
             	}
             }
-            //邮件提醒
-            //判断是否提交
+
+            // 添加领导日程
+            $schedules = $this->createLeaderSchedule($receptionId);
+            $msg = $this->addLeaderSchedule($schedules);
+            if($msg!=1)
+                $this->ajaxReturn($msg);
             
+            // 所有操作都正确，提交
         	$rp->commit();
         	$this->ajaxReturn(1);
 
         }
         
     }
+
 
     public function receptionForm(){
 
@@ -157,9 +210,43 @@ class ReceptionController extends BaseController {
 
     }
 
+    // 登记会议
+    public function addMeeting(){
+        $this->hasLogined();
+        if(IS_GET){
+            $this->display();
+        }
+        else if(IS_POST){
+            $mt = D('Meeting');
+            $this->ajaxReturn($mt->addMeeting());
+
+        }
+    }
+
+    public function meetingForm(){
+        $dp = M('Department');
+        // $where['id'] = array('neq', 1);
+        $this->assign('departments', $dp->field('id, short_name')->select());
+
+        $room = M('Room');
+        $cond['name'] = array('neq', '展厅');
+        $this->assign('rooms', $room->where($cond)->select());
+
+        $this->assign('start', I('start'));
+        $this->assign('end', I('end'));
+        $this->display();
+    }
+
+    public function bookRoom(){
+        $this->hasLogined();
+        $room = M('Room');
+        $this->assign('rooms', $room->select());
+        $this->display();
+    }
+
     //**************************************************************************************
-    //以下是响应网页AJAX的方法
-    //获取日程安排，并在日历上显示
+    // 以下是响应网页AJAX的方法
+    // 获取日程安排，并在日历上显示
     public function getReception(){
     	$this->hasPermission(IS_AJAX);
     	$rp = D('Reception');
@@ -167,7 +254,7 @@ class ReceptionController extends BaseController {
         
     }
 
-    //根据已选择的接待处室，获取剩余处室
+    // 根据已选择的接待处室，获取剩余处室
     public function getAssistDepartments(){
     	$this->hasPermission(IS_AJAX);
     	$exceptId = I('id');
@@ -176,22 +263,24 @@ class ReceptionController extends BaseController {
     	$this->ajaxReturn($departments);
     }
 
-    //获取接待人员列表
+    // 获取接待人员列表
     public function getReceptionist(){
     	$this->hasPermission(IS_AJAX);
     	$ids = I('id');
+        $exceptLeader = I('exceptLeader');
     	$users = D('User');
     	$staff = array();
     	if(is_array($ids)){
     		foreach ($ids as $id) {
-    			$members = $users->getStaff($id);
+    			$members = $users->getStaff($id, $exceptLeader);
     			$staff = array_merge($staff, $members);
     		}
     	}
     	$this->ajaxReturn($staff);
     }
 
-    //检测预约时间是否存在冲突
+
+    // 检测预约时间是否存在冲突
     public function checkTimeConflict(){
     	$this->hasPermission(IS_AJAX);
     	$wantStart = I('start');
@@ -215,6 +304,7 @@ class ReceptionController extends BaseController {
     		$this->ajaxReturn(-1);
     }
 
+    // 获取接待信息
     public function receptionInfo(){
     	$this->hasPermission(IS_AJAX);
     	$id = I('id');
@@ -256,16 +346,81 @@ class ReceptionController extends BaseController {
     		$this->ajaxReturn(-1);
     }
 
+    // 删除接待信息
+    // 条件：接待记录添加人及其同处室人员可以删除
+    // 同时删除相关展厅预定、会议室预定、领导日程记录
+    public function delReception(){
+        $this->hasPermission(IS_AJAX);
+        $receptionId = I('id');
+        if($receptionId){
+            $rp = M('Reception');
+            // 开始事务
+            $rp->startTrans();
+
+            // 检查并删除领导日程
+            $rpLeaders = $rp->where(array('id'=>$receptionId))->getField('reception_leader');
+            $sch = D('Schedule');
+            $msg = $sch->delSchedules($rpLeaders, 'R', $receptionId);
+            if(1!=$msg){
+                $rp->rollback();
+                $this->ajaxReturn($msg);
+            }
+
+            // 检查并删除场所预定情况
+            $rb = D('RoomBooking');
+            $msg = $rb->delRoomBookedInfo($receptionId, 'R');
+            if(1!=$msg){
+                $rp->rollback();
+                $this->ajaxReturn($msg);
+            }
+
+            // 删除接待记录
+            $msg = $rp->delete($receptionId);
+            if(1!=$msg){
+                $this->rollback();
+                $this->ajaxReturn($rp->getError());
+            }
+
+            // 所有操作成功
+            $rp->commit();
+            $this->ajaxReturn(1);
+        }
+        else
+            $this->ajaxReturn('接待ID错误！');
+    }
+
+    // 获取会议日历
+    public function getMeeting(){
+        $this->hasPermission(IS_AJAX);
+        $mt = D('Meeting');
+        $this->ajaxReturn($mt->getMeetingCalendar());
+        
+    }
+
+    // 获取会议信息
+    public function meetingInfo(){
+        $this->hasPermission(IS_AJAX);
+        $mt = D('Meeting');
+        $id = I('id');
+        $this->ajaxReturn($mt->getMeetingInfo($id));
+    }
+
+    // 获取各个房间的预定情况
+    public function getRoomCalendar(){
+        $this->hasPermission(IS_AJAX);
+        $id = I('id');
+        $rb = D('RoomBooking');
+        $data = $rb->getRoomCalendar($id);
+        $this->ajaxReturn($data);
+    }
+
 //*******************************************************************************************
 
 
 
     public function test(){
-       $ids = array(1,2,3,4);
-       p(implode(",", $ids));
-       p(empty($b));
-       $b = null;
-       p(empty($b));
+      
+       p(__APP__);
 
     }
 }

@@ -16,7 +16,6 @@
 		
 	<link rel="stylesheet" href="/develop/OA/Public/static/css/fullcalendar.css" />
 	<link rel="stylesheet" href="/develop/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
-	<link rel="stylesheet" href="/develop/OA/Public/static/css/jquery.gritter.css" />
 	
 
 
@@ -572,7 +571,7 @@
 
 			<div class="main-content">
 				
-					<!-- #section:basics/content.breadcrumbs -->
+	<!-- #section:basics/content.breadcrumbs -->
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
 		try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -584,15 +583,15 @@
 			<a href="<?php echo U('Index/main');?>">OA系统</a>
 		</li>
 		
-		<?php if([leaf] != ''): ?><li>
-			<a href=[url]>[leaf]</a>
+		<?php if(接待管理 != ''): ?><li>
+			<a href=#>接待管理</a>
 		</li><?php endif; ?>
 
-		<li class="active">空白</li>
+		<li class="active">预订房间</li>
 	</ul><!-- /.breadcrumb -->
 </div>
 <!-- /section:basics/content.breadcrumbs -->
-				
+
 
 				<div class="page-content">
 					
@@ -706,35 +705,35 @@
 		</div>
 		<div class="col-sm-2">
 			<div class="space"></div>
-			
-			<div class="widget-box transparent">
-	<div class="widget-header">
-		<h4>图例说明</h4>
-	</div>
-	<div class="widget-body">
-		<div class="widget-main no-padding">
-			<!-- <div id="external-events" >
-				<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><div class="external-event" style="background-color:<?php echo ($leader["calendar_color"]); ?>;" >
-						<i class="ace-icon fa fa-arrows"></i>
-						<?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?>
-					</div><?php endforeach; endif; ?>
-			</div> -->
-			<div class="control-group">
+			<div class="space"></div>
+			<div class="space"></div>
+			<div class="space"></div>
+			<div class="space"></div>
 
-				<!-- #section:custom/checkbox -->
-				<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><div class="checkbox">
-					<label>
-						<input id="leaderIds" name="leaderIds[]" type="checkbox" class="ace leader" value="<?php echo ($leader["id"]); ?>"/>
-						<span class="lbl"> <?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?></span>
-						<span class="lbl" style="background-color:<?php echo ($leader["calendar_color"]); ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
-					</label>
-				</div><?php endforeach; endif; ?>
+			<div class="row">
+				<div class="widget-box">
+					<div class="widget-header">
+						<h4 class="widget-title">
+							请选择房间
+						</h4>
+					</div>
 
+					<div class="widget-body">
+						<div class="widget-main">
+							<div>								
+								<?php if(!empty($rooms)): ?><select class="form-control" id="select_room">
+										<!-- <option value="0"></option> -->
+										<?php if(is_array($rooms)): foreach($rooms as $key=>$room): ?><option value="<?php echo ($room["id"]); ?>"><?php echo ($room["name"]); ?></option><?php endforeach; endif; ?>
+									</select><?php endif; ?>
+								
+							</div>
+						</div>
+					</div>
 			</div>
+			
 		</div>
-	</div>
-</div>
-		</div>
+		
+		
 
 	</div>
 
@@ -778,9 +777,12 @@
 	<script src="/develop/OA/Public/static/js/date-time/moment.min.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery-ui.custom.min.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="/develop/OA/Public/static/js/date-time/bootstrap-datetimepicker.min.js"></script>
+	<script src="/develop/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="/develop/OA/Public/static/js/fullcalendar.min.js"></script>
 	<script src="/develop/OA/Public/static/js/zh-cn.js"></script>
-	<script src="/develop/OA/Public/static/js/jquery.gritter.min.js"></script>
+	<script src="/develop/OA/Public/static/js/jquery.form.min.js"></script>
+	<script src="/develop/OA/Public/static/js/bootbox.min.js"></script>
 
 
 		<!-- ace scripts -->
@@ -792,7 +794,6 @@
 		
 	<script type="text/javascript">
 		jQuery(function($){
-			//设置日历，注意：没有设置events, eventSources属性
 			var calendar = $('#calendar').fullCalendar({
 				header: {
 					left: 'prev,next today',
@@ -804,66 +805,130 @@
                     prev: '<',
                     next: '>',
                 }, 
+				weekNumbers: true,
 				minTime: "06:00:00",
 				maxTime: "21:00:00",
 				slotDuration: "00:15:00",
-				weekNumbers: true,
-
-				//日历点击事件
+				// events: "<?php echo U('Schedule/getEvents', array('id'=>getCurrentUserId()));?>",
+				selectable: true,
+				selectHelper: true,
+				select: function(start, end, jsEvent, view) {
+					if(view.name!='month'){
+						if($('#select_room').val()==1){
+							window.location.href = getUrl(start, end, 'R');
+						}
+						else{
+							bootbox.confirm({
+								message: "请选择是接待还是会议",
+								buttons: {
+									cancel: {
+										label: "会议",
+										className: "btn-success btn-sm"
+									},
+									confirm:{
+										label: "接待",
+										className: "btn-primary btn-sm"
+									}
+								},
+								callback: function(result){
+									if(result){
+										window.location.href = getUrl(start, end, 'R');
+									}
+									else{
+										window.location.href = getUrl(start, end, 'M');
+									}
+								}
+							});
+						}
+					}
+					else{
+						bootbox.alert('请在周视图或日视图中预订！');
+					}
+					
+				},
 				eventClick: function(calEvent, jsEvent, view){
-					$.get("<?php echo U('Schedule/getEventInfo');?>", {event_id:calEvent.id}, function(data, textStatus){
-						var content = "<p>"+"开始时间："+formatTime(calEvent.start)+"<br>"+"结束时间："+formatTime(calEvent.end)+"<br>"+"说&nbsp;&nbsp;"+"明："+data['description']+"</p>";
-						$.gritter.add({
-							title: calEvent.title,
-							text: content,
-							image: "/develop/OA/Public/static/avatars/avatar1.png",//data['image'],
-							sticky: false,
-							time: '',
-							class_name: ''
-						});
-					}, 'json');
-				}
-				
+					
+				},
+				editable: true,
+				eventDrop: function(event, delta, revertFunc, jsEvent, ui, view){
+					dropAndResize(event, revertFunc);
+				},
+				eventResize: function(event, delta, revertFunc, jsEvent, ui, view){
+					dropAndResize(event, revertFunc);
+				},
 			});
 			
-			// 添加复选框事件
-			// 基本逻辑：获取领导ID，如果是勾选，则添加日程源，否则删除日程源
-			$("input.leader").on('click', function(){
-				var source = getEventSource($(this).val());
-				if(this.checked){
-					$('#calendar').fullCalendar("addEventSource", source);
-				}
+
+
+			setSidebarActive('reception_root', 'reception_bookroom');
+
+			
+
+			
+			// 选择房间的处理
+			// 保存上一次的选择值
+			var lastRoomId = $('#select_room').val(); 
+			//初始化日历显示
+			$('#calendar').fullCalendar('addEventSource', getEventSource(lastRoomId));
+			// 添加变更事件
+			$('#select_room').on('change', function(){
+				var nowRoomId = $('#select_room').val();
+				var oldSource = getEventSource(lastRoomId);
+				var newSource = getEventSource(nowRoomId);
+				
+				$('#calendar').fullCalendar('removeEventSource', oldSource);
+					
+				$('#calendar').fullCalendar('addEventSource', newSource);
+				
+				lastRoomId = nowRoomId;				
+			});
+
+			
+			function formatTime(time){
+				if(!time)
+					return '';
+				if(time.hasTime())
+					return time.format('YYYY-M-D H:mm');
 				else
-					$('#calendar').fullCalendar('removeEventSource', source);
-			});
+					return time.format('YYYY-M-D');
+			}
 
-			// 初始化页面，将所有领导的日程都load进来
-			$("input.leader").each(function(){
-				$(this).attr('checked', true);
-				var source = getEventSource($(this).val());
-				$('#calendar').fullCalendar("addEventSource", source); 
-			});
+			function dropAndResize(event, revertFunc){
+				var eventData = {
+					id: event.id,
+					start: formatTime(event.start),
+					end: formatTime(event.end),
+					allDay: event.allDay
+				};
+				$.post("<?php echo U('Schedule/drop');?>", eventData, function(msg){
+					if(msg!=1){
+						bootbox.alert(msg);
+						revertFunc();
+					}
+				});
+			}
 
+			function getEventSource(Id){
+				//直接使用thinkphp的U函数出错，只能采用如下方法处理
+				if(!Id)
+					return '';
+				var urlStr = "<?php echo U('Reception/getRoomCalendar');?>".split(".");
+				return urlStr[0]+"/id/"+Id+".html";
+			}
+
+			// 根据会议还是接待生成不同的URL
+			function getUrl(start, end, type){
+				if('R'==type){
+					var root = "<?php echo U('Reception/receptionForm');?>".split(".");
+					return root[0]+"/start/"+formatTime(start)+"/end/"+formatTime(end)+".html"; 
+				}
+				else{
+					var root = "<?php echo U('Reception/meetingForm');?>".split(".");
+					return root[0]+"/start/"+formatTime(start)+"/end/"+formatTime(end)+".html";
+				}
+			}
+			
 		});
-		
-		setSidebarActive('calendar_root', 'leader_calendar');
-
-		function formatTime(time){
-			if(!time)
-				return '';
-			if(time.hasTime())
-				return time.format('YYYY-M-D H:mm');
-			else
-				return time.format('YYYY-M-D');
-		}
-
-		// 根据领导ID获取日程源url
-		function getEventSource(leaderId){
-			//直接使用thinkphp的U函数出错，只能采用如下方法处理
-			var urlStr = "<?php echo U('Schedule/getEvents');?>".split(".");
-			return urlStr[0]+"/id/"+leaderId+".html";
-		}
-		
 	</script>
 
 		

@@ -109,6 +109,7 @@
 
 	function getMemberName($ids){
 		$members = F('members');
+		// 字符串的情况
 		if(is_string($ids)){
 			if(strpos( $ids,",")){
 				$ids = explode(",", $ids);
@@ -124,6 +125,22 @@
 			}
 			else
 				return $members[$ids];
+		}
+		// 数组的情况
+		if(is_array($ids)){
+			if(count($ids)==1)
+				return $members[$ids];
+			else{
+				$leaders = "";
+
+				foreach ($ids as $k) {
+					if(!$leaders)
+						$leaders = $members[$k];
+					else
+						$leaders .= "、".$members[$k];
+				}
+				return $leaders;
+			}
 		}
 		
 	}

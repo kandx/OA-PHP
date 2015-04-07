@@ -16,7 +16,6 @@
 		
 	<link rel="stylesheet" href="/develop/OA/Public/static/css/fullcalendar.css" />
 	<link rel="stylesheet" href="/develop/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
-	<link rel="stylesheet" href="/develop/OA/Public/static/css/jquery.gritter.css" />
 	
 
 
@@ -572,7 +571,7 @@
 
 			<div class="main-content">
 				
-					<!-- #section:basics/content.breadcrumbs -->
+	<!-- #section:basics/content.breadcrumbs -->
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
 		try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -584,15 +583,15 @@
 			<a href="<?php echo U('Index/main');?>">OA系统</a>
 		</li>
 		
-		<?php if([leaf] != ''): ?><li>
-			<a href=[url]>[leaf]</a>
+		<?php if(接待管理 != ''): ?><li>
+			<a href=#>接待管理</a>
 		</li><?php endif; ?>
 
-		<li class="active">空白</li>
+		<li class="active">会议登记</li>
 	</ul><!-- /.breadcrumb -->
 </div>
 <!-- /section:basics/content.breadcrumbs -->
-				
+
 
 				<div class="page-content">
 					
@@ -696,7 +695,7 @@
 							<!-- PAGE CONTENT BEGINS -->
 							
 	<div class="row">
-		<div class="col-sm-10">
+		<div class="col-sm-11" id="content">
 			<div class="space"></div>
 
 			<!-- #section:plugins/data-time.calendar -->
@@ -704,36 +703,54 @@
 			
 			<!-- /section:plugins/data-time.calendar -->
 		</div>
-		<div class="col-sm-2">
+
+		<div class="col-sm-1" id="rightSideBar">
 			<div class="space"></div>
+			<div class="space"></div>
+			<div class="space"></div>
+			<div class="space"></div>
+
 			
-			<div class="widget-box transparent">
-	<div class="widget-header">
-		<h4>图例说明</h4>
-	</div>
-	<div class="widget-body">
-		<div class="widget-main no-padding">
-			<!-- <div id="external-events" >
-				<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><div class="external-event" style="background-color:<?php echo ($leader["calendar_color"]); ?>;" >
-						<i class="ace-icon fa fa-arrows"></i>
-						<?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?>
-					</div><?php endforeach; endif; ?>
-			</div> -->
-			<div class="control-group">
+			<p>
+				<a class="btn btn-app btn-success btn-xs" id="addMeeting" href="<?php echo U('Reception/meetingForm');?>">
+					<i class="ace-icon fa fa-pencil bigger-160"></i>
+					添加
+				</a>
+			</p>
+			
+			
+			<div class="row">
+				<div class="col-xs-6 col-sm-12 pricing-box">
+					<div class="widget-box widget-color-blue">
+						<div class="widget-header">
+							<h5 class="widget-title bigger lighter">会议信息</h5>
+						</div>
 
-				<!-- #section:custom/checkbox -->
-				<?php if(is_array($leaders)): foreach($leaders as $key=>$leader): ?><div class="checkbox">
-					<label>
-						<input id="leaderIds" name="leaderIds[]" type="checkbox" class="ace leader" value="<?php echo ($leader["id"]); ?>"/>
-						<span class="lbl"> <?php echo ($leader["first_name"]); echo ($leader["last_name"]); ?></span>
-						<span class="lbl" style="background-color:<?php echo ($leader["calendar_color"]); ?>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
-					</label>
-				</div><?php endforeach; endif; ?>
+						<div class="widget-body">
+							<div class="widget-main">
+								<ul class="list-unstyled spaced2">
+									
+									<!-- <li>
+										<i class="ace-icon fa fa-check green"></i>
+										使用展厅：10:30
+									</li> -->
+								</ul>
 
+							</div>
+
+							<div id="deleteBtn">
+								<a href="#" class="btn btn-block btn-primary" id="delLink">
+									<i class="ace-icon fa fa-trash-o bigger-110"></i>
+									<span>删除</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-</div>
+			
+			
+			
 		</div>
 
 	</div>
@@ -778,9 +795,11 @@
 	<script src="/develop/OA/Public/static/js/date-time/moment.min.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery-ui.custom.min.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="/develop/OA/Public/static/js/date-time/bootstrap-datetimepicker.min.js"></script>
+	<script src="/develop/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="/develop/OA/Public/static/js/fullcalendar.min.js"></script>
 	<script src="/develop/OA/Public/static/js/zh-cn.js"></script>
-	<script src="/develop/OA/Public/static/js/jquery.gritter.min.js"></script>
+	<script src="/develop/OA/Public/static/js/bootbox.min.js"></script>
 
 
 		<!-- ace scripts -->
@@ -792,78 +811,144 @@
 		
 	<script type="text/javascript">
 		jQuery(function($){
-			//设置日历，注意：没有设置events, eventSources属性
 			var calendar = $('#calendar').fullCalendar({
 				header: {
 					left: 'prev,next today',
 					center: 'title',
 					right: 'month,agendaWeek,agendaDay'
 				},
+				defaultView: 'agendaWeek',
                 timeFormat: 'H:mm',
                 buttonText: {
                     prev: '<',
                     next: '>',
-                }, 
+                },
+                allDaySlot: false, 
+				weekNumbers: true,
 				minTime: "06:00:00",
 				maxTime: "21:00:00",
 				slotDuration: "00:15:00",
-				weekNumbers: true,
-
-				//日历点击事件
+				events: "<?php echo U('Reception/getMeeting');?>",
+				selectable: true,
+				selectHelper: true,
+				select: function(start, end, jsEvent, view) {
+					if(start.hasTime()){
+						var root = "<?php echo U('Reception/meetingForm');?>".split(".");
+						var url = root[0]+"/start/"+formatTime(start)+"/end/"+formatTime(end)+".html";
+						window.location.href = url;	
+					}
+					
+				},
 				eventClick: function(calEvent, jsEvent, view){
-					$.get("<?php echo U('Schedule/getEventInfo');?>", {event_id:calEvent.id}, function(data, textStatus){
-						var content = "<p>"+"开始时间："+formatTime(calEvent.start)+"<br>"+"结束时间："+formatTime(calEvent.end)+"<br>"+"说&nbsp;&nbsp;"+"明："+data['description']+"</p>";
-						$.gritter.add({
-							title: calEvent.title,
-							text: content,
-							image: "/develop/OA/Public/static/avatars/avatar1.png",//data['image'],
-							sticky: false,
-							time: '',
-							class_name: ''
-						});
-					}, 'json');
-				}
+					
+					getMeetingInfo(calEvent.id);
+
+				},
 				
 			});
+
+			$('#deleteBtn').hide();
+			$('.pricing-box').hide();
+			hideInfoBox();
 			
-			// 添加复选框事件
-			// 基本逻辑：获取领导ID，如果是勾选，则添加日程源，否则删除日程源
-			$("input.leader").on('click', function(){
-				var source = getEventSource($(this).val());
-				if(this.checked){
-					$('#calendar').fullCalendar("addEventSource", source);
+			
+			setSidebarActive('reception_root', 'reception_meeting_add');
+
+
+			function getMeetingInfo(id){
+				if(id){
+					$.get("<?php echo U('Reception/meetingInfo');?>", {id: id}, function(data){
+						var li = "<li><i class='ace-icon fa fa-trash green'></i>";
+						var html = "";
+						html += li+"会议类型："+data.type+"</li>";
+						html += li+"会议内容："+data.content+"</li>";
+						html += li+"会议时间："+data.time+"</li>";
+						html += li+"会议地点："+data.place+"</li>";
+						html += li+"主持人："+data.host+"</li>";
+						html += li+"参会处室："+data.departments+"</li>";
+						html += li+"参会人员："+data.participants+"</li>";
+						
+						$('ul.spaced2').empty();
+						$('ul.spaced2').append($(html));
+
+						if(data.delete){
+							// var root= "<?php echo U('Reception/delReception');?>".split(".");
+							// var link = root[0]+"/id/"+id+".html";
+							// $('a#delLink').attr('href', link);
+							$('a#delLink').unbind('click');
+							$('a#delLink').on('click', function(){
+								bootbox.confirm({
+									message: "将同时删除会议室预定记录和领导日程记录，是否确定？",
+									buttons: {
+										confirm:{
+											label: "确定",
+											className: "btn-primary btn-sm"
+										},
+										cancel: {
+											label: "取消",
+											className: "btn-sm"
+										}
+									},
+									callback: function(result){
+										if(result){
+											$.post("<?php echo U('Reception/delMeeting');?>", {id:id}, function(msg){
+												if(1==msg){
+													$('#calendar').fullCalendar('removeEvents', id);
+													$('.pricing-box').hide();
+												}
+												else{
+													bootbox.alert(msg);
+												}
+											});
+										}
+									}
+								});
+							});
+							$('#deleteBtn').show();
+						}
+						else
+							$('#deleteBtn').hide();
+
+						showInfoBox();
+						$('.pricing-box').show();
+
+								
+					}, 'json');
 				}
+			}
+
+			function formatTime(time){
+				if(!time)
+					return '';
+				if(time.hasTime())
+					return time.format('YYYY-M-D H:mm');
 				else
-					$('#calendar').fullCalendar('removeEventSource', source);
-			});
+					return time.format('YYYY-M-D');
+			}
 
-			// 初始化页面，将所有领导的日程都load进来
-			$("input.leader").each(function(){
-				$(this).attr('checked', true);
-				var source = getEventSource($(this).val());
-				$('#calendar').fullCalendar("addEventSource", source); 
-			});
+			function hideInfoBox(){
+				
+				$('#content').removeClass('col-sm-9');
+				$('#rightSideBar').removeClass('col-sm-3');
+				$('a#addMeeting').removeClass('btn-block');
+				$('#content').addClass('col-sm-11');
+				$('#rightSideBar').addClass('col-sm-1');
+				$('a#addMeeting').addClass('btn-app');
+			}
 
+			function showInfoBox(){
+				$('#content').removeClass('col-sm-11');
+				$('#rightSideBar').removeClass('col-sm-1');
+				$('a#addMeeting').removeClass('btn-app');
+
+				$('#content').addClass('col-sm-9');
+				$('#rightSideBar').addClass('col-sm-3');
+				$('a#addMeeting').addClass('btn-block');
+				
+			}
+
+			
 		});
-		
-		setSidebarActive('calendar_root', 'leader_calendar');
-
-		function formatTime(time){
-			if(!time)
-				return '';
-			if(time.hasTime())
-				return time.format('YYYY-M-D H:mm');
-			else
-				return time.format('YYYY-M-D');
-		}
-
-		// 根据领导ID获取日程源url
-		function getEventSource(leaderId){
-			//直接使用thinkphp的U函数出错，只能采用如下方法处理
-			var urlStr = "<?php echo U('Schedule/getEvents');?>".split(".");
-			return urlStr[0]+"/id/"+leaderId+".html";
-		}
-		
 	</script>
 
 		

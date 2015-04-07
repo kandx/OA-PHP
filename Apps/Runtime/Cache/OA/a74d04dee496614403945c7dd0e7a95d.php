@@ -436,23 +436,15 @@
 					<b class="arrow"></b>
 				</li>
 
-				<li class="" id="reception_meetingroom">
-					<a href="<?php echo U('Reception/bookMeetingRoom');?>">
+				<li class="" id="reception_bookroom">
+					<a href="<?php echo U('Reception/bookRoom');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
-						会议室预定
+						预定房间
 					</a>
 
 					<b class="arrow"></b>
 				</li>
 
-				<li class="" id="reception_hall">
-					<a href="<?php echo U('Reception/bookHall');?>">
-						<i class="menu-icon fa fa-caret-right"></i>
-						展厅预定
-					</a>
-
-					<b class="arrow"></b>
-				</li>
 
 				<li class="" id="reception_statics">
 					<a href="<?php echo U('Reception/receptionStatics');?>">
@@ -590,6 +582,10 @@
 			<i class="ace-icon fa fa-home home-icon"></i>
 			<a href="<?php echo U('Index/main');?>">OA系统</a>
 		</li>
+		
+		<?php if([leaf] != ''): ?><li>
+			<a href=[url]>[leaf]</a>
+		</li><?php endif; ?>
 
 		<li class="active">空白</li>
 	</ul><!-- /.breadcrumb -->

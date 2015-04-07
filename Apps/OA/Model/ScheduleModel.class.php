@@ -115,5 +115,26 @@ class ScheduleModel extends Model
 		else
 			return null;
 	}
+
+	// 删除接待日程记录
+	public function delSchedules($leaderIds, $source='S', $receptionId=0){
+		// $leaderIds可能是字符串，也可能是数组，先判断
+		if(!empty($leaderIds)){
+			if(is_string($leaderIds))
+				$leaderIds = explode(',', $leaderIds);
+			$where['source'] = $source;
+			$where['related_event_id'] = $receptionId;
+			foreach ($leaderIds as $k) {
+				$where['user_id'] = $k;
+				$flag = $this->where($where)->delete();
+				// 注意：delete返回0表示没有记录被删除，返回false表示删除错误
+				if(!$flag&&$flag!=0)
+					return $this->getError();
+			}
+			return 1;
+		}
+		else
+			return "接待领导数据错误！";
+	}
 	
 }

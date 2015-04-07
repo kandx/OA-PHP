@@ -435,23 +435,15 @@
 					<b class="arrow"></b>
 				</li>
 
-				<li class="" id="reception_meetingroom">
-					<a href="<?php echo U('Reception/bookMeetingRoom');?>">
+				<li class="" id="reception_bookroom">
+					<a href="<?php echo U('Reception/bookRoom');?>">
 						<i class="menu-icon fa fa-caret-right"></i>
-						会议室预定
+						预定房间
 					</a>
 
 					<b class="arrow"></b>
 				</li>
 
-				<li class="" id="reception_hall">
-					<a href="<?php echo U('Reception/bookHall');?>">
-						<i class="menu-icon fa fa-caret-right"></i>
-						展厅预定
-					</a>
-
-					<b class="arrow"></b>
-				</li>
 
 				<li class="" id="reception_statics">
 					<a href="<?php echo U('Reception/receptionStatics');?>">
@@ -822,6 +814,11 @@
 								</select>
 								<em class="text-danger"></em>
 							</div>
+							<div class="col-sm-12">
+								<label>
+									<input name="create_schedule" id="create_schedule" type="checkbox" class="ace" value="1" />
+								<span class="lbl"> 生成日程</span>
+							</div>
 						</div>
 
 						<div class="form-group">
@@ -1052,6 +1049,10 @@
 			});
 			//初始化chosen控件
 			$(".chosen-select").chosen();
+			$(window).on('resize.chosen', function() {
+				var w = $('.chosen-select').parent().width();
+				$('.chosen-select').next().css({'width':w});
+			}).trigger('resize.chosen');
 			//设置指示标位置
 			setSidebarActive('reception_root', 'reception_add');
 			$('#bookHall').hide();
@@ -1168,6 +1169,17 @@
 				}
 			});
 
+			// 领导日程生成
+			$('#create_schedule').on('click', function(){
+				if(this.checked){
+					var leaders = $('#reception_leader').val();
+					if(!leaders){
+						bootbox.alert("请先选择接待领导！");
+						this.checked = false;
+					}
+				}
+			});
+
 			//表单验证设置
 			$('#receptionform').validate({
 				rules:{
@@ -1239,7 +1251,8 @@
 
 
 		});
-
+		
+		// 判断并生成配合处室选项
 		function createAssistDepartments(exceptId){
 			$.get("<?php echo U('Reception/getAssistDepartments');?>", {id:exceptId}, function(data, textStatus){
 				var html = "";
@@ -1256,9 +1269,10 @@
 			
 		}
 
+		// 判断并生成接待人员选项
 		function createReceptionist(Ids){
 			//注意：Ids是个数组
-			$.get("<?php echo U('Reception/getReceptionist');?>", {id:Ids}, function(data, textStatus){
+			$.get("<?php echo U('Reception/getReceptionist');?>", {id:Ids, exceptLeader:1}, function(data, textStatus){
 				var html = "<select multiple='' class='width-90 chosen-select tag-input-style' id='receptionist' name='receptionist[]' data-placeholder='请选择接待人员...'>";
 				    html += "<option value=''>&nbsp;</option>";
 				var node = "<option class='col-xs-10 col-sm-5' value='";
@@ -1274,7 +1288,7 @@
 			}, 'json');
 		}
 
-
+		// 检查房间时间是否有冲突
 		function checkTimeConflict(roomId, startTime, endTime){
 			$.get("<?php echo U('Reception/checkTimeConflict');?>", {id:roomId, start:startTime, end:endTime}, function(data, textStatus){
 				if(data!=-1){
@@ -1300,6 +1314,7 @@
 			}, 'json');
 		}
 
+		// 表单验证
 		function showRequest(formData, jqForm, options){
 			//radio无法验证，单独处理
 			if($('#receptionform').valid()){
@@ -1309,20 +1324,44 @@
 					return false;
 				}
 				
-				var rpLeader = $("input[name='reception_leader[]']").fieldValue();
+				var rpLeader = $("#reception_leader").fieldValue();
 				var receptionist = $('#receptionist').fieldValue();
 				if(!rpLeader.length&&!receptionist.length){
 					bootbox.alert("接待领导和接待人员不能同时为空！");
 					return false;
 				}
 
-				var viewPlace = $("input[name='view_place']").fieldValue();
-				var hall = $('#is_book_hall').fieldValue();
-				var meeting = $('#is_book_room').fieldValue();
-				var otherPlace = $('#other_place').fieldValue()[0];
-				if(!viewPlace.length && !hall.length && !meeting.length && !otherPlace){
+				var viewPlace = $("input[name='view_place[]']").fieldValue();
+				var hall = $('#is_book_hall').fieldValue()[0];
+				var meeting = $('#is_book_room').fieldValue()[0];
+				var appendOtherPlace = $('#append_other_place').fieldValue()[0];
+				if(!viewPlace.length && !hall && !meeting && !appendOtherPlace){
 					bootbox.alert("参观地点、展厅、会议室必须选择一个！");
 					return false;
+				}
+
+				// 判断展厅和会议室时间是否冲突
+				var hallStartTime = $('#hall_start_time').fieldValue()[0],
+				    hallEndTime = $('#hall_end_time').fieldValue()[0],
+				    roomStartTime = $('#room_start_time').fieldValue()[0],
+				    roomEndTime = $('#room_end_time').fieldValue()[0];
+				if(hallStartTime&&hallEndTime){
+					if(moment(hallStartTime).diff(moment(hallEndTime))>=0){
+						bootbox.alert("预定展厅开始时间不能迟于结束时间!");
+						return false;
+					}
+				}
+				if(roomStartTime&&roomEndTime){
+					if(moment(roomStartTime).diff(moment(roomEndTime))>=0){
+						bootbox.alert("预定会议室开始时间不能迟于结束时间！");
+						return false;
+					}
+				}
+				if(hallStartTime&&hallEndTime&&roomStartTime&&roomEndTime){
+					if(isTimeConflict(hallStartTime, hallEndTime, roomStartTime, roomEndTime)){
+						bootbox.alert("展厅和会议室时间冲突！");
+						return false;
+					}
 				}
 
 			}
@@ -1342,6 +1381,10 @@
 		function getTime(timeStr){
 			return moment(timeStr).format('h:mm');
 			//return timeStr;
+		}
+
+		function isTimeConflict(start, end, wantStart, wantEnd){
+			return moment(wantStart).isBefore(moment(end))&&moment(start).isBefore(moment(wantEnd));
 		}
 	</script>
 
