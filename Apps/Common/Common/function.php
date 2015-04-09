@@ -40,6 +40,37 @@
 			return $auth->check($rule,$uid,$type,$mode,$relation)?true:false;
 		}
 	}
+
+	// 文件下载函数
+	function downloadFile($file_path, $file_name)
+	{
+		//首先要判断给定的文件存在与否
+			if(!file_exists($file_path)){
+				return "该文件不存在，请与管理员联系";
+			}
+			$fp=fopen($file_path,"r");
+			$file_size=filesize($file_path);
+			//下载文件需要用到的头
+			header("Content-type:text/html;charset=utf-8");
+			header("Content-type: application/force-download");
+			header("Accept-Ranges: bytes");
+			header("Accept-Length:".$file_size);
+			header("Content-Transfer-Encoding: binary");
+			header("Content-Disposition: attachment; filename=".$file_name);
+			header('Pragma: no-cache');
+			header('Expires: 0');
+
+			//清空缓存，避免下载乱码
+			ob_clean();
+        	flush();
+			
+			//echo fread($fp, filesize($file_path));
+			while(!feof($fp)) {
+                echo fgets($fp, 4096);
+            }
+
+			fclose($fp); 
+	}
 	//*****************************************************************************
 	//以下是对session操作的封装
 	//初始化和销毁

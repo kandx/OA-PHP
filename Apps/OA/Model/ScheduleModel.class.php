@@ -45,7 +45,7 @@ class ScheduleModel extends Model
 				return null;
 			else{
 				$startTime = date('Y-m-d', strtotime($beginTimeStr)).' '.TIME_START;
-				$endTime = $endTime = date('Y-m-d', strtotime($endTimeStr)).' '.TIME_END;
+				$endTime = date('Y-m-d', strtotime($endTimeStr)).' '.TIME_END;
 				$where['a.begin_time'] = array('between', array($startTime, $endTime));
 			}
 		}
@@ -67,6 +67,7 @@ class ScheduleModel extends Model
 					->select(); 
 	}
 
+	// 获取多人的日程信息
 	public function getSchedulesForPeople($userIds, $type, $beginTimeStr=null, $endTimeStr=null){
 		if(!$userIds)
 			return null;

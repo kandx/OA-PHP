@@ -122,8 +122,7 @@ class ReceptionController extends BaseController {
             }
             return 1;
         }
-        else
-            return "领导日程数据错误！";
+        
     }
 
 	//************************************************************************************

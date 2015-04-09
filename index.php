@@ -25,6 +25,9 @@ define('STATIC_PATH', './Public/static');
 define('JS', STATIC_PATH.'/js');
 define('CSS', STATIC_PATH.'/css');
 
+// 定义Public文件夹
+define('PUBLIC', './Public');
+
 // 引入ThinkPHP入口文件
 require './Think/ThinkPHP.php';
 

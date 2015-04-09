@@ -14,10 +14,7 @@
 
 		<!-- page specific plugin styles -->
 		
-	<link rel="stylesheet" href="/develop/OA/Public/static/css/fullcalendar.css" />
-	<link rel="stylesheet" href="/develop/OA/Public/static/css/bootstrap-datetimepicker.min.css" />
-	
-
+		
 
 		<!-- text fonts -->
 		<link rel="stylesheet" href="/develop/OA/Public/static/css/ace-fonts.css" />
@@ -583,11 +580,11 @@
 			<a href="<?php echo U('Index/main');?>">OA系统</a>
 		</li>
 		
-		<?php if(接待管理 != ''): ?><li>
-			<a href=#>接待管理</a>
+		<?php if(共享空间 != ''): ?><li>
+			<a href=<?php echo U('Share/uploadDocs');?>>共享空间</a>
 		</li><?php endif; ?>
 
-		<li class="active">预订房间</li>
+		<li class="active">上传资料</li>
 	</ul><!-- /.breadcrumb -->
 </div>
 <!-- /section:basics/content.breadcrumbs -->
@@ -694,48 +691,100 @@
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
 							
+	
 	<div class="row">
-		<div class="col-sm-10">
-			<div class="space"></div>
+		<div class="col-sm-12">
+			<form class="form-horizontal" role="form"  method="post" action="<?php echo U('Share/uploadDocs');?>" id="uploadform">
 
-			<!-- #section:plugins/data-time.calendar -->
-			<div id="calendar"></div>
-			
-			<!-- /section:plugins/data-time.calendar -->
-		</div>
-		<div class="col-sm-2">
-			<div class="space"></div>
-			<div class="space"></div>
-			<div class="space"></div>
-			<div class="space"></div>
-			<div class="space"></div>
+				
 
-			<div class="row">
-				<div class="widget-box">
-					<div class="widget-header">
-						<h4 class="widget-title">
-							请选择房间
-						</h4>
+				<div id="main_content">
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="file"></label>
+						<div class="col-sm-4">
+							<input class="col-xs-10 col-sm-5" multiple="" type="file" id="edoc" name="edoc" />
+						</div>
+						
 					</div>
 
-					<div class="widget-body">
-						<div class="widget-main">
-							<div>								
-								<?php if(!empty($rooms)): ?><select class="form-control" id="select_room">
-										<!-- <option value="0"></option> -->
-										<?php if(is_array($rooms)): foreach($rooms as $key=>$room): ?><option value="<?php echo ($room["id"]); ?>"><?php echo ($room["name"]); ?></option><?php endforeach; endif; ?>
-									</select><?php endif; ?>
-								
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="file_name"> 文档名称:<strong class="text-danger">*</strong></label>
+
+						<div class="col-sm-9">
+							<input type="text" name="file_name" placeholder="" class="col-xs-10 col-sm-5" />
+							<em class="text-danger"></em>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="summary"> 文档摘要:</label>
+
+						<div class="col-sm-9">
+							<textarea class="col-xs-10 col-sm-5" name="summary" id="summary"></textarea>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="series_id"> 文档类型:<strong class="text-danger">*</strong></label>
+
+						<div class="col-sm-9">
+							<select class="col-xs-10 col-sm-5" id="series" name="series_id">
+								<option value=""></option>
+								<?php if(is_array($series)): foreach($series as $key=>$se): ?><option value="<?php echo ($se["id"]); ?>"><?php echo ($se["name"]); ?></option><?php endforeach; endif; ?>
+							</select>
+							<em class="text-danger"></em>
+						</div>
+					</div>
+
+					<div class="form-group" id="local_place_div">
+						<label class="col-sm-3 control-label no-padding-right" for="open_scope"> 公开范围:<strong class="text-danger">*</strong></label>
+
+						<div class="col-sm-9">
+							<select class="col-xs-10 col-sm-5" name="open_scope">
+								<option value="0">全委</option>
+								<option value="<?php echo ($department); ?>">本处室</option>
+								<!-- <?php if(is_array($series)): foreach($series as $key=>$se): ?><option value="<?php echo ($se["id"]); ?>"><?php echo ($se["name"]); ?></option><?php endforeach; endif; ?> -->
+							</select>
+							<em class="text-danger"></em>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for=""> &nbsp;</label>
+
+						<div class="col-sm-9">
+							<label>
+								<input name="remind_read" id="remind_read" type="checkbox" class="ace" value="1" />
+								<span class="lbl"> 阅读提醒</span>
+							</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="clearfix form-actions">
+							<div class="col-md-offset-3 col-md-9">
+								<button class="btn btn-info" type="submit">
+									<i class="icon-ok bigger-110"></i>
+									保存
+								</button>
+
+								&nbsp; &nbsp; &nbsp;
+								<a class="btn" type="button" href="<?php echo U('Share/uploadDocs');?>">
+									<i class="icon-undo bigger-110"></i>
+									返回
+								</a>
 							</div>
 						</div>
 					</div>
-			</div>
-			
-		</div>
-		
-		
 
+				</div> <!-- main_content -->
+
+			</form>
+		</div>	
 	</div>
+	
 
 
 							<!-- PAGE CONTENT ENDS -->
@@ -774,15 +823,10 @@
 
 		<!-- page specific plugin scripts -->
 		
-	<script src="/develop/OA/Public/static/js/date-time/moment.min.js"></script>
-	<script src="/develop/OA/Public/static/js/jquery-ui.custom.min.js"></script>
-	<script src="/develop/OA/Public/static/js/jquery.ui.touch-punch.min.js"></script>
-	<script src="/develop/OA/Public/static/js/date-time/bootstrap-datetimepicker.min.js"></script>
-	<script src="/develop/OA/Public/static/js/date-time/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-	<script src="/develop/OA/Public/static/js/fullcalendar.min.js"></script>
-	<script src="/develop/OA/Public/static/js/zh-cn.js"></script>
 	<script src="/develop/OA/Public/static/js/jquery.form.min.js"></script>
-	<script src="/develop/OA/Public/static/js/bootbox.min.js"></script>
+	<script src="/develop/OA/Public/static/js/jquery.validate.min.js"></script>
+	<script src="/develop/OA/Public/static/js/messages_zh.min.js"></script>
+	<script src="/develop/OA/Public/static/js/bootbox.min.js"></script>	
 
 
 		<!-- ace scripts -->
@@ -794,143 +838,91 @@
 		
 	<script type="text/javascript">
 		jQuery(function($){
-			var calendar = $('#calendar').fullCalendar({
-				header: {
-					left: 'prev,next today',
-					center: 'title',
-					right: 'month,agendaWeek,agendaDay'
-				},
-                timeFormat: 'H:mm',
-                buttonText: {
-                    prev: '<',
-                    next: '>',
-                }, 
-                defaultView: 'agendaWeek',
-                allDaySlot: false,
-				weekNumbers: true,
-				minTime: "08:00:00",
-				maxTime: "18:00:00",
-				slotDuration: "00:15:00",
-				// events: "<?php echo U('Schedule/getEvents', array('id'=>getCurrentUserId()));?>",
-				selectable: true,
-				selectHelper: true,
-				select: function(start, end, jsEvent, view) {
-					if(view.name!='month'){
-						if($('#select_room').val()==1){
-							window.location.href = getUrl(start, end, 'R');
-						}
-						else{
-							bootbox.confirm({
-								message: "请选择是接待还是会议",
-								buttons: {
-									cancel: {
-										label: "会议",
-										className: "btn-success btn-sm"
-									},
-									confirm:{
-										label: "接待",
-										className: "btn-primary btn-sm"
-									}
-								},
-								callback: function(result){
-									if(result){
-										window.location.href = getUrl(start, end, 'R');
-									}
-									else{
-										window.location.href = getUrl(start, end, 'M');
-									}
-								}
-							});
-						}
-					}
-					else{
-						bootbox.alert('请在周视图或日视图中预订！');
-					}
-					
-				},
-				eventClick: function(calEvent, jsEvent, view){
-					
-				},
-				editable: true,
-				eventDrop: function(event, delta, revertFunc, jsEvent, ui, view){
-					dropAndResize(event, revertFunc);
-				},
-				eventResize: function(event, delta, revertFunc, jsEvent, ui, view){
-					dropAndResize(event, revertFunc);
-				},
-			});
 			
+			//设置指示标位置
+			setSidebarActive('share_root', 'share_add');
 
-
-			setSidebarActive('reception_root', 'reception_bookroom');
-
+			// 初始化文件上传控件
+			$('#edoc').ace_file_input({
+				style:'well',
+				btn_choose:'拖动文件或点击上传',
+				btn_change:null,
+				no_icon:'ace-icon fa fa-cloud-upload',
+				droppable:true,
+				thumbnail:'large'//large | fit
+				//,icon_remove:null//set null, to hide remove/reset button
+				/**,before_change:function(files, dropped) {
+					//Check an example below
+					//or examples/file-upload.html
+					return true;
+				}*/
+				/**,before_remove : function() {
+					return true;
+				}*/
+				,
+				preview_error : function(filename, error_code) {
+					//name of the file that failed
+					//error_code values
+					//1 = 'FILE_LOAD_FAILED',
+					//2 = 'IMAGE_LOAD_FAILED',
+					//3 = 'THUMBNAIL_FAILED'
+					//alert(error_code);
+				}
 			
+			}).on('change', function(){
+				var fileName = $('span.ace-file-name').attr('data-title');
+				var title = fileName.split('.')[0];
+				$('input[name="file_name"]').attr('value', title);
 
-			
-			// 选择房间的处理
-			// 保存上一次的选择值
-			var lastRoomId = $('#select_room').val(); 
-			//初始化日历显示
-			$('#calendar').fullCalendar('addEventSource', getEventSource(lastRoomId));
-			// 添加变更事件
-			$('#select_room').on('change', function(){
-				var nowRoomId = $('#select_room').val();
-				var oldSource = getEventSource(lastRoomId);
-				var newSource = getEventSource(nowRoomId);
-				
-				$('#calendar').fullCalendar('removeEventSource', oldSource);
-					
-				$('#calendar').fullCalendar('addEventSource', newSource);
-				
-				lastRoomId = nowRoomId;				
 			});
 
-			
-			function formatTime(time){
-				if(!time)
-					return '';
-				if(time.hasTime())
-					return time.format('YYYY-M-D H:mm');
-				else
-					return time.format('YYYY-M-D');
-			}
 
-			function dropAndResize(event, revertFunc){
-				var eventData = {
-					id: event.id,
-					start: formatTime(event.start),
-					end: formatTime(event.end),
-					allDay: event.allDay
-				};
-				$.post("<?php echo U('Schedule/drop');?>", eventData, function(msg){
-					if(msg!=1){
-						bootbox.alert(msg);
-						revertFunc();
-					}
-				});
-			}
-
-			function getEventSource(Id){
-				//直接使用thinkphp的U函数出错，只能采用如下方法处理
-				if(!Id)
-					return '';
-				var urlStr = "<?php echo U('Reception/getRoomCalendar');?>".split(".");
-				return urlStr[0]+"/id/"+Id+".html";
-			}
-
-			// 根据会议还是接待生成不同的URL
-			function getUrl(start, end, type){
-				if('R'==type){
-					var root = "<?php echo U('Reception/receptionForm');?>".split(".");
-					return root[0]+"/start/"+formatTime(start)+"/end/"+formatTime(end)+".html"; 
+			//表单验证设置
+			$('#uploadform').validate({
+				rules:{
+					file_name: "required",
+					open_scope: "required",
+					series_id: "required"	
+				},//rules end
+				errorPlacement: function(error, element){
+					var next = element.next();
+					
+					error.appendTo(next);
 				}
-				else{
-					var root = "<?php echo U('Reception/meetingForm');?>".split(".");
-					return root[0]+"/start/"+formatTime(start)+"/end/"+formatTime(end)+".html";
-				}
-			}
-			
+			});
+
+			//处理表单的提交
+			$('#uploadform').ajaxForm({
+				beforeSubmit: showRequest,
+				success: showResponse,
+				clearForm: false,
+				dataType: 'json'
+			});
+
+
+
 		});
+
+
+		
+
+		// 表单验证
+		function showRequest(formData, jqForm, options){
+			//radio无法验证，单独处理
+			return $('#uploadform').valid()
+				
+		}
+
+		function showResponse(responseText, statusText, xhr, $form){
+			if(responseText==1){
+				bootbox.alert('保存成功！');
+				window.location.href = "<?php echo U('Share/uploadDocs');?>";
+			}
+			else{
+				bootbox.alert(responseText);
+			}
+		} 
+
 	</script>
 
 		

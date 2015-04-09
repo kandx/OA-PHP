@@ -127,7 +127,7 @@
 						</div>
 
 						<div class="form-group" id="reception_leader_div">
-							<label class="col-sm-12" for="receptionist">接待领导:<strong class="text-danger">*</strong> </label>
+							<label class="col-sm-12" for="receptionist">接待领导:</label>
 							<div class="col-sm-12">
 								<select multiple="" class="width-90 chosen-select tag-input-style" id="reception_leader" name="reception_leader[]" data-placeholder="请选择领导...">
 									<option value="">&nbsp;</option>
@@ -257,10 +257,10 @@
 								<div class="col-sm-12">	
 									<label class="col-sm-4 control-label no-padding-left" for="dealer">选择会议室:<strong class="text-danger">*</strong></label>
 									<div class="col-sm-8">
-									<select class="width-70 chosen-select" name="room_id">
+									<select name="room_id">
 										<option value="">&nbsp;</option>
 										<foreach name="rooms" item="rm">
-											<option class="col-xs-10 col-sm-5" value="{$rm.id}">{$rm.name}</option>
+											<option value="{$rm.id}">{$rm.name}</option>
 										</foreach>
 									</select>
 									<em class="text-danger"></em>
@@ -620,7 +620,7 @@
 				var viewPlace = $("input[name='view_place[]']").fieldValue();
 				var hall = $('#is_book_hall').fieldValue()[0];
 				var meeting = $('#is_book_room').fieldValue()[0];
-				var appendOtherPlace = $('#append_other_place').fieldValue()[0];
+				var appendOtherPlace = $('input[name="append_other_place"]').fieldValue()[0];
 				if(!viewPlace.length && !hall && !meeting && !appendOtherPlace){
 					bootbox.alert("参观地点、展厅、会议室必须选择一个！");
 					return false;
@@ -665,7 +665,7 @@
 		} 
 
 		function getTime(timeStr){
-			return moment(timeStr).format('h:mm');
+			return moment(timeStr).format('H:mm');
 			//return timeStr;
 		}
 

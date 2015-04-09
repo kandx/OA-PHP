@@ -141,7 +141,7 @@ class UserModel extends Model
 	}
 
 	//根据部门ID获取部门成员信息
-	//部门ID为0时，获取全委除领导外的成员信息
+	//部门ID为0时，获取全委所有成员信息
 	public function getStaff($departmentId=0, $exceptLeader=true){
 		if ($departmentId) {
 			$dp = M('Department');
@@ -154,7 +154,7 @@ class UserModel extends Model
 			return $this->where($where)->field('id, first_name, last_name')->select();
 		}
 		else{
-			return null;
+			return $this->getAllMembers();
 		}
 	}
 

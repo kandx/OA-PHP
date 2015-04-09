@@ -725,32 +725,32 @@
 					<div class="form-group">				
 						<label class="col-sm-3 control-label no-padding-right" for="begin_time"> 会议时间:<strong class="text-danger">*</strong> </label>
 						<div class="col-sm-8">
-							<input type="text" name="begin_time" class="datetime-picker col-xs-10 col-sm-5" data-date-format="yyyy-mm-dd hh:ii" value="<?php echo ($start); ?>">
+							<input type="text" name="begin_time" id='begin_time' class="datetime-picker col-xs-10 col-sm-5" data-date-format="yyyy-mm-dd hh:ii" value="<?php echo ($start); ?>">
 							<em class="text-danger"></em>
 						</div>
 					</div>
 
-					<div class="form-group" id="end_time">				
+					<div class="form-group" id="end_time_div">				
 						<label class="col-sm-3 control-label no-padding-right" for="end_time"> 结束时间:<strong class="text-danger">*</strong> </label>
 						<div class="col-sm-8">
-							<input type="text" name="end_time" class="datetime-picker col-xs-10 col-sm-5" data-date-format="yyyy-mm-dd hh:ii" value="<?php echo ($end); ?>">
+							<input type="text" name="end_time" id="end_time" class="datetime-picker col-xs-10 col-sm-5" data-date-format="yyyy-mm-dd hh:ii" value="<?php echo ($end); ?>">
 							<em class="text-danger"></em>
 						</div>
 					</div>
 
-					<div class="form-group" id="local_place">
+					<div class="form-group" id="local_place_div">
 						<label class="col-sm-3 control-label no-padding-right" for="local_place"> 会议地点:<strong class="text-danger">*</strong></label>
 
-						<div class="col-sm-9">
+						<div class="col-sm-9" id="local_place_select_div">
 							<select class="col-xs-10 col-sm-5" id="local_place" name="local_place">
 								<option value=""></option>
-								<?php if(is_array($rooms)): foreach($rooms as $key=>$room): ?><option value="<?php echo ($room["name"]); ?>"><?php echo ($room["name"]); ?></option><?php endforeach; endif; ?>
+								<?php if(is_array($rooms)): foreach($rooms as $key=>$room): ?><option value="<?php echo ($room["id"]); ?>"><?php echo ($room["name"]); ?></option><?php endforeach; endif; ?>
 							</select>
 							<em class="text-danger"></em>
 						</div>
 					</div>
 
-					<div class="form-group" id="foreign_place">
+					<div class="form-group" id="foreign_place_div">
 						<label class="col-sm-3 control-label no-padding-right" for="foreign_place"> 会议地点:<strong class="text-danger">*</strong></label>
 
 						<div class="col-sm-9">
@@ -907,19 +907,27 @@
 			// 选择会议性质
 			$('#meeting_type').on('change', function(){
 				if(this.value=='F'){
-					$('#end_time').hide();
-					$('#local_place').hide();
-					$('#foreign_place').show();
+					$('#end_time_div').hide();
+					$('#local_place_div').hide();
+					$('#foreign_place_div').show();
 					$('#main_content').show();
 				}
 				else if(this.value=='L'){
-					$('#end_time').show();
-					$('#local_place').show();
-					$('#foreign_place').hide();
+					$('#end_time_div').show();
+					$('#local_place_div').show();
+					$('#foreign_place_div').hide();
 					$('#main_content').show();
 				}
 				else
 					$('#main_content').hide();
+			});
+
+			// 会议室选择事件
+			$('#local_place').on('change', function(){
+				if(this.value){
+					$('#conflict_meeting').remove();
+					checkTimeConflict(this.value, $('#begin_time').val(), $('#end_time').val());
+				}
 			});
 
 			// 选择参会人员
@@ -994,13 +1002,10 @@
 		function checkTimeConflict(roomId, startTime, endTime){
 			$.get("<?php echo U('Reception/checkTimeConflict');?>", {id:roomId, start:startTime, end:endTime}, function(data, textStatus){
 				if(data!=-1){
-					var divId;
-					if(1==roomId)
-						divId = "conflict_hall";
-					else
-						divId = "conflict_meeting";
+					
+						
 					var liTag = "<li class='text-danger'>";
-					var html = "<div class='col-sm-12' id='"+divId+"'><label class='col-sm-12 text-danger'>注意，以下时间段可能存在冲突：</label><ul class='col-sm-12'>";											
+					var html = "<div class='col-sm-12' id='"+"conflict_meeting"+"'><label class='col-sm-12 text-danger'>注意，以下时间段存在冲突：</label><ul class='col-sm-12'>";											
 					$.each(data, function(n, item){
 						var start = getTime(item['start']);
 						var end = getTime(item['end']);
@@ -1008,10 +1013,10 @@
 						html += tempLi;
 					});
 					html += "</ul></div>";
-					if(roomId==1)
-						$('#bookHall').append($(html));
-					else
-						$('#bookRoom').append($(html));
+					
+					// $('#local_place_div').append($(html));
+					$(html).appendTo($('#local_place_select_div'));
+					
 				}
 			}, 'json');
 		}
@@ -1067,7 +1072,7 @@
 		}
 
 		function getTime(timeStr){
-			return moment(timeStr).format('h:mm');
+			return moment(timeStr).format('H:mm');
 			//return timeStr;
 		}
 

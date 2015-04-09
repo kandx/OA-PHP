@@ -44,7 +44,10 @@ class MeetingModel extends Model
 	}
 
 	public function getMeetingCalendar($format=true){
-		$data = $this->field('id, type, content, begin_time, end_time')->select();
+		$start = I('start').' 00:00:00';
+		$end = I('end').' 00:00:00';
+		$where['begin_time'] = array('between', array($start, $end));
+		$data = $this->where($where)->field('id, type, content, begin_time, end_time')->select();
 		if($format)
 			return $this->format($data);
 		else
@@ -76,7 +79,7 @@ class MeetingModel extends Model
 				'type' => I('type'),
 				'content' => I('content'),
 				'begin_time' => I('begin_time'),
-				'place' => (I('type')=='L')?I('local_place'):I('foreign_place'),
+				//'place' => (I('type')=='L')?I('local_place'):I('foreign_place'),
 				'host' => I('host'),
 				'departments' => implode(",", I('departments')),
 				'participants' => implode(",", I('participants')),
@@ -84,6 +87,12 @@ class MeetingModel extends Model
 			);
 			if(I('type')=='L'){
 				$data['end_time'] = I('end_time');
+				$rooms = M('Room');
+				$room = $rooms->where(array('id'=>I('local_place')))->getField('name');
+				$data['place'] = $room;
+			}
+			else{
+				$data['place'] = I('foreign_place');
 			}
 			return $data;
 		}
@@ -113,7 +122,7 @@ class MeetingModel extends Model
 						'title' => I('content'),
 						'description' => '参会人员：'.getMemberName($participants),
 						'begin_time' => I('begin_time'),
-						'end_time' => (I('end_time')=='L')?I('end_time'):null,
+						'end_time' => (I('type')=='L')?I('end_time'):null,
 						'user_id' => $k,
 						'recorder_id' => getCurrentUserId(),
 						'source' => 'M',
@@ -172,7 +181,7 @@ class MeetingModel extends Model
 			if(I('type')=='L'&&$meetingId){
 				// 先获取会议室ID
 				$room = M('Room');
-				$where['name'] = I('place');
+				$where['name'] = I('local_place');
 				$room_id = $room->where($where)->getField('id');
 				$bookedInfo = array(
 					'room_id' => $room_id,
@@ -182,7 +191,7 @@ class MeetingModel extends Model
 					'end_time' => I('end_time'),
 					'book_person' => getCurrentUserId()
 				);
-				$rb = M('RoomBooking');
+				$rb = D('RoomBooking');
 				if($rb->create($bookedInfo)){
 					$bookedId = $rb->add();
 					if(!$bookedInfo){

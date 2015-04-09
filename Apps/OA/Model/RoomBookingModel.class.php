@@ -97,7 +97,11 @@ class RoomBookingModel extends Model
 
 	// 获取指定房间所有的预定信息
     public function getRoomCalendar($roomId){
-    	$roomBookInfos = $this->where(array('room_id'=>$roomId))->select();
+    	$start = I('start').' 00:00:00';
+    	$end = I('end').' 00:00:00';
+    	$where['begin_time'] = array('between', array($start, $end));
+    	$where['room_id'] = $roomId;
+    	$roomBookInfos = $this->where($where)->select();
     	if($roomBookInfos){
     		$roomCalendar = array();
     		foreach ($roomBookInfos as $k) {

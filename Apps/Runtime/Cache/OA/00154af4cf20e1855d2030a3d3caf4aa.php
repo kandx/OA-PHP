@@ -806,7 +806,7 @@
 						</div>
 
 						<div class="form-group" id="reception_leader_div">
-							<label class="col-sm-12" for="receptionist">接待领导:<strong class="text-danger">*</strong> </label>
+							<label class="col-sm-12" for="receptionist">接待领导:</label>
 							<div class="col-sm-12">
 								<select multiple="" class="width-90 chosen-select tag-input-style" id="reception_leader" name="reception_leader[]" data-placeholder="请选择领导...">
 									<option value="">&nbsp;</option>
@@ -932,9 +932,9 @@
 								<div class="col-sm-12">	
 									<label class="col-sm-4 control-label no-padding-left" for="dealer">选择会议室:<strong class="text-danger">*</strong></label>
 									<div class="col-sm-8">
-									<select class="width-70 chosen-select" name="room_id">
+									<select name="room_id">
 										<option value="">&nbsp;</option>
-										<?php if(is_array($rooms)): foreach($rooms as $key=>$rm): ?><option class="col-xs-10 col-sm-5" value="<?php echo ($rm["id"]); ?>"><?php echo ($rm["name"]); ?></option><?php endforeach; endif; ?>
+										<?php if(is_array($rooms)): foreach($rooms as $key=>$rm): ?><option value="<?php echo ($rm["id"]); ?>"><?php echo ($rm["name"]); ?></option><?php endforeach; endif; ?>
 									</select>
 									<em class="text-danger"></em>
 									</div>
@@ -1379,7 +1379,7 @@
 		} 
 
 		function getTime(timeStr){
-			return moment(timeStr).format('h:mm');
+			return moment(timeStr).format('H:mm');
 			//return timeStr;
 		}
 

@@ -44,7 +44,12 @@ class ReceptionModel extends Model
 	}
 
 	public function getReceptionCalendar($format=true){
-		$data = $this->field('id, vistor, begin_time, end_time')->select();
+		// 按需获取数据
+		$start = I('start').' 00:00:00';
+		$end = I('end').' 00:00:00';
+		$where['begin_time'] = array('between', array($start, $end));
+		//$where['end_time'] = array('elt', $end);
+		$data = $this->where($where)->field('id, vistor, begin_time, end_time')->select();
 		if($format)
 			return $this->format($data);
 		else

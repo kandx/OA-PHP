@@ -27,16 +27,16 @@ class ScheduleController extends BaseController {
         //p($leaderIds);
         $sch = D('Schedule');
         if(!empty($user_id)){
-            $schedules = $sch->getSchedules($user_id);
+            $schedules = $sch->getSchedules($user_id, 'between', I('start'), I('end'));
         }
         else if(!empty($leaderIds)){
             //p($leaderIds);
-            $schedules = $sch->getSchedulesForPeople($leaderIds, 'all');
+            $schedules = $sch->getSchedulesForPeople($leaderIds, 'between', I('start'), I('end'));
         }
         else{
             $user = D('User');
             $ids = $user->getLeaderIds(true);
-            $schedules = $sch->getSchedulesForPeople($ids, 'all');
+            $schedules = $sch->getSchedulesForPeople($ids, 'between', I('start'), I('end'));
         }
         
         foreach ($schedules as $sch) {
